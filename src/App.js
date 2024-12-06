@@ -2,7 +2,9 @@
 import "./App.css";
 
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
 
+import store from "./store/store";
 /** Import MUI Joy Components */
 
 import RootLayout from "./UI/RootLayout";
@@ -34,7 +36,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router}></RouterProvider>
+    </Provider>
+  );
 }
 
 export default App;

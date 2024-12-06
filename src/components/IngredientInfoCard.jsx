@@ -115,7 +115,7 @@ const IngredientInfoCard = () => {
           <FormControl sx={{ flex: 2 }}>
             <Input type="number" defaultValue={100} endDecorator="g"></Input>
           </FormControl>
-          <Button>Add to list</Button>
+          <Button>Add</Button>
         </Stack>
       </form>
     </Sheet>
