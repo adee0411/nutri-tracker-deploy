@@ -23,8 +23,28 @@ import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
 
-const IngredientListItem = () => {
+const IngredientListItem = ({ ingredientData }) => {
+  const { ingredientName, unit, unitage, amount, nutritionData } =
+    ingredientData;
+
+  // Dropdown menu (Edit, Delete) state
   const [open, setOpen] = useState(false);
+
+  const calcIngredientMacros = (ingredientData) => {
+    const modifiedNutritionData = { ...ingredientData.nutritionData };
+    for (const [key, value] of Object.entries(modifiedNutritionData)) {
+      modifiedNutritionData[key] = Number(
+        (
+          (value.amount * ingredientData.amount) /
+          ingredientData.unitage
+        ).toFixed(0)
+      );
+    }
+
+    return modifiedNutritionData;
+  };
+
+  const modifiedNutritionData = calcIngredientMacros(ingredientData);
   return (
     <>
       <ListItem sx={{ borderRadius: "md", my: 0.5, p: 0 }}>
@@ -37,19 +57,22 @@ const IngredientListItem = () => {
         >
           <Stack flex={1}>
             <Stack gap={0.5}>
-              <Typography level="title-sm">Cereals, 200g</Typography>
+              <Typography level="title-sm">
+                {ingredientName}, {amount}
+                {unit}
+              </Typography>
               <Stack direction="row" gap={2}>
                 <Typography level="body-sm" fontSize={12}>
-                  CH: 112g
+                  CH: {modifiedNutritionData.carb}g
                 </Typography>
                 <Typography level="body-sm" fontSize={12}>
-                  P: 34g
+                  P: {modifiedNutritionData.protein}g
                 </Typography>
                 <Typography level="body-sm" fontSize={12}>
-                  F: 11g
+                  F: {modifiedNutritionData.fat}g
                 </Typography>
                 <Typography level="body-sm" fontSize={12}>
-                  C: 342cal
+                  C: {modifiedNutritionData.energy}cal
                 </Typography>
               </Stack>
             </Stack>

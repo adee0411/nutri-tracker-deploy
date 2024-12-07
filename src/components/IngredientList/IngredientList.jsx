@@ -4,7 +4,7 @@ import IngredientListItem from "./IngredientListItem";
 
 import { IoIosAddCircleOutline } from "react-icons/io";
 
-const IngredientList = () => {
+const IngredientList = ({ ingredientList }) => {
   return (
     <Sheet variant="plain" sx={{ backgroundColor: "transparent" }}>
       {" "}
@@ -20,20 +20,15 @@ const IngredientList = () => {
           <IoIosAddCircleOutline />
         </IconButton>
       </Stack>
-      <List>
-        <List
-          color="primary"
-          variant="plain"
-          sx={{ "--ListDivider-gap": "2px" }}
-        >
-          <IngredientListItem />
-          <IngredientListItem />
-          <IngredientListItem />
-          <IngredientListItem />
-          <IngredientListItem />
-          <IngredientListItem />
-          <IngredientListItem />
-        </List>
+      <List color="primary" variant="plain" sx={{ "--ListDivider-gap": "2px" }}>
+        {ingredientList.map((ingredient) => {
+          return (
+            <IngredientListItem
+              ingredientData={ingredient}
+              key={ingredient.ingredientName}
+            />
+          );
+        })}
       </List>
     </Sheet>
   );

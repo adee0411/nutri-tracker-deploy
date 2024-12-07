@@ -10,7 +10,7 @@ const mealImages = {
   snack: SnackImg,
 };
 
-const MealOverviewCard = ({ mealTitle }) => {
+const MealOverviewCard = ({ mealTitle, totalMacroData }) => {
   const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
   const mealImage = isMeal ? "meal" : mealTitle;
   const formattedMealTitle = isMeal
@@ -44,19 +44,25 @@ const MealOverviewCard = ({ mealTitle }) => {
         >
           <Stack>
             <Typography level="title-sm">Carb</Typography>
-            <Typography level="body-sm">276 g</Typography>
+            <Typography level="body-sm">
+              {totalMacroData.totalCarb} g
+            </Typography>
           </Stack>
           <Stack>
             <Typography level="title-sm">Protein</Typography>
-            <Typography level="body-sm">47 g</Typography>
+            <Typography level="body-sm">
+              {totalMacroData.totalProtein} g
+            </Typography>
           </Stack>
           <Stack>
             <Typography level="title-sm">Fat</Typography>
-            <Typography level="body-sm">18 g</Typography>
+            <Typography level="body-sm">{totalMacroData.totalFat} g</Typography>
           </Stack>
           <Stack>
             <Typography level="title-sm">Energy</Typography>
-            <Typography level="body-sm">659 cal</Typography>
+            <Typography level="body-sm">
+              {totalMacroData.totalEnergy} cal
+            </Typography>
           </Stack>
         </Stack>
       </Stack>
