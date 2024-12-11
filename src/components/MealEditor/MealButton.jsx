@@ -1,24 +1,33 @@
-import { Button, Stack, Typography } from "@mui/joy";
+import { Button, Stack } from "@mui/joy";
 
-import MacroData from "./MacroData";
 import { Link } from "react-router-dom";
 
-import BreakFastIcon from "../../icons/breakfast.svg";
-import LunchIcon from "../../icons/lunch.svg";
-import SnackIcon from "../../icons/snack.svg";
+import MealButtonLabel from "./MealButtonLabel";
+import NutritionDetails from "../NutritionDetails";
 
-const mealIcons = {
-  breakfast: BreakFastIcon,
-  meal: LunchIcon,
-  snack: SnackIcon,
-};
+import { transformNutritionData } from "../../data/TESTDATA";
 
-const MealButton = ({ nutritionData, title }) => {
-  const isMeal = title.includes("meal"); // Check if meal's title is Meal (number)
-  const mealIcon = isMeal ? "meal" : title;
-  const formattedMealTitle = isMeal
-    ? "Meal " + title.at(-1)
-    : title[0].toUpperCase() + title.slice(1); // Format Meal title if Meal (number)
+const MealButton = ({ title, ingredientData }) => {
+  // Create transformed nutrition array for all ingredients
+  const transformedNutritionData = ingredientData.map((ingredient) => {
+    return transformNutritionData(ingredient);
+  });
+
+  // Initialize total nutrition object
+  let totalNutritionData = {
+    carb: 0,
+    protein: 0,
+    fat: 0,
+    energy: 0,
+  };
+
+  // Reduce all ingredient's nutrition data
+  transformedNutritionData.forEach((nutritionData) => {
+    for (const [key, value] of Object.entries(nutritionData)) {
+      totalNutritionData[key] += value;
+    }
+  });
+
   return (
     <Button variant="soft" color="neutral" sx={{ p: 0 }}>
       <Link
@@ -38,16 +47,8 @@ const MealButton = ({ nutritionData, title }) => {
           justifyContent="space-between"
           alignItems="center"
         >
-          <Stack direction="row" gap={1}>
-            <img src={mealIcons[mealIcon]} alt="breakfast-icon" width={24} />
-            <Typography> {formattedMealTitle}</Typography>
-          </Stack>
-
-          <Stack direction="row" gap={1} justifyContent="space-between">
-            {Object.entries(nutritionData).map((macroData) => {
-              return <MacroData data={macroData} key={macroData[0]} />;
-            })}
-          </Stack>
+          <MealButtonLabel title={title} />
+          <NutritionDetails nutritionData={totalNutritionData} />
         </Stack>
       </Link>
     </Button>

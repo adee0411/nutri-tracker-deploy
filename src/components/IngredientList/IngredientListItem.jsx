@@ -18,36 +18,40 @@ import {
   MenuItem,
 } from "@mui/joy";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeIngredient } from "../../store/ingredientSlie";
+
+import NutritionDetails from "../NutritionDetails";
 
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { HiDotsVertical } from "react-icons/hi";
+import { transformNutritionData } from "../../data/TESTDATA";
+import { useParams } from "react-router";
 
 const IngredientListItem = ({ ingredientData }) => {
-  const { ingredientName, unit, unitage, amount, nutritionData } =
-    ingredientData;
+  const { mealTitle } = useParams();
+  const dispatch = useDispatch();
+  const { ingredientName, unit, amount, id } = ingredientData;
 
   // Dropdown menu (Edit, Delete) state
   const [open, setOpen] = useState(false);
 
-  const calcIngredientMacros = (ingredientData) => {
-    const modifiedNutritionData = { ...ingredientData.nutritionData };
-    for (const [key, value] of Object.entries(modifiedNutritionData)) {
-      modifiedNutritionData[key] = Number(
-        (
-          (value.amount * ingredientData.amount) /
-          ingredientData.unitage
-        ).toFixed(0)
-      );
-    }
+  const transformedNutritionData = transformNutritionData(ingredientData);
 
-    return modifiedNutritionData;
+  const handleRemoveIngredient = (e) => {
+    const ingredientID = e.target.id;
+
+    console.log("ome");
+
+    dispatch(
+      removeIngredient({ ingredientID: ingredientID, mealName: mealTitle })
+    );
   };
 
-  const modifiedNutritionData = calcIngredientMacros(ingredientData);
   return (
     <>
-      <ListItem sx={{ borderRadius: "md", my: 0.5, p: 0 }}>
+      <ListItem sx={{ borderRadius: "md", my: 2, p: 0 }}>
         <Stack
           direction="row"
           alignItems="center"
@@ -57,24 +61,11 @@ const IngredientListItem = ({ ingredientData }) => {
         >
           <Stack flex={1}>
             <Stack gap={0.5}>
-              <Typography level="title-sm">
+              <Typography level="title-md">
                 {ingredientName}, {amount}
                 {unit}
               </Typography>
-              <Stack direction="row" gap={2}>
-                <Typography level="body-sm" fontSize={12}>
-                  CH: {modifiedNutritionData.carb}g
-                </Typography>
-                <Typography level="body-sm" fontSize={12}>
-                  P: {modifiedNutritionData.protein}g
-                </Typography>
-                <Typography level="body-sm" fontSize={12}>
-                  F: {modifiedNutritionData.fat}g
-                </Typography>
-                <Typography level="body-sm" fontSize={12}>
-                  C: {modifiedNutritionData.energy}cal
-                </Typography>
-              </Stack>
+              <NutritionDetails nutritionData={transformedNutritionData} />
             </Stack>
           </Stack>
           <Dropdown>
@@ -98,6 +89,7 @@ const IngredientListItem = ({ ingredientData }) => {
                     display: "flex",
                     justifyContent: "space-between",
                   }}
+                  id={id}
                 >
                   <Typography component="span" color="neutral">
                     Edit
@@ -115,6 +107,8 @@ const IngredientListItem = ({ ingredientData }) => {
                     display: "flex",
                     justifyContent: "space-between",
                   }}
+                  id={id}
+                  onClick={handleRemoveIngredient}
                 >
                   <Typography component="span" color="danger">
                     Delete

@@ -20,7 +20,11 @@ const IngredientList = ({ ingredientList }) => {
           <IoIosAddCircleOutline />
         </IconButton>
       </Stack>
-      <List color="primary" variant="plain" sx={{ "--ListDivider-gap": "2px" }}>
+      <List
+        color="primary"
+        variant="plain"
+        sx={{ "--ListDivider-gap": "2px", my: 2 }}
+      >
         {ingredientList.map((ingredient) => {
           return (
             <IngredientListItem

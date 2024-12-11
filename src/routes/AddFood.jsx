@@ -11,7 +11,6 @@ import {
 } from "@mui/joy";
 import { useState, useEffect, useRef } from "react";
 import IngredientList from "../components/IngredientList/IngredientList";
-import MacroData from "../components/MacroData";
 import IngredientInfo from "../components/IngredientInfo";
 import IngredientInfoCard from "../components/IngredientInfoCard";
 
