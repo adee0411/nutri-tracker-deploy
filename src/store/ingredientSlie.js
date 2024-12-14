@@ -6,6 +6,11 @@ const ingredientSlice = createSlice({
   name: "ingredient",
   initialState: {
     ingredientList: TEST_INGREDIENT_LIST,
+    searchResultList: [],
+    selectedIngredient: null,
+    UI: {
+      searchQueryInput: "",
+    },
   },
   reducers: {
     addIngredient: () => {},
@@ -17,9 +22,35 @@ const ingredientSlice = createSlice({
         (ingredient) => ingredient.id !== ingredientID
       );
     },
+    emptyIngredientList: (state, action) => {
+      const mealName = action.payload;
+      state.ingredientList[mealName].length = 0;
+    },
+    setSelectedIngredient: (state, action) => {
+      state.selectedIngredient = action.payload;
+    },
+    setSearchQueryInput: (state, action) => {
+      state.UI.searchQueryInput = action.payload;
+    },
+    setSearchResultList: (state, action) => {
+      state.searchResultList = action.payload;
+    },
+    getSelectedIngredient: (state) => {
+      return state.searchResultList.filter(
+        (result) => result.id === state.selectedIngredient
+      );
+    },
   },
 });
 
-export const { removeIngredient, addIngredient } = ingredientSlice.actions;
+export const {
+  removeIngredient,
+  addIngredient,
+  emptyIngredientList,
+  setSelectedIngredient,
+  setSearchQueryInput,
+  setSearchResultList,
+  getSelectedIngredient,
+} = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

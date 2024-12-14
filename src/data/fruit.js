@@ -4,19 +4,19 @@ const fruit = {
     {
       name: "Alma",
       category: "Gyümölcsök",
-      nutritions: { calories: 52, protein: 0, fat: 0, ch: 11 },
+      nutritions: { energy: 52, protein: 0, fat: 0, carb: 11 },
       unit: "g",
     },
     {
       name: "Banán",
       category: "Gyümölcsök",
-      nutritions: { calories: 89, protein: 1, fat: 0, ch: 20 },
+      nutritions: { energy: 89, protein: 1, fat: 0, carb: 20 },
       unit: "g",
     },
     {
       name: "Tesco fagyasztott gyümölcsmix",
       category: "Gyümölcsök",
-      nutritions: { calories: 40, protein: 1, fat: 0, ch: 7 },
+      nutritions: { energy: 40, protein: 1, fat: 0, carb: 7 },
       unit: "g",
     },
   ],

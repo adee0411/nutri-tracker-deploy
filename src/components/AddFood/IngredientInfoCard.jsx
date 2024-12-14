@@ -10,14 +10,32 @@ import {
   Typography,
 } from "@mui/joy";
 
-import ChickenBreastImg from "../../src/img/chicken_breast.webp";
-import BeefImg from "../../src/img/beef.png";
-import PorkImg from "../../src/img/pork.webp";
-import SalmonImg from "../../src/img/salmon.png";
+import MealOverviewCard from "../MealEditor/NutritionDetailCard";
+
+import ChickenBreastImg from "../../../src/img/chicken_breast.webp";
+import BeefImg from "../../../src/img/beef.png";
+import PorkImg from "../../../src/img/pork.webp";
+import SalmonImg from "../../../src/img/salmon.png";
+
+const testData = {
+  id: "bre001",
+  ingredientName: "Porridge oats",
+  unit: "g",
+  unitage: 100,
+  amount: 100,
+  nutritionData: {
+    carb: 70,
+    protein: 11,
+    fat: 8,
+    energy: 380,
+  },
+};
 
 const IngredientInfoCard = () => {
   return (
-    <Sheet sx={{ p: 2, m: 2, borderRadius: "md" }}>
+    <MealOverviewCard mealTitle="Chicken Breast" ingredientList={testData} />
+  );
+  /** <Sheet sx={{ p: 2, m: 2, borderRadius: "md" }}>
       <Typography level="title-lg" fontSize={24} textAlign="center">
         Chicken breast
       </Typography>
@@ -70,7 +88,7 @@ const IngredientInfoCard = () => {
           </Sheet>
         </Stack>
 
-        <Stack width={120}>
+        <Stack width={80}>
           <img src={ChickenBreastImg} alt="chicken-breast" width="100%" />
         </Stack>
       </Stack>
@@ -118,8 +136,7 @@ const IngredientInfoCard = () => {
           <Button>Add</Button>
         </Stack>
       </form>
-    </Sheet>
-  );
+    </Sheet>*/
 };
 
 export default IngredientInfoCard;

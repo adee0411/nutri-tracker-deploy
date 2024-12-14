@@ -3,18 +3,56 @@ import { Stack, Typography } from "@mui/joy";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
-import MealOverviewCard from "../components/MealEditor/MealOverviewCard";
+import NutritionDetailCard from "../components/MealEditor/NutritionDetailCard";
 import IngredientList from "../components/IngredientList/IngredientList";
 import NoMeal from "../components/IngredientList/NoMeal";
 
+import BreakfastImg from "../img/breakfast.png";
+import LunchImg from "../img/lunch.png";
+import SnackImg from "../img/snack.png";
+
+import { transformNutritionData } from "../data/TESTDATA";
+
+const mealImages = {
+  breakfast: BreakfastImg,
+  meal: LunchImg,
+  snack: SnackImg,
+};
+
 const MealDetails = () => {
-  const params = useParams();
-  const mealTitle = params.mealTitle;
+  // Get meal's name
+  const { mealTitle } = useParams();
 
   //fetch the selected meal's ingredientlist from store
   const ingredientList = useSelector(
     (state) => state.ingredient.ingredientList[mealTitle]
   );
+
+  const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
+  const mealImage = isMeal ? "meal" : mealTitle;
+  const formattedMealTitle = isMeal
+    ? "Meal " + mealTitle.at(-1)
+    : mealTitle[0].toUpperCase() + mealTitle.slice(1); // Format Meal title if Meal (number);
+
+  // Create transformed nutrition array for all ingredients
+  const transformedNutritionData = ingredientList.map((ingredient) => {
+    return transformNutritionData(ingredient);
+  });
+
+  // Initialize total nutrition object
+  let totalNutritionData = {
+    carb: 0,
+    protein: 0,
+    fat: 0,
+    energy: 0,
+  };
+
+  // Reduce all ingredient's nutrition data
+  transformedNutritionData.forEach((nutritionData) => {
+    for (const [key, value] of Object.entries(nutritionData)) {
+      totalNutritionData[key] += value;
+    }
+  });
 
   return (
     <Stack px={4} py={2} gap={2}>
@@ -22,7 +60,11 @@ const MealDetails = () => {
         2024. 11. 18.
       </Typography>
 
-      <MealOverviewCard mealTitle={mealTitle} ingredientList={ingredientList} />
+      <NutritionDetailCard
+        title={formattedMealTitle}
+        nutritionData={totalNutritionData}
+        imageURL={mealImages[mealImage]}
+      />
 
       {ingredientList.length === 0 ? (
         <NoMeal />

@@ -2,7 +2,6 @@ import {
   ListItem,
   Stack,
   Typography,
-  IconButton,
   ListDivider,
   Modal,
   ModalClose,
@@ -12,26 +11,16 @@ import {
   Input,
   Select,
   Option,
-  Dropdown,
-  MenuButton,
-  Menu,
-  MenuItem,
 } from "@mui/joy";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { removeIngredient } from "../../store/ingredientSlie";
-
-import NutritionDetails from "../NutritionDetails";
-
-import { CiEdit } from "react-icons/ci";
-import { MdOutlineDelete } from "react-icons/md";
-import { HiDotsVertical } from "react-icons/hi";
 import { transformNutritionData } from "../../data/TESTDATA";
 import { useParams } from "react-router";
 
+import IngredientListItemContent from "./IngredientListItemContent";
+import IngredientListItemActions from "./IngredientListItemActions";
 const IngredientListItem = ({ ingredientData }) => {
   const { mealTitle } = useParams();
-  const dispatch = useDispatch();
+
   const { ingredientName, unit, amount, id } = ingredientData;
 
   // Dropdown menu (Edit, Delete) state
@@ -39,19 +28,9 @@ const IngredientListItem = ({ ingredientData }) => {
 
   const transformedNutritionData = transformNutritionData(ingredientData);
 
-  const handleRemoveIngredient = (e) => {
-    const ingredientID = e.target.id;
-
-    console.log("ome");
-
-    dispatch(
-      removeIngredient({ ingredientID: ingredientID, mealName: mealTitle })
-    );
-  };
-
   return (
     <>
-      <ListItem sx={{ borderRadius: "md", my: 2, p: 0 }}>
+      <ListItem sx={{ borderRadius: "md", p: 0 }}>
         <Stack
           direction="row"
           alignItems="center"
@@ -59,67 +38,14 @@ const IngredientListItem = ({ ingredientData }) => {
           flex={1}
           gap={2}
         >
-          <Stack flex={1}>
-            <Stack gap={0.5}>
-              <Typography level="title-md">
-                {ingredientName}, {amount}
-                {unit}
-              </Typography>
-              <NutritionDetails nutritionData={transformedNutritionData} />
-            </Stack>
-          </Stack>
-          <Dropdown>
-            <MenuButton
-              slots={{ root: IconButton }}
-              slotProps={{ root: { variant: "plain", color: "neutral" } }}
-            >
-              <HiDotsVertical />
-            </MenuButton>
-            <Menu
-              placement="bottom-start"
-              size="sm"
-              sx={{ minWidth: "120px" }}
-              color="neutral"
-            >
-              <MenuItem>
-                <IconButton
-                  size="sm"
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                  id={id}
-                >
-                  <Typography component="span" color="neutral">
-                    Edit
-                  </Typography>
-                  <Typography component="span" color="neutral">
-                    <CiEdit />
-                  </Typography>
-                </IconButton>
-              </MenuItem>
-              <MenuItem>
-                <IconButton
-                  size="sm"
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
-                  }}
-                  id={id}
-                  onClick={handleRemoveIngredient}
-                >
-                  <Typography component="span" color="danger">
-                    Delete
-                  </Typography>
-                  <Typography component="span" color="danger">
-                    <MdOutlineDelete />
-                  </Typography>
-                </IconButton>
-              </MenuItem>
-            </Menu>
-          </Dropdown>
+          <IngredientListItemContent
+            ingredientName={ingredientName}
+            amount={amount}
+            unit={unit}
+            nutritionData={transformedNutritionData}
+          />
+          <IngredientListItemActions mealName={mealTitle} ingredientID={id} />
+
           <Modal
             open={open}
             onClose={() => setOpen(false)}

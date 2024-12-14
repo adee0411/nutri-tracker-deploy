@@ -18,7 +18,7 @@ const TEST_INGREDIENT_LIST = {
       ingredientName: "White sugar",
       unit: "g",
       unitage: 100,
-      amount: 100,
+      amount: 8,
       nutritionData: {
         carb: 100,
         protein: 0,
