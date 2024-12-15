@@ -36,12 +36,6 @@ const MealDetails = () => {
     ? "Reggeli"
     : "Nasi";
 
-  // Create transformed nutrition array for all ingredients
-  const transformedNutritionData = ingredientList.map((ingredient) => {
-    const { nutritionData, amount, unitage } = ingredient;
-    return transformNutritionData(nutritionData, amount, unitage);
-  });
-
   // Initialize total nutrition object
   let totalNutritionData = {
     carb: 0,
@@ -51,8 +45,8 @@ const MealDetails = () => {
   };
 
   // Reduce all ingredient's nutrition data
-  transformedNutritionData.forEach((nutritionData) => {
-    for (const [key, value] of Object.entries(nutritionData)) {
+  ingredientList.forEach((ingredient) => {
+    for (const [key, value] of Object.entries(ingredient.nutritionData)) {
       totalNutritionData[key] += value;
     }
   });

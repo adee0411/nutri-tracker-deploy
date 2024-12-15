@@ -21,12 +21,11 @@ import IngredientListItemActions from "./IngredientListItemActions";
 const IngredientListItem = ({ ingredientData }) => {
   const { mealTitle } = useParams();
 
-  const { ingredientName, unit, amount, id } = ingredientData;
+  const { ingredientName, unit, amount, id, nutritionData, unitage } =
+    ingredientData;
 
   // Dropdown menu (Edit, Delete) state
   const [open, setOpen] = useState(false);
-
-  const transformedNutritionData = transformNutritionData(ingredientData);
 
   return (
     <>
@@ -42,7 +41,7 @@ const IngredientListItem = ({ ingredientData }) => {
             ingredientName={ingredientName}
             amount={amount}
             unit={unit}
-            nutritionData={transformedNutritionData}
+            nutritionData={nutritionData}
           />
           <IngredientListItemActions mealName={mealTitle} ingredientID={id} />
 

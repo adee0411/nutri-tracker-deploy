@@ -4,7 +4,9 @@ import {
   List,
   ListItem,
   ListItemButton,
+  Sheet,
   Stack,
+  Typography,
 } from "@mui/joy";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -55,27 +57,40 @@ const SearchForm = () => {
 
   return (
     <>
-      <form>
-        {" "}
-        <Stack direction="row">
-          <FormControl sx={{ flex: 1 }}>
-            <Input
-              type="search"
-              name="ingredient"
-              value={searchQueryInput}
-              onChange={handleQueryInputChange}
-              placeholder="Search ingredient"
-            ></Input>
-          </FormControl>
-        </Stack>
-        {searchResultList.length === 0 ? (
-          ""
-        ) : (
+      <Sheet
+        color="primary"
+        variant="outlined"
+        invertedColors
+        sx={{ p: 2, my: 2, borderRadius: "md" }}
+      >
+        <form>
+          <Typography level="title-md">Étel keresése:</Typography>{" "}
+          <Stack direction="row" my={1}>
+            <FormControl sx={{ flex: 1 }}>
+              <Input
+                type="search"
+                name="ingredient"
+                value={searchQueryInput}
+                onChange={handleQueryInputChange}
+                placeholder="Search ingredient"
+              ></Input>
+            </FormControl>
+          </Stack>
+        </form>
+      </Sheet>
+
+      {searchResultList.length === 0 ? (
+        ""
+      ) : (
+        <>
+          <Typography level="title-md">Találatok:</Typography>
           <List
             variant="outlined"
             sx={{
               borderRadius: "md",
               p: 0,
+              mt: 1,
+              mb: 4,
               overflow: "hidden",
             }}
           >
@@ -93,8 +108,8 @@ const SearchForm = () => {
               );
             })}
           </List>
-        )}
-      </form>
+        </>
+      )}
     </>
   );
 };

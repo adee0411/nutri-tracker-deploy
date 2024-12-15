@@ -4,14 +4,16 @@ import NutritionDetailCard from "../components/MealEditor/NutritionDetailCard";
 
 import ChickenImg from "../img/chicken_breast.webp";
 import { transformNutritionData } from "../data/TESTDATA";
-import { Button, FormControl, Input, Stack } from "@mui/joy";
+import { Button, FormControl, Input, Sheet, Stack } from "@mui/joy";
 
 import { useDispatch } from "react-redux";
 
-import { setNewIngredientInput } from "../store/ingredientSlie";
+import { setNewIngredientInput, addIngredient } from "../store/ingredientSlie";
+import { useParams } from "react-router";
 
 const AddFood = () => {
   const dispatch = useDispatch();
+  const { mealTitle } = useParams();
   const { selectedIngredient } = useSelector((state) => state.ingredient);
   const { newIngredientInput } = useSelector((state) => state.ingredient.UI);
 
@@ -25,13 +27,29 @@ const AddFood = () => {
   }
 
   const handleNewIngredientAmountChange = (e) => {
-    const amount = +e.target.value;
+    const amount = e.target.value;
     dispatch(setNewIngredientInput(amount));
   };
 
+  const handleAddIngredient = () => {
+    const newIngredient = {
+      ...selectedIngredient,
+      nutritionData: transformedNutritionData,
+      amount: +newIngredientInput,
+    };
+    console.log(newIngredient);
+    dispatch(addIngredient({ mealName: mealTitle, ingredient: newIngredient }));
+  };
+
   return (
-    <>
+    <Sheet
+      variant="plain"
+      color="primary"
+      sx={{ p: 4, backgroundColor: "transparent" }}
+    >
       <SearchForm />
+
+      {/** Render ingredient details conditionally */}
       {!selectedIngredient ? (
         ""
       ) : (
@@ -51,12 +69,14 @@ const AddFood = () => {
               />
             </FormControl>
             <FormControl>
-              <Button type="submit">Hozzáad</Button>
+              <Button type="submit" onClick={handleAddIngredient}>
+                Hozzáad
+              </Button>
             </FormControl>
           </Stack>
         </>
       )}
-    </>
+    </Sheet>
   );
 };
 

@@ -20,7 +20,10 @@ const ingredientSlice = createSlice({
     },
   },
   reducers: {
-    addIngredient: () => {},
+    addIngredient: (state, action) => {
+      const { mealName } = action.payload;
+      state.ingredientList[mealName].push(action.payload.ingredient);
+    },
     removeIngredient: (state, action) => {
       const mealName = action.payload.mealName;
       const ingredientID = action.payload.ingredientID;
