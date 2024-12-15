@@ -1,5 +1,7 @@
 import { Sheet, Typography, Stack } from "@mui/joy";
 
+import NoImage from "../../img/no_image.png";
+
 const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
   const { carb, protein, fat, energy } = nutritionData;
   return (
@@ -10,15 +12,15 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
         borderRadius: "sm",
         p: 1.5,
         backgroundColor: "transparent",
-        backgroundImage: `url(${imageURL})`,
+        backgroundImage: `url(${NoImage})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "100px",
-        backgroundPosition: "left center",
+        backgroundPosition: "20px center",
         boxShadow: "md",
       }}
     >
       <Stack gap={3} width="75%" marginLeft="auto">
-        <Typography level="title-lg" textAlign="center">
+        <Typography level="title-lg" fontWeight={800} textAlign="center">
           {title}
         </Typography>
         <Stack
@@ -29,19 +31,19 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
           m="0 auto"
         >
           <Stack>
-            <Typography level="title-sm">Carb</Typography>
+            <Typography level="title-sm">Szénhidrát</Typography>
             <Typography level="body-sm">{carb} g</Typography>
           </Stack>
           <Stack>
-            <Typography level="title-sm">Protein</Typography>
+            <Typography level="title-sm">Fehérje</Typography>
             <Typography level="body-sm">{protein} g</Typography>
           </Stack>
           <Stack>
-            <Typography level="title-sm">Fat</Typography>
+            <Typography level="title-sm">Zsír</Typography>
             <Typography level="body-sm">{fat} g</Typography>
           </Stack>
           <Stack>
-            <Typography level="title-sm">Energy</Typography>
+            <Typography level="title-sm">Energia</Typography>
             <Typography level="body-sm">{energy} cal</Typography>
           </Stack>
         </Stack>

@@ -35,31 +35,31 @@ const MacroDetailTab = () => {
           }}
         >
           <Tab disableIndicator variant="soft">
-            Low carb
+            Alacsony szénhidrát
           </Tab>
           <Tab disableIndicator variant="soft">
-            Balanced
+            Kiegyensúlyozott
           </Tab>
           <Tab disableIndicator variant="soft">
-            High carb
+            Magas szénhidrát
           </Tab>
         </TabList>
         <TabPanel value={0}>
           <Stack direction="row" justifyContent="space-between" gap={2}>
             <MacroGoalDetails
-              macroType="Carb"
+              macroType="Szénhidrát"
               goal={300}
               current={180}
               color="primary"
             />
             <MacroGoalDetails
-              macroType="Protein"
+              macroType="Fehérje"
               goal={200}
               current={120}
               color="warning"
             />
             <MacroGoalDetails
-              macroType="Fat"
+              macroType="Zsír"
               goal={80}
               current={20}
               color="success"

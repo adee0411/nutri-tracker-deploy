@@ -1,12 +1,10 @@
 import {
-  Button,
   FormControl,
   Input,
   List,
   ListItem,
   ListItemButton,
   Stack,
-  Typography,
 } from "@mui/joy";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,24 +15,22 @@ import {
   setSelectedIngredient,
   setSearchQueryInput,
   setSearchResultList,
+  setNewIngredientInput,
 } from "../../store/ingredientSlie";
-
-console.log(queryList);
 
 const SearchForm = () => {
   const dispatch = useDispatch();
 
-  const query = useSelector((state) => state.ingredient.UI.searchQueryInput);
-  const { searchResultList, selectedIngredient } = useSelector(
-    (state) => state.ingredient
-  );
+  const { searchQueryInput } = useSelector((state) => state.ingredient.UI);
+  const { searchResultList } = useSelector((state) => state.ingredient);
 
   const handleSelectedIngredient = (e) => {
     const ingredientID = e.target.id;
-    const ingredient = searchResultList.filter(
-      (result) => result.id === ingredientID
+    const ingredient = searchResultList.find(
+      (ingredient) => ingredient.id === ingredientID
     );
     dispatch(setSelectedIngredient(ingredient));
+    dispatch(setNewIngredientInput(ingredient.unitage));
   };
 
   const handleQueryInputChange = (e) => {
@@ -44,31 +40,32 @@ const SearchForm = () => {
 
   useEffect(() => {
     const resultList =
-      query === ""
+      searchQueryInput === ""
         ? []
-        : queryList.filter((data) =>
-            data.ingredientName.toLowerCase().includes(query.toLowerCase())
+        : queryList.filter(
+            (data) =>
+              data.ingredientName
+                .toLowerCase()
+                .includes(searchQueryInput.toLowerCase()) &&
+              searchQueryInput.length > 2
           );
 
     dispatch(setSearchResultList(resultList));
-  }, [query]);
+  }, [searchQueryInput]);
 
   return (
     <>
       <form>
         {" "}
-        <Stack direction="row" m={1}>
-          <FormControl sx={{ p: 1, flex: 1 }}>
+        <Stack direction="row">
+          <FormControl sx={{ flex: 1 }}>
             <Input
               type="search"
               name="ingredient"
-              value={query}
+              value={searchQueryInput}
               onChange={handleQueryInputChange}
               placeholder="Search ingredient"
             ></Input>
-          </FormControl>
-          <FormControl sx={{ p: 1 }}>
-            <Button type="submit">Search</Button>
           </FormControl>
         </Stack>
         {searchResultList.length === 0 ? (
@@ -77,7 +74,6 @@ const SearchForm = () => {
           <List
             variant="outlined"
             sx={{
-              m: 2,
               borderRadius: "md",
               p: 0,
               overflow: "hidden",
@@ -99,9 +95,6 @@ const SearchForm = () => {
           </List>
         )}
       </form>
-      <Typography>
-        {selectedIngredient ? selectedIngredient[0].ingredientName : ""}
-      </Typography>
     </>
   );
 };

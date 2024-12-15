@@ -193,16 +193,16 @@ const TEST_INGREDIENT_LIST = {
 };
 
 // Correct ingredient's nutrition data by amount and unitage
-export const transformNutritionData = (ingredientData) => {
-  const nutritionData = { ...ingredientData.nutritionData };
+export const transformNutritionData = (nutritionData, amount, unitage) => {
+  const transformedNutritionData = { ...nutritionData };
 
-  for (const [key, value] of Object.entries(nutritionData)) {
-    nutritionData[key] = Number(
-      ((value * ingredientData.amount) / ingredientData.unitage).toFixed(0)
+  for (const [key, value] of Object.entries(transformedNutritionData)) {
+    transformedNutritionData[key] = Number(
+      ((value * amount) / unitage).toFixed(0)
     );
   }
 
-  return nutritionData;
+  return transformedNutritionData;
 };
 
 export default TEST_INGREDIENT_LIST;

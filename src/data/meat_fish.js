@@ -64,6 +64,7 @@ const meat_fish = {
         quantity: 1000,
         money: 1600,
       },
+      imageURL: "src/img/chicken_breast.webp",
     },
   ],
 };

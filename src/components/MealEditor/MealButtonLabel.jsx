@@ -14,8 +14,10 @@ const MealButtonLabel = ({ title }) => {
   const isMeal = title.includes("meal"); // Check if meal's title is Meal (number)
   const mealIcon = isMeal ? "meal" : title;
   const formattedMealTitle = isMeal
-    ? "Meal " + title.at(-1)
-    : title[0].toUpperCase() + title.slice(1); // Format Meal title if Meal (number)
+    ? `${title.at(-1)}. étkezés`
+    : title === "breakfast"
+    ? "Reggeli"
+    : "Nasi";
   return (
     <Stack direction="row" gap={1}>
       <img src={mealIcons[mealIcon]} alt="breakfast-icon" width={24} />

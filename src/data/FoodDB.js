@@ -27,6 +27,7 @@ modules.forEach((module) => {
       unit: data.unit,
       unitage: data.unit === "g" ? 100 : 1,
       id: generateUniqueId(),
+      imageURL: data.imageURL,
     };
     queryList.push(query);
   });

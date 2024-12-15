@@ -31,12 +31,15 @@ const MealDetails = () => {
   const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
   const mealImage = isMeal ? "meal" : mealTitle;
   const formattedMealTitle = isMeal
-    ? "Meal " + mealTitle.at(-1)
-    : mealTitle[0].toUpperCase() + mealTitle.slice(1); // Format Meal title if Meal (number);
+    ? `${mealTitle.at(-1)}. étkezés`
+    : mealTitle === "breakfast"
+    ? "Reggeli"
+    : "Nasi";
 
   // Create transformed nutrition array for all ingredients
   const transformedNutritionData = ingredientList.map((ingredient) => {
-    return transformNutritionData(ingredient);
+    const { nutritionData, amount, unitage } = ingredient;
+    return transformNutritionData(nutritionData, amount, unitage);
   });
 
   // Initialize total nutrition object

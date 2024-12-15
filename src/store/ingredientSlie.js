@@ -5,11 +5,18 @@ import TEST_INGREDIENT_LIST from "../data/TESTDATA";
 const ingredientSlice = createSlice({
   name: "ingredient",
   initialState: {
-    ingredientList: TEST_INGREDIENT_LIST,
+    ingredientList: {
+      breakfast: [],
+      meal2: [],
+      meal3: [],
+      meal4: [],
+      snack: [],
+    },
     searchResultList: [],
     selectedIngredient: null,
     UI: {
       searchQueryInput: "",
+      newIngredientInput: "",
     },
   },
   reducers: {
@@ -40,6 +47,9 @@ const ingredientSlice = createSlice({
         (result) => result.id === state.selectedIngredient
       );
     },
+    setNewIngredientInput: (state, action) => {
+      state.UI.newIngredientInput = action.payload;
+    },
   },
 });
 
@@ -51,6 +61,7 @@ export const {
   setSearchQueryInput,
   setSearchResultList,
   getSelectedIngredient,
+  setNewIngredientInput,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;
