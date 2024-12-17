@@ -10,9 +10,10 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
       variant="plain"
       sx={{
         borderRadius: "sm",
-        p: 1.5,
+        px: 1.5,
+        py: 3,
         backgroundColor: "transparent",
-        backgroundImage: `url(${NoImage})`,
+        backgroundImage: `url(${imageURL})`,
         backgroundRepeat: "no-repeat",
         backgroundSize: "100px",
         backgroundPosition: "20px center",

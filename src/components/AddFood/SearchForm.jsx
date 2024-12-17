@@ -24,7 +24,9 @@ const SearchForm = () => {
   const dispatch = useDispatch();
 
   const { searchQueryInput } = useSelector((state) => state.ingredient.UI);
-  const { searchResultList } = useSelector((state) => state.ingredient);
+  const { searchResultList, selectedIngredient } = useSelector(
+    (state) => state.ingredient
+  );
 
   const handleSelectedIngredient = (e) => {
     const ingredientID = e.target.id;
@@ -72,7 +74,7 @@ const SearchForm = () => {
                 name="ingredient"
                 value={searchQueryInput}
                 onChange={handleQueryInputChange}
-                placeholder="Search ingredient"
+                placeholder="Keresés..."
               ></Input>
             </FormControl>
           </Stack>
@@ -98,7 +100,12 @@ const SearchForm = () => {
               return (
                 <ListItem key={result.id}>
                   <ListItemButton
-                    sx={{ borderRadius: 0, fontSize: 12 }}
+                    sx={{
+                      borderRadius: 0,
+                      fontSize: 12,
+                      fontWeight:
+                        result.id === selectedIngredient?.id ? 700 : "",
+                    }}
                     id={result.id}
                     onClick={handleSelectedIngredient}
                   >

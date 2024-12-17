@@ -64,7 +64,8 @@ const meat_fish = {
         quantity: 1000,
         money: 1600,
       },
-      imageURL: "src/img/chicken_breast.webp",
+      imageURL:
+        "https://www.allrecipes.com/thmb/Vw5kItdm0Hk3Kl6NSIKf3xg59UM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/16160-juicy-grilled-chicken-breasts-ddmfs-5528-01-3x4-fde4b162c1e74b82a8ca94cbad082ae8.jpg",
     },
   ],
 };

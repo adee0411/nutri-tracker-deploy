@@ -23,8 +23,8 @@ const NoMeal = () => {
       }}
     >
       <img width="50%" src={NoMealImg} />
-      <Typography color="neutral">No ingredients added yet.</Typography>
-      <Button onClick={handleAddIngredient}>Add ingredient</Button>
+      <Typography color="neutral">A lista a mai napra még üres.</Typography>
+      <Button onClick={handleAddIngredient}>Hozzáadás</Button>
     </Sheet>
   );
 };

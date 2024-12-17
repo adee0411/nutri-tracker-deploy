@@ -13,7 +13,6 @@ import {
   Option,
 } from "@mui/joy";
 import { useState } from "react";
-import { transformNutritionData } from "../../data/TESTDATA";
 import { useParams } from "react-router";
 
 import IngredientListItemContent from "./IngredientListItemContent";
@@ -21,8 +20,7 @@ import IngredientListItemActions from "./IngredientListItemActions";
 const IngredientListItem = ({ ingredientData }) => {
   const { mealTitle } = useParams();
 
-  const { ingredientName, unit, amount, id, nutritionData, unitage } =
-    ingredientData;
+  const { ingredientName, unit, amount, id, nutritionData } = ingredientData;
 
   // Dropdown menu (Edit, Delete) state
   const [open, setOpen] = useState(false);

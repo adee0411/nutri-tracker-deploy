@@ -8,16 +8,32 @@ const MealList = () => {
   // Fetch Ingredient list from store
   const { ingredientList } = useSelector((state) => state.ingredient);
 
+  console.log(Object.entries(ingredientList));
+
   return (
     <Stack gap={2}>
       {Object.entries(ingredientList).map((meal) => {
         const mealName = meal[0];
-        const mealIngredientData = meal[1];
+
+        // Initialize total nutrition object
+        let totalNutritionData = {
+          carb: 0,
+          protein: 0,
+          fat: 0,
+          energy: 0,
+        };
+
+        // Reduce all ingredient's nutrition data
+        meal[1].forEach((ingredient) => {
+          for (const [key, value] of Object.entries(ingredient.nutritionData)) {
+            totalNutritionData[key] += value;
+          }
+        });
 
         return (
           <MealButton
             title={mealName}
-            ingredientData={mealIngredientData}
+            ingredientData={totalNutritionData}
             key={mealName}
           />
         );

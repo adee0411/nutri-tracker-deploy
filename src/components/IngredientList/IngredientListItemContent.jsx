@@ -7,7 +7,6 @@ const IngredientListItemContent = ({
   unit,
   nutritionData,
 }) => {
-  console.log(nutritionData);
   return (
     <Stack gap={0.5}>
       <Typography level="title-md">

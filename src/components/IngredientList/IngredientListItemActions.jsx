@@ -1,22 +1,31 @@
 import { Button, Dropdown, MenuButton, Menu, MenuItem } from "@mui/joy";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosAdd } from "react-icons/io";
 
-import { removeIngredient } from "../../store/ingredientSlie";
+import { removeIngredient, addIngredient } from "../../store/ingredientSlie";
 
 const IngredientListItemActions = ({ mealName, ingredientID }) => {
   const dispatch = useDispatch();
+  const { ingredientList } = useSelector((state) => state.ingredient);
+  const ingredient = ingredientList[mealName].find(
+    (ingredient) => ingredient.id === ingredientID
+  );
+
   const handleRemoveIngredient = (e) => {
     const ingredientID = e.currentTarget.value;
 
     dispatch(
       removeIngredient({ ingredientID: ingredientID, mealName: mealName })
     );
+  };
+
+  const handleAddIngredientAgain = (e) => {
+    dispatch(addIngredient({ mealName: mealName, ingredient: ingredient }));
   };
   return (
     <Dropdown>
@@ -48,6 +57,8 @@ const IngredientListItemActions = ({ mealName, ingredientID }) => {
               },
               justifyContent: "space-between",
             }}
+            onClick={handleAddIngredientAgain}
+            id={ingredientID}
           ></Button>
         </MenuItem>
         <MenuItem>

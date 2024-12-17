@@ -1,18 +1,43 @@
+import {
+  Button,
+  FormControl,
+  IconButton,
+  Input,
+  Sheet,
+  Stack,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanel,
+  Typography,
+} from "@mui/joy";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import SearchForm from "../components/AddFood/SearchForm";
 import NutritionDetailCard from "../components/MealEditor/NutritionDetailCard";
 
-import ChickenImg from "../img/chicken_breast.webp";
 import { transformNutritionData } from "../data/TESTDATA";
-import { Button, FormControl, Input, Sheet, Stack } from "@mui/joy";
 
-import { useDispatch } from "react-redux";
+import { FaRegHeart } from "react-icons/fa";
+import { LuClock } from "react-icons/lu";
+import { IoRepeat } from "react-icons/io5";
 
-import { setNewIngredientInput, addIngredient } from "../store/ingredientSlie";
-import { useParams } from "react-router";
+import { tabClasses } from "@mui/joy";
+
+import {
+  setNewIngredientInput,
+  addIngredient,
+  setSearchQueryInput,
+  setSearchResultList,
+  setSelectedIngredient,
+} from "../store/ingredientSlie";
+import { redirect, useNavigate, useParams } from "react-router";
 
 const AddFood = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { mealTitle } = useParams();
   const { selectedIngredient } = useSelector((state) => state.ingredient);
   const { newIngredientInput } = useSelector((state) => state.ingredient.UI);
@@ -37,8 +62,12 @@ const AddFood = () => {
       nutritionData: transformedNutritionData,
       amount: +newIngredientInput,
     };
-    console.log(newIngredient);
     dispatch(addIngredient({ mealName: mealTitle, ingredient: newIngredient }));
+    dispatch(setSearchQueryInput(""));
+    dispatch(setSearchResultList([]));
+    {
+      /*navigate(`/${mealTitle}`);*/
+    }
   };
 
   return (
@@ -73,9 +102,65 @@ const AddFood = () => {
                 Hozzáad
               </Button>
             </FormControl>
+            <FormControl>
+              <IconButton variant="soft" color="warning">
+                <FaRegHeart />
+              </IconButton>
+            </FormControl>
           </Stack>
         </>
       )}
+      <Sheet>
+        <Tabs
+          aria-label="Ingredient list tab"
+          defaultValue={0}
+          variant="outlined"
+          sx={{
+            borderRadius: "lg",
+            boxShadow: "md",
+            overflow: "auto",
+          }}
+        >
+          <TabList
+            size="sm"
+            tabFlex={1}
+            disableUnderline
+            sx={{
+              "--Tab-indicatorThickness": 0,
+              [`& .${tabClasses.root}`]: {
+                fontSize: "sm",
+                fontWeight: "lg",
+                [`&[aria-selected="true"]`]: {
+                  color: "primary.500",
+                  bgcolor: "background.surface",
+                },
+              },
+            }}
+          >
+            <Tab disableIndicator variant="soft">
+              <FaRegHeart />
+              Kedvencek
+            </Tab>
+            <Tab disableIndicator variant="soft">
+              <IoRepeat />
+              Leggyakrabb
+            </Tab>
+            <Tab disableIndicator variant="soft">
+              <LuClock />
+              Legutóbbi
+            </Tab>
+          </TabList>
+          <TabPanel value={0}>
+            <Typography>Kedvencek</Typography>
+          </TabPanel>
+          <TabPanel value={1}>
+            <Typography>Leggyakrabb</Typography>
+          </TabPanel>
+          <TabPanel value={2}>
+            <Typography>Legutóbbi</Typography>
+          </TabPanel>
+        </Tabs>
+      </Sheet>
     </Sheet>
   );
 };
