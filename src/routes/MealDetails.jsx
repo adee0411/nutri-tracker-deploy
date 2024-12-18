@@ -1,4 +1,13 @@
-import { Stack, Typography } from "@mui/joy";
+import {
+  FormControl,
+  Modal,
+  ModalClose,
+  ModalDialog,
+  Stack,
+  Typography,
+  Input,
+  Button,
+} from "@mui/joy";
 
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -10,8 +19,6 @@ import NoMeal from "../components/IngredientList/NoMeal";
 import BreakfastImg from "../img/breakfast.png";
 import LunchImg from "../img/lunch.png";
 import SnackImg from "../img/snack.png";
-
-import { transformNutritionData } from "../data/TESTDATA";
 
 const mealImages = {
   breakfast: BreakfastImg,
@@ -52,23 +59,25 @@ const MealDetails = () => {
   });
 
   return (
-    <Stack px={4} py={2} gap={2}>
-      <Typography level="title-lg" textAlign="center">
-        2024. 11. 18.
-      </Typography>
+    <>
+      <Stack px={4} py={2} gap={2}>
+        <Typography level="title-lg" textAlign="center">
+          2024. 11. 18.
+        </Typography>
 
-      <NutritionDetailCard
-        title={formattedMealTitle}
-        nutritionData={totalNutritionData}
-        imageURL={mealImages[mealImage]}
-      />
+        <NutritionDetailCard
+          title={formattedMealTitle}
+          nutritionData={totalNutritionData}
+          imageURL={mealImages[mealImage]}
+        />
 
-      {ingredientList.length === 0 ? (
-        <NoMeal />
-      ) : (
-        <IngredientList ingredientList={ingredientList} />
-      )}
-    </Stack>
+        {ingredientList.length === 0 ? (
+          <NoMeal />
+        ) : (
+          <IngredientList ingredientList={ingredientList} />
+        )}
+      </Stack>
+    </>
   );
 };
 

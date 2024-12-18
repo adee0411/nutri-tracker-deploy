@@ -143,21 +143,21 @@ const AddFood = () => {
             </Tab>
             <Tab disableIndicator variant="soft">
               <IoRepeat />
-              Leggyakrabb
+              Gyakoriak
             </Tab>
             <Tab disableIndicator variant="soft">
               <LuClock />
-              Legutóbbi
+              Legutóbbiak
             </Tab>
           </TabList>
           <TabPanel value={0}>
             <Typography>Kedvencek</Typography>
           </TabPanel>
           <TabPanel value={1}>
-            <Typography>Leggyakrabb</Typography>
+            <Typography>Gyakoriak</Typography>
           </TabPanel>
           <TabPanel value={2}>
-            <Typography>Legutóbbi</Typography>
+            <Typography>Legutóbbiak</Typography>
           </TabPanel>
         </Tabs>
       </Sheet>

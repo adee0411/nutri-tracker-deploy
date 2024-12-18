@@ -8,9 +8,10 @@ import {
 } from "@mui/joy";
 
 import { useNavigate, useParams } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import IngredientListItem from "./IngredientListItem";
+import EditIngredientModal from "./EditIngredientModal";
 
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { CiTrash } from "react-icons/ci";
@@ -37,7 +38,7 @@ const IngredientList = ({ ingredientList }) => {
       {" "}
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         {" "}
-        <Typography level="title-lg">Ingredient list</Typography>
+        <Typography level="title-lg">Alapanyag lista</Typography>
         <ButtonGroup size="sm">
           <IconButton
             sx={{ fontSize: 18 }}

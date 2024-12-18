@@ -17,9 +17,11 @@ const ingredientSlice = createSlice({
     favoriteIngredients: [],
     searchResultList: [],
     selectedIngredient: null,
+    editableIngredient: null,
     UI: {
       searchQueryInput: "",
       newIngredientInput: "",
+      isEditIngredientModalOpen: false,
     },
   },
   reducers: {
@@ -78,6 +80,12 @@ const ingredientSlice = createSlice({
     setFavoriteIngredient: (state, action) => {
       state.favoriteIngredients.push(action.payload);
     },
+    setEditableIngredient: (state, action) => {
+      state.editableIngredient = action.payload;
+    },
+    setIsEditIngredientModalOpen: (state, action) => {
+      state.UI.isEditIngredientModalOpen = action.payload;
+    },
   },
 });
 
@@ -91,6 +99,8 @@ export const {
   getSelectedIngredient,
   setNewIngredientInput,
   setFavoriteIngredient,
+  setEditableIngredient,
+  setIsEditIngredientModalOpen,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;
