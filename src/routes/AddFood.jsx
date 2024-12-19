@@ -65,9 +65,6 @@ const AddFood = () => {
     dispatch(addIngredient({ mealName: mealTitle, ingredient: newIngredient }));
     dispatch(setSearchQueryInput(""));
     dispatch(setSearchResultList([]));
-    {
-      /*navigate(`/${mealTitle}`);*/
-    }
   };
 
   return (

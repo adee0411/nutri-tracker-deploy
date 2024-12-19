@@ -86,6 +86,19 @@ const ingredientSlice = createSlice({
     setIsEditIngredientModalOpen: (state, action) => {
       state.UI.isEditIngredientModalOpen = action.payload;
     },
+    setEditIngredientAmount: (state, action) => {
+      state.editableIngredient.amount = +action.payload;
+    },
+    updateIngredient: (state, action) => {
+      const { mealName } = action.payload;
+      const ingredientID = action.payload.ingredient.id;
+      const existingIngredientIndex = state.ingredientList[mealName].findIndex(
+        (ingredient) => ingredient.id === ingredientID
+      );
+
+      state.ingredientList[mealName][existingIngredientIndex] =
+        action.payload.ingredient;
+    },
   },
 });
 
@@ -101,6 +114,8 @@ export const {
   setFavoriteIngredient,
   setEditableIngredient,
   setIsEditIngredientModalOpen,
+  setEditIngredientAmount,
+  updateIngredient,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

@@ -10,14 +10,45 @@ import {
 } from "@mui/joy";
 import NutritionDetails from "../NutritionDetails";
 import { useDispatch } from "react-redux";
-import { setIsEditIngredientModalOpen } from "../../store/ingredientSlie";
+import {
+  setIsEditIngredientModalOpen,
+  setEditIngredientAmount,
+  addIngredient,
+  updateIngredient,
+} from "../../store/ingredientSlie";
+import { transformNutritionData } from "../../data/TESTDATA";
+import { useParams } from "react-router";
 
-const EditIngredientModal = ({ ingredient, isModalOpen }) => {
+const EditIngredientModal = ({ isModalOpen, ingredient }) => {
   const dispatch = useDispatch();
-  const { ingredientName, nutritionData, unit, amount } = ingredient;
+  const { mealTitle } = useParams();
+
+  const { ingredientName, nutritionData, unit, amount, unitage } = ingredient;
+  const transformedNutritionData = transformNutritionData(
+    nutritionData,
+    amount,
+    unitage
+  );
+
+  const newIngredient = {
+    ...ingredient,
+    nutritionData: transformedNutritionData,
+  };
 
   const handleCloseModal = () => {
     dispatch(setIsEditIngredientModalOpen(false));
+  };
+
+  const handleIngredientInputChange = (e) => {
+    const ingredientAmount = e.target.value;
+    dispatch(setEditIngredientAmount(ingredientAmount));
+  };
+
+  const submitIngredientAmount = (e) => {
+    e.preventDefault();
+    dispatch(
+      updateIngredient({ ingredient: newIngredient, mealName: mealTitle })
+    );
   };
 
   return (
@@ -25,14 +56,18 @@ const EditIngredientModal = ({ ingredient, isModalOpen }) => {
       <ModalDialog>
         <ModalClose />
         <Typography level="title-md">{`${ingredientName}, ${amount}${unit}`}</Typography>
-        <NutritionDetails nutritionData={nutritionData} />
-        <form>
+        <NutritionDetails nutritionData={newIngredient.nutritionData} />
+        <form onSubmit={submitIngredientAmount}>
           <Stack direction="row" gap={2}>
             <FormControl>
-              <Input type="number" />
+              <Input
+                type="number"
+                value={amount}
+                onChange={handleIngredientInputChange}
+              />
             </FormControl>
             <FormControl>
-              <Button>Szerkeszt</Button>
+              <Button type="submit">Módosít</Button>
             </FormControl>
           </Stack>
         </form>

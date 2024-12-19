@@ -18,7 +18,9 @@ import {
 
 const IngredientListItemActions = ({ mealName, ingredientID }) => {
   const dispatch = useDispatch();
-  const { ingredientList } = useSelector((state) => state.ingredient);
+  const { ingredientList, editableIngredient } = useSelector(
+    (state) => state.ingredient
+  );
   const { isEditIngredientModalOpen } = useSelector(
     (state) => state.ingredient.UI
   );
@@ -40,8 +42,7 @@ const IngredientListItemActions = ({ mealName, ingredientID }) => {
   };
 
   const handleEditIngredient = (e) => {
-    const ingredientID = e.target.id;
-    dispatch(setEditableIngredient(ingredientID));
+    dispatch(setEditableIngredient(ingredient));
     dispatch(setIsEditIngredientModalOpen(true));
   };
   return (
@@ -118,10 +119,14 @@ const IngredientListItemActions = ({ mealName, ingredientID }) => {
           </MenuItem>
         </Menu>
       </Dropdown>
-      <EditIngredientModal
-        ingredient={ingredientList[mealName][0]}
-        isModalOpen={isEditIngredientModalOpen}
-      />
+      {editableIngredient ? (
+        <EditIngredientModal
+          isModalOpen={isEditIngredientModalOpen}
+          ingredient={editableIngredient}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };
