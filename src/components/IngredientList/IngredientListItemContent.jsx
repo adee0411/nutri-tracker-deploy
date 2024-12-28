@@ -1,5 +1,6 @@
-import { Stack, Typography } from "@mui/joy";
-import NutritionDetails from "../NutritionDetails";
+import { Stack } from "@mui/joy";
+import IngredientListItemTitle from "./IngredientListItemTitle";
+import IngredientListItemData from "./IngredientListItemData";
 
 const IngredientListItemContent = ({
   ingredientName,
@@ -9,11 +10,12 @@ const IngredientListItemContent = ({
 }) => {
   return (
     <Stack gap={0.5}>
-      <Typography level="title-md">
-        {ingredientName}, {amount}
-        {unit}
-      </Typography>
-      <NutritionDetails nutritionData={nutritionData} />
+      <IngredientListItemTitle
+        ingredientName={ingredientName}
+        amount={amount}
+        unit={unit}
+      />
+      <IngredientListItemData nutritionData={nutritionData} />
     </Stack>
   );
 };

@@ -1,20 +1,12 @@
-import {
-  FormControl,
-  Modal,
-  ModalClose,
-  ModalDialog,
-  Stack,
-  Typography,
-  Input,
-  Button,
-} from "@mui/joy";
+import { Stack, Typography, Button } from "@mui/joy";
 
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { useSelector } from "react-redux";
 
 import NutritionDetailCard from "../components/MealEditor/NutritionDetailCard";
-import IngredientList from "../components/IngredientList/IngredientList";
+import AddedIngredients from "../components/IngredientList/AddedIngredients";
 import NoMeal from "../components/IngredientList/NoMeal";
+import CardWrapper from "../UI/CardWrapper";
 
 import BreakfastImg from "../img/breakfast.png";
 import LunchImg from "../img/lunch.png";
@@ -27,12 +19,17 @@ const mealImages = {
 };
 
 const MealDetails = () => {
+  const navigate = useNavigate();
+  // Handle Add Ingredient
+  const handleAddIngredient = () => {
+    navigate("add-food");
+  };
   // Get meal's name
   const { mealTitle } = useParams();
 
   //fetch the selected meal's ingredientlist from store
-  const ingredientList = useSelector(
-    (state) => state.ingredient.ingredientList[mealTitle]
+  const addedIngredients = useSelector(
+    (state) => state.ingredient.addedIngredients[mealTitle]
   );
 
   const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
@@ -52,7 +49,7 @@ const MealDetails = () => {
   };
 
   // Reduce all ingredient's nutrition data
-  ingredientList.forEach((ingredient) => {
+  addedIngredients.forEach((ingredient) => {
     for (const [key, value] of Object.entries(ingredient.nutritionData)) {
       totalNutritionData[key] += value;
     }
@@ -64,17 +61,26 @@ const MealDetails = () => {
         <Typography level="title-lg" textAlign="center">
           2024. 11. 18.
         </Typography>
+        <CardWrapper>
+          <NutritionDetailCard
+            title={formattedMealTitle}
+            nutritionData={totalNutritionData}
+            imageURL={mealImages[mealImage]}
+          />
+        </CardWrapper>
 
-        <NutritionDetailCard
-          title={formattedMealTitle}
-          nutritionData={totalNutritionData}
-          imageURL={mealImages[mealImage]}
-        />
-
-        {ingredientList.length === 0 ? (
-          <NoMeal />
+        {addedIngredients.length === 0 ? (
+          <>
+            <NoMeal text="A lista üres. Adj hozzá alapanyagokat!" />
+            <Button
+              onClick={handleAddIngredient}
+              sx={{ width: "50%", m: "0 auto" }}
+            >
+              Hozzáadás
+            </Button>
+          </>
         ) : (
-          <IngredientList ingredientList={ingredientList} />
+          <AddedIngredients ingredientList={addedIngredients} />
         )}
       </Stack>
     </>

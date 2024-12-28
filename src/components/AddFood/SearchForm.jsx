@@ -1,15 +1,8 @@
-import {
-  FormControl,
-  Input,
-  List,
-  ListItem,
-  ListItemButton,
-  Sheet,
-  Stack,
-  Typography,
-} from "@mui/joy";
+import { FormControl, Input, Sheet, Stack, Typography } from "@mui/joy";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+
+import ResultList from "./ResultList";
 
 import queryList from "../../data/FoodDB";
 
@@ -17,25 +10,13 @@ import {
   setSelectedIngredient,
   setSearchQueryInput,
   setSearchResultList,
-  setNewIngredientInput,
 } from "../../store/ingredientSlie";
 
 const SearchForm = () => {
   const dispatch = useDispatch();
 
   const { searchQueryInput } = useSelector((state) => state.ingredient.UI);
-  const { searchResultList, selectedIngredient } = useSelector(
-    (state) => state.ingredient
-  );
-
-  const handleSelectedIngredient = (e) => {
-    const ingredientID = e.target.id;
-    const ingredient = searchResultList.find(
-      (ingredient) => ingredient.id === ingredientID
-    );
-    dispatch(setSelectedIngredient(ingredient));
-    dispatch(setNewIngredientInput(ingredient.unitage));
-  };
+  const { searchResultList } = useSelector((state) => state.ingredient);
 
   const handleQueryInputChange = (e) => {
     dispatch(setSearchQueryInput(e.target.value));
@@ -79,44 +60,12 @@ const SearchForm = () => {
             </FormControl>
           </Stack>
         </form>
+        {searchResultList.length === 0 ? (
+          ""
+        ) : (
+          <ResultList resultList={searchResultList} />
+        )}
       </Sheet>
-
-      {searchResultList.length === 0 ? (
-        ""
-      ) : (
-        <>
-          <Typography level="title-md">Találatok:</Typography>
-          <List
-            variant="outlined"
-            sx={{
-              borderRadius: "md",
-              p: 0,
-              mt: 1,
-              mb: 4,
-              overflow: "hidden",
-            }}
-          >
-            {searchResultList.map((result) => {
-              return (
-                <ListItem key={result.id}>
-                  <ListItemButton
-                    sx={{
-                      borderRadius: 0,
-                      fontSize: 12,
-                      fontWeight:
-                        result.id === selectedIngredient?.id ? 700 : "",
-                    }}
-                    id={result.id}
-                    onClick={handleSelectedIngredient}
-                  >
-                    {result.ingredientName}
-                  </ListItemButton>
-                </ListItem>
-              );
-            })}
-          </List>
-        </>
-      )}
     </>
   );
 };

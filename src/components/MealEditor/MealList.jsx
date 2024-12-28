@@ -6,13 +6,11 @@ import MealButton from "./MealButton";
 
 const MealList = () => {
   // Fetch Ingredient list from store
-  const { ingredientList } = useSelector((state) => state.ingredient);
-
-  console.log(Object.entries(ingredientList));
+  const { addedIngredients } = useSelector((state) => state.ingredient);
 
   return (
     <Stack gap={2}>
-      {Object.entries(ingredientList).map((meal) => {
+      {Object.entries(addedIngredients).map((meal) => {
         const mealName = meal[0];
 
         // Initialize total nutrition object

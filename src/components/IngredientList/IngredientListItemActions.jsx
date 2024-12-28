@@ -8,42 +8,42 @@ import { CiEdit } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosAdd } from "react-icons/io";
+import { CiHeart } from "react-icons/ci";
 
 import {
   removeIngredient,
   addIngredient,
-  setEditableIngredient,
   setIsEditIngredientModalOpen,
+  addFavoriteIngredient,
 } from "../../store/ingredientSlie";
 
-const IngredientListItemActions = ({ mealName, ingredientID }) => {
+const IngredientListItemActions = ({ mealName, ingredient, actions }) => {
   const dispatch = useDispatch();
-  const { ingredientList, editableIngredient } = useSelector(
-    (state) => state.ingredient
-  );
+  const { editableIngredient } = useSelector((state) => state.ingredient);
   const { isEditIngredientModalOpen } = useSelector(
     (state) => state.ingredient.UI
   );
 
-  const ingredient = ingredientList[mealName].find(
-    (ingredient) => ingredient.id === ingredientID
-  );
-
+  // Remove single ingredient action
   const handleRemoveIngredient = (e) => {
-    const ingredientID = e.currentTarget.value;
-
     dispatch(
-      removeIngredient({ ingredientID: ingredientID, mealName: mealName })
+      removeIngredient({ ingredientID: ingredient.id, mealName: mealName })
     );
   };
 
+  // Add the same ingredient (duplicate) again action
   const handleAddIngredientAgain = (e) => {
     dispatch(addIngredient({ mealName: mealName, ingredient: ingredient }));
   };
 
+  // Update single ingredient action
   const handleEditIngredient = (e) => {
-    dispatch(setEditableIngredient(ingredient));
+    const editableIngredient = { ...ingredient };
     dispatch(setIsEditIngredientModalOpen(true));
+  };
+
+  const handleAddToFavorites = (e) => {
+    dispatch(addFavoriteIngredient(ingredient));
   };
   return (
     <>
@@ -57,15 +57,15 @@ const IngredientListItemActions = ({ mealName, ingredientID }) => {
         <Menu
           placement="bottom-start"
           size="sm"
-          sx={{ minWingredientIDth: "120px" }}
+          sx={{ minWidth: "120px" }}
           color="neutral"
           variant="plain"
         >
           <MenuItem>
             <Button
-              value={ingredientID}
+              value={ingredient.id}
               size="sm"
-              startDecorator="Add again"
+              startDecorator="Hozzáadás újra"
               endDecorator={<IoIosAdd />}
               color="neutral"
               variant="plain"
@@ -77,14 +77,14 @@ const IngredientListItemActions = ({ mealName, ingredientID }) => {
                 justifyContent: "space-between",
               }}
               onClick={handleAddIngredientAgain}
-              id={ingredientID}
+              id={ingredient.id}
             ></Button>
           </MenuItem>
           <MenuItem>
             <Button
-              value={ingredientID}
+              value={ingredient.id}
               size="sm"
-              startDecorator="Edit"
+              startDecorator="Szerkesztés"
               endDecorator={<CiEdit />}
               color="neutral"
               variant="plain"
@@ -95,15 +95,33 @@ const IngredientListItemActions = ({ mealName, ingredientID }) => {
                 },
                 justifyContent: "space-between",
               }}
-              id={ingredientID}
+              id={ingredient.id}
               onClick={handleEditIngredient}
             ></Button>
           </MenuItem>
           <MenuItem>
             <Button
-              value={ingredientID}
+              value={ingredient.id}
               size="sm"
-              startDecorator="Delete"
+              startDecorator="Kedvencekhez"
+              endDecorator={<CiHeart />}
+              color="neutral"
+              variant="plain"
+              fullWidth
+              sx={{
+                "&:hover": {
+                  backgroundColor: "transparent",
+                },
+                justifyContent: "space-between",
+              }}
+              onClick={handleAddToFavorites}
+            ></Button>
+          </MenuItem>
+          <MenuItem>
+            <Button
+              value={ingredient.id}
+              size="sm"
+              startDecorator="Törlés"
               endDecorator={<MdOutlineDelete />}
               color="danger"
               variant="plain"

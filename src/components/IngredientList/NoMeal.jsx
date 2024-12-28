@@ -1,15 +1,8 @@
-import { Button, Sheet, Typography } from "@mui/joy";
-
-import { useNavigate } from "react-router";
+import { Sheet, Typography } from "@mui/joy";
 
 import NoMealImg from "../../img/undraw_breakfast_psiw.svg";
 
-const NoMeal = () => {
-  const navigate = useNavigate();
-  // Handle Add Ingredient
-  const handleAddIngredient = () => {
-    navigate("add-food");
-  };
+const NoMeal = ({ text }) => {
   return (
     <Sheet
       sx={{
@@ -22,9 +15,8 @@ const NoMeal = () => {
         my: 10,
       }}
     >
-      <img width="50%" src={NoMealImg} />
-      <Typography color="neutral">A lista a mai napra még üres.</Typography>
-      <Button onClick={handleAddIngredient}>Hozzáadás</Button>
+      <img width="50%" src={NoMealImg} alt="no-data-img" />
+      <Typography color="neutral">{text}</Typography>
     </Sheet>
   );
 };
