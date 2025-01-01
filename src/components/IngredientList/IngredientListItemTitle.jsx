@@ -2,7 +2,7 @@ import { Typography } from "@mui/joy";
 
 const IngredientListItemTitle = ({ ingredientName, amount, unit }) => {
   return (
-    <Typography level="title-lg">
+    <Typography level="title-sm">
       {ingredientName}, {amount}
       {unit}
     </Typography>

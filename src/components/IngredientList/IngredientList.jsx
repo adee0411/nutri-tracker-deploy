@@ -1,4 +1,4 @@
-import { List } from "@mui/joy";
+import { List, ListDivider } from "@mui/joy";
 
 import IngredientListItem from "./IngredientListItem";
 
@@ -9,12 +9,12 @@ const IngredientList = ({ ingredientList, actions }) => {
       variant="plain"
       sx={{ "--ListDivider-gap": "8px", my: 2 }}
     >
-      {ingredientList.map((ingredient) => {
+      {ingredientList.map((ingredient, index) => {
         return (
           <IngredientListItem
             ingredient={ingredient}
             key={ingredient.id}
-            actions={actions}
+            index={index}
           />
         );
       })}

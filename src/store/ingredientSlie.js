@@ -64,6 +64,11 @@ const ingredientSlice = createSlice({
       searchQueryInput: "",
       newIngredientInput: "",
       isEditIngredientModalOpen: false,
+      addToFavoritesAlert: {
+        isShown: false,
+        message: "",
+        state: "",
+      },
     },
   },
   reducers: {
@@ -94,9 +99,9 @@ const ingredientSlice = createSlice({
       const mealName = action.payload.mealName;
       const ingredientID = action.payload.ingredientID;
 
-      state.ingredientList[mealName] = state.ingredientList[mealName].filter(
-        (ingredient) => ingredient.id !== ingredientID
-      );
+      state.addedIngredients[mealName] = state.addedIngredients[
+        mealName
+      ].filter((ingredient) => ingredient.id !== ingredientID);
     },
     emptyList: (state, action) => {
       const { mealName, listName } = action.payload;
@@ -139,6 +144,11 @@ const ingredientSlice = createSlice({
     resetSelectedIngredient: (state) => {
       state.selectedIngredient = null;
     },
+    setAddToFavoritesAlert: (state, action) => {
+      state.UI.addToFavoritesAlert.isShown = action.payload.isShown;
+      state.UI.addToFavoritesAlert.message = action.payload.message;
+      state.UI.addToFavoritesAlert.state = action.payload.state;
+    },
   },
 });
 
@@ -154,6 +164,7 @@ export const {
   addFavoriteIngredient,
   setIsEditIngredientModalOpen,
   resetSelectedIngredient,
+  setAddToFavoritesAlert,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

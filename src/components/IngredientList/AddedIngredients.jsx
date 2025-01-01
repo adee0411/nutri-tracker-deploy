@@ -1,16 +1,26 @@
-import { Typography, Sheet, Stack, IconButton, ButtonGroup } from "@mui/joy";
+import {
+  Typography,
+  Sheet,
+  Stack,
+  IconButton,
+  ButtonGroup,
+  Alert,
+} from "@mui/joy";
 
 import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 import IngredientListHeader from "./IngredientListHeader";
 import IngredientList from "./IngredientList";
+import FeedBack from "./FeedBack";
 
 import {
   addIngredient,
   removeIngredient,
   setIsEditIngredientModalOpen,
   addFavoriteIngredient,
+  setAddToFavoritesAlert,
 } from "../../store/ingredientSlie";
 
 const AddedIngredients = ({ ingredientList }) => {
@@ -21,6 +31,8 @@ const AddedIngredients = ({ ingredientList }) => {
   const { isEditIngredientModalOpen } = useSelector(
     (state) => state.ingredient.UI
   );
+
+  const { addToFavoritesAlert } = useSelector((state) => state.ingredient.UI);
 
   // Remove single ingredient action
   const handleRemoveIngredient = ({ ingredientID, mealName }) => {
@@ -51,6 +63,17 @@ const AddedIngredients = ({ ingredientList }) => {
     addToFavorites: handleAddToFavorites,
     removeIngredient: handleRemoveIngredient,
   };
+
+  useEffect(() => {
+    const errorTimeout = setTimeout(() => {
+      dispatch(
+        setAddToFavoritesAlert({ message: "", isShown: false, state: "" })
+      );
+    }, 2000);
+    return () => {
+      clearTimeout(errorTimeout);
+    };
+  });
   return (
     <Sheet variant="plain" sx={{ backgroundColor: "transparent", my: 4 }}>
       {" "}
@@ -62,6 +85,11 @@ const AddedIngredients = ({ ingredientList }) => {
         ingredientList={ingredientList}
         actions={addedIngredientActions}
       />
+      {addToFavoritesAlert.isShown ? (
+        <FeedBack alertDetails={addToFavoritesAlert} />
+      ) : (
+        ""
+      )}
     </Sheet>
   );
 };

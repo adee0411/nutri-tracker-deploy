@@ -3,9 +3,13 @@ import { useParams } from "react-router";
 
 import IngredientListItemContent from "./IngredientListItemContent";
 import IngredientListItemActions from "./IngredientListItemActions";
-const IngredientListItem = ({ ingredient, actions }) => {
+import { useSelector } from "react-redux";
+const IngredientListItem = ({ ingredient, index }) => {
   const { mealTitle } = useParams();
 
+  const ingredientList = useSelector(
+    (state) => state.ingredient.addedIngredients[mealTitle]
+  );
   const { ingredientName, unit, amount, nutritionData } = ingredient;
 
   return (
@@ -27,11 +31,14 @@ const IngredientListItem = ({ ingredient, actions }) => {
           <IngredientListItemActions
             mealName={mealTitle}
             ingredient={ingredient}
-            actions={actions}
           />
         </Stack>
       </ListItem>
-      <ListDivider></ListDivider>
+      {ingredientList.length > 1 && index !== ingredientList.length - 1 ? (
+        <ListDivider></ListDivider>
+      ) : (
+        ""
+      )}
     </>
   );
 };

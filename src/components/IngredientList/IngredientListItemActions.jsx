@@ -5,31 +5,28 @@ import { useDispatch, useSelector } from "react-redux";
 import EditIngredientModal from "./EditIngredientModal";
 
 import { CiEdit } from "react-icons/ci";
-import { MdOutlineDelete } from "react-icons/md";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosAdd } from "react-icons/io";
 import { CiHeart } from "react-icons/ci";
+import { MdOutlineDelete } from "react-icons/md";
 
 import {
-  removeIngredient,
   addIngredient,
   setIsEditIngredientModalOpen,
   addFavoriteIngredient,
+  setAddToFavoritesAlert,
+  removeIngredient,
 } from "../../store/ingredientSlie";
+import IngredientListItemActionBtn from "./IngredientListItemActionBtn";
 
-const IngredientListItemActions = ({ mealName, ingredient, actions }) => {
+const IngredientListItemActions = ({ mealName, ingredient }) => {
   const dispatch = useDispatch();
-  const { editableIngredient } = useSelector((state) => state.ingredient);
+  const { editableIngredient, favoriteIngredients } = useSelector(
+    (state) => state.ingredient
+  );
   const { isEditIngredientModalOpen } = useSelector(
     (state) => state.ingredient.UI
   );
-
-  // Remove single ingredient action
-  const handleRemoveIngredient = (e) => {
-    dispatch(
-      removeIngredient({ ingredientID: ingredient.id, mealName: mealName })
-    );
-  };
 
   // Add the same ingredient (duplicate) again action
   const handleAddIngredientAgain = (e) => {
@@ -37,14 +34,65 @@ const IngredientListItemActions = ({ mealName, ingredient, actions }) => {
   };
 
   // Update single ingredient action
-  const handleEditIngredient = (e) => {
+  const handleUpdateIngredient = (e) => {
     const editableIngredient = { ...ingredient };
     dispatch(setIsEditIngredientModalOpen(true));
   };
 
   const handleAddToFavorites = (e) => {
-    dispatch(addFavoriteIngredient(ingredient));
+    const { id, amount } = ingredient;
+    const existingIngredient = favoriteIngredients.find((ing) => ing.id === id);
+
+    if (existingIngredient && amount === existingIngredient.amount) {
+      dispatch(
+        setAddToFavoritesAlert({
+          state: "error",
+          message: "Az alapanyag már szerepel a kedvencek közt!",
+          isShown: true,
+        })
+      );
+    } else {
+      dispatch(addFavoriteIngredient(ingredient));
+      dispatch(
+        setAddToFavoritesAlert({
+          state: "success",
+          message: "Hozzáadva a kedvencekhez!",
+          isShown: true,
+        })
+      );
+    }
   };
+  // Remove single ingredient action
+  const handleRemoveIngredient = (e) => {
+    dispatch(
+      removeIngredient({ ingredientID: ingredient.id, mealName: mealName })
+    );
+  };
+
+  // Added ingredient list item actions
+  const ingredientListActions = {
+    addAgain: {
+      title: "Hozzáadás ismét",
+      icon: <IoIosAdd />,
+      handler: handleAddIngredientAgain,
+    },
+    update: {
+      title: "Szerkeszt",
+      icon: <CiEdit />,
+      handler: handleUpdateIngredient,
+    },
+    addToFavorites: {
+      title: "Kedvencekhez",
+      icon: <CiHeart />,
+      handler: handleAddToFavorites,
+    },
+    remove: {
+      title: "Törlés",
+      icon: <MdOutlineDelete />,
+      handler: handleRemoveIngredient,
+    },
+  };
+
   return (
     <>
       <Dropdown>
@@ -61,80 +109,19 @@ const IngredientListItemActions = ({ mealName, ingredient, actions }) => {
           color="neutral"
           variant="plain"
         >
-          <MenuItem>
-            <Button
-              value={ingredient.id}
-              size="sm"
-              startDecorator="Hozzáadás újra"
-              endDecorator={<IoIosAdd />}
-              color="neutral"
-              variant="plain"
-              fullWidth
-              sx={{
-                "&:hover": {
-                  backgroundColor: "transparent",
-                },
-                justifyContent: "space-between",
-              }}
-              onClick={handleAddIngredientAgain}
-              id={ingredient.id}
-            ></Button>
-          </MenuItem>
-          <MenuItem>
-            <Button
-              value={ingredient.id}
-              size="sm"
-              startDecorator="Szerkesztés"
-              endDecorator={<CiEdit />}
-              color="neutral"
-              variant="plain"
-              fullWidth
-              sx={{
-                "&:hover": {
-                  backgroundColor: "transparent",
-                },
-                justifyContent: "space-between",
-              }}
-              id={ingredient.id}
-              onClick={handleEditIngredient}
-            ></Button>
-          </MenuItem>
-          <MenuItem>
-            <Button
-              value={ingredient.id}
-              size="sm"
-              startDecorator="Kedvencekhez"
-              endDecorator={<CiHeart />}
-              color="neutral"
-              variant="plain"
-              fullWidth
-              sx={{
-                "&:hover": {
-                  backgroundColor: "transparent",
-                },
-                justifyContent: "space-between",
-              }}
-              onClick={handleAddToFavorites}
-            ></Button>
-          </MenuItem>
-          <MenuItem>
-            <Button
-              value={ingredient.id}
-              size="sm"
-              startDecorator="Törlés"
-              endDecorator={<MdOutlineDelete />}
-              color="danger"
-              variant="plain"
-              fullWidth
-              sx={{
-                "&:hover": {
-                  backgroundColor: "transparent",
-                },
-                justifyContent: "space-between",
-              }}
-              onClick={handleRemoveIngredient}
-            ></Button>
-          </MenuItem>
+          {Object.entries(ingredientListActions).map((action) => {
+            const { title, icon, handler } = action[1];
+            return (
+              <MenuItem key={action[0]}>
+                <IngredientListItemActionBtn
+                  ingredient={ingredient}
+                  icon={icon}
+                  title={title}
+                  handler={handler}
+                />
+              </MenuItem>
+            );
+          })}
         </Menu>
       </Dropdown>
       {editableIngredient ? (
