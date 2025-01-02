@@ -16,10 +16,17 @@ import {
   addFavoriteIngredient,
   setAddToFavoritesAlert,
   removeIngredient,
+  setRecentIngredients,
+  setLastRemoved,
 } from "../../store/ingredientSlie";
 import IngredientListItemActionBtn from "./IngredientListItemActionBtn";
 
-const IngredientListItemActions = ({ mealName, ingredient }) => {
+const IngredientListItemActions = ({
+  mealName,
+  ingredient,
+  actionList,
+  listName,
+}) => {
   const dispatch = useDispatch();
   const { editableIngredient, favoriteIngredients } = useSelector(
     (state) => state.ingredient
@@ -63,14 +70,34 @@ const IngredientListItemActions = ({ mealName, ingredient }) => {
     }
   };
   // Remove single ingredient action
-  const handleRemoveIngredient = (e) => {
+  const handleRemoveIngredient = () => {
     dispatch(
-      removeIngredient({ ingredientID: ingredient.id, mealName: mealName })
+      removeIngredient({
+        ingredient: ingredient,
+        mealName: mealName,
+        listName: listName,
+      })
     );
+    const removedIngredient = {
+      listName,
+      ingredient,
+    };
+    dispatch(setLastRemoved(removedIngredient));
+  };
+
+  const handleAddIngredient = () => {
+    dispatch(addIngredient({ mealName: mealName, ingredient: ingredient }));
+    dispatch(setRecentIngredients(ingredient));
   };
 
   // Added ingredient list item actions
   const ingredientListActions = {
+    add: {
+      title: "Naplóz",
+      icon: <IoIosAdd />,
+      handler: handleAddIngredient,
+    },
+
     addAgain: {
       title: "Hozzáadás ismét",
       icon: <IoIosAdd />,
@@ -109,15 +136,14 @@ const IngredientListItemActions = ({ mealName, ingredient }) => {
           color="neutral"
           variant="plain"
         >
-          {Object.entries(ingredientListActions).map((action) => {
-            const { title, icon, handler } = action[1];
+          {actionList.map((action) => {
             return (
-              <MenuItem key={action[0]}>
+              <MenuItem key={action}>
                 <IngredientListItemActionBtn
                   ingredient={ingredient}
-                  icon={icon}
-                  title={title}
-                  handler={handler}
+                  icon={ingredientListActions[action].icon}
+                  title={ingredientListActions[action].title}
+                  handler={ingredientListActions[action].handler}
                 />
               </MenuItem>
             );

@@ -8,6 +8,9 @@ import { FaRegUser } from "react-icons/fa";
 import { tabClasses } from "@mui/joy";
 
 import FavoriteIngredients from "./FavoriteIngredients";
+import FrequentIngredients from "./FrequentIngredients";
+import RecentIngredients from "./RecentIngredients";
+import CustomIngredients from "./CustomIngredients";
 
 const QuickIngredientTab = () => {
   return (
@@ -54,13 +57,13 @@ const QuickIngredientTab = () => {
         <FavoriteIngredients />
       </TabPanel>
       <TabPanel value={1}>
-        <Typography>Gyakoriak</Typography>
+        <FrequentIngredients />
       </TabPanel>
       <TabPanel value={2}>
-        <Typography>Legutóbbiak</Typography>
+        <RecentIngredients />
       </TabPanel>
       <TabPanel value={3}>
-        <Typography>Saját</Typography>
+        <CustomIngredients />
       </TabPanel>
     </Tabs>
   );

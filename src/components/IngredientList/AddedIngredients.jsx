@@ -1,13 +1,6 @@
-import {
-  Typography,
-  Sheet,
-  Stack,
-  IconButton,
-  ButtonGroup,
-  Alert,
-} from "@mui/joy";
+import { Sheet } from "@mui/joy";
 
-import { useNavigate, useParams } from "react-router";
+import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -15,13 +8,7 @@ import IngredientListHeader from "./IngredientListHeader";
 import IngredientList from "./IngredientList";
 import FeedBack from "./FeedBack";
 
-import {
-  addIngredient,
-  removeIngredient,
-  setIsEditIngredientModalOpen,
-  addFavoriteIngredient,
-  setAddToFavoritesAlert,
-} from "../../store/ingredientSlie";
+import { setAddToFavoritesAlert } from "../../store/ingredientSlie";
 
 const AddedIngredients = ({ ingredientList }) => {
   const dispatch = useDispatch();
@@ -34,35 +21,7 @@ const AddedIngredients = ({ ingredientList }) => {
 
   const { addToFavoritesAlert } = useSelector((state) => state.ingredient.UI);
 
-  // Remove single ingredient action
-  const handleRemoveIngredient = ({ ingredientID, mealName }) => {
-    dispatch(
-      removeIngredient({ ingredientID: ingredientID, mealName: mealName })
-    );
-  };
-
-  // Add the same ingredient (duplicate) again action
-  const handleAddIngredientAgain = ({ mealName, ingredient }) => {
-    dispatch(addIngredient({ mealName: mealName, ingredient: ingredient }));
-  };
-
-  // Update single ingredient action
-  const handleEditIngredient = (ingredient) => {
-    const editableIngredient = { ...ingredient };
-    dispatch(setIsEditIngredientModalOpen(true));
-  };
-
-  // Add ingredient to favorites
-  const handleAddToFavorites = (ingredient) => {
-    dispatch(addFavoriteIngredient(ingredient));
-  };
-
-  const addedIngredientActions = {
-    addIngredientAgain: handleAddIngredientAgain,
-    updateIngredient: handleEditIngredient,
-    addToFavorites: handleAddToFavorites,
-    removeIngredient: handleRemoveIngredient,
-  };
+  const actionList = ["addAgain", "update", "addToFavorites", "remove"];
 
   useEffect(() => {
     const errorTimeout = setTimeout(() => {
@@ -74,16 +33,20 @@ const AddedIngredients = ({ ingredientList }) => {
       clearTimeout(errorTimeout);
     };
   });
+
+  const addedListActions = ["add", "empty", "backup", "view"];
   return (
     <Sheet variant="plain" sx={{ backgroundColor: "transparent", my: 4 }}>
       {" "}
       <IngredientListHeader
         listTitle="Alapanyagok"
         listName="addedIngredients"
+        listActions={addedListActions}
       />
       <IngredientList
         ingredientList={ingredientList}
-        actions={addedIngredientActions}
+        actionList={actionList}
+        listName="addedIngredients"
       />
       {addToFavoritesAlert.isShown ? (
         <FeedBack alertDetails={addToFavoritesAlert} />

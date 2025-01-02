@@ -10,6 +10,7 @@ import {
   addIngredient,
   setSearchQueryInput,
   setSearchResultList,
+  setRecentIngredients,
 } from "../../store/ingredientSlie";
 
 import { transformNutritionData } from "../../data/TESTDATA";
@@ -47,6 +48,7 @@ const SelectedIngredient = ({ selectedIngredient }) => {
     dispatch(addIngredient({ mealName: mealTitle, ingredient: newIngredient }));
     dispatch(setSearchQueryInput(""));
     dispatch(setSearchResultList([]));
+    dispatch(setRecentIngredients(newIngredient));
   };
   return (
     <CardWrapper>

@@ -4,13 +4,14 @@ import { useParams } from "react-router";
 import IngredientListItemContent from "./IngredientListItemContent";
 import IngredientListItemActions from "./IngredientListItemActions";
 import { useSelector } from "react-redux";
-const IngredientListItem = ({ ingredient, index }) => {
+const IngredientListItem = ({ ingredient, index, actionList, listName }) => {
   const { mealTitle } = useParams();
 
   const ingredientList = useSelector(
     (state) => state.ingredient.addedIngredients[mealTitle]
   );
   const { ingredientName, unit, amount, nutritionData } = ingredient;
+  const { detailedView } = useSelector((state) => state.ingredient.UI);
 
   return (
     <>
@@ -27,10 +28,13 @@ const IngredientListItem = ({ ingredient, index }) => {
             amount={amount}
             unit={unit}
             nutritionData={nutritionData}
+            isDetailed={detailedView}
           />
           <IngredientListItemActions
             mealName={mealTitle}
             ingredient={ingredient}
+            actionList={actionList}
+            listName={listName}
           />
         </Stack>
       </ListItem>

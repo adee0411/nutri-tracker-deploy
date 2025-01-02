@@ -43,8 +43,38 @@ const ingredientSlice = createSlice({
         },
       },
     ],
-    customIngredients: [],
-
+    frequentIngredients: [
+      {
+        id: "break001",
+        ingredientName: "Csirkemell",
+        amount: 100,
+        unit: "g",
+        unnitage: 100,
+        nutritionData: {
+          carb: 0,
+          protein: 22,
+          fat: 1,
+          energy: 120,
+        },
+      },
+    ],
+    customIngredients: [
+      {
+        id: "break001",
+        ingredientName: "Csirkemell",
+        amount: 100,
+        unit: "g",
+        unnitage: 100,
+        nutritionData: {
+          carb: 0,
+          protein: 22,
+          fat: 1,
+          energy: 120,
+        },
+      },
+    ],
+    recentIngredients: [],
+    lastRemoved: null,
     searchResultList: [],
     selectedIngredient: null,
     editableIngredient: {
@@ -69,6 +99,7 @@ const ingredientSlice = createSlice({
         message: "",
         state: "",
       },
+      detailedView: true,
     },
   },
   reducers: {
@@ -96,12 +127,18 @@ const ingredientSlice = createSlice({
     },
 
     removeIngredient: (state, action) => {
-      const mealName = action.payload.mealName;
-      const ingredientID = action.payload.ingredientID;
+      const { mealName, ingredient, listName } = action.payload;
 
-      state.addedIngredients[mealName] = state.addedIngredients[
-        mealName
-      ].filter((ingredient) => ingredient.id !== ingredientID);
+      if (listName === "addedIngredients") {
+        state[listName][mealName] = state[listName][mealName].filter(
+          (ing) => ingredient.id !== ing.id
+        );
+      } else {
+        const ingredientIndex = state[listName].findIndex(
+          (ing) => ing.id === ingredient.id && ing.amount === ingredient.amount
+        );
+        state[listName].splice(ingredientIndex, 1);
+      }
     },
     emptyList: (state, action) => {
       const { mealName, listName } = action.payload;
@@ -149,6 +186,31 @@ const ingredientSlice = createSlice({
       state.UI.addToFavoritesAlert.message = action.payload.message;
       state.UI.addToFavoritesAlert.state = action.payload.state;
     },
+    setRecentIngredients: (state, action) => {
+      const isIngredient = state.recentIngredients.find(
+        (ingredient) =>
+          ingredient.id === action.payload.id &&
+          ingredient.amount === action.payload.amount
+      );
+
+      if (isIngredient) {
+        return;
+      } else {
+        if (state.recentIngredients.length === 10) {
+          state.recentIngredients.shift();
+        }
+        state.recentIngredients.push(action.payload);
+      }
+    },
+    setLastRemoved: (state, action) => {
+      state.lastRemoved = action.payload;
+    },
+    addCustomIngredient: (state, action) => {
+      state.customIngredients.push(action.payload);
+    },
+    toggleView: (state, action) => {
+      state.UI.detailedView = !state.UI.detailedView;
+    },
   },
 });
 
@@ -165,6 +227,10 @@ export const {
   setIsEditIngredientModalOpen,
   resetSelectedIngredient,
   setAddToFavoritesAlert,
+  setRecentIngredients,
+  setLastRemoved,
+  addCustomIngredient,
+  toggleView,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

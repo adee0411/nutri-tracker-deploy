@@ -7,6 +7,7 @@ const IngredientListItemContent = ({
   amount,
   unit,
   nutritionData,
+  isDetailed,
 }) => {
   return (
     <Stack gap={0.5}>
@@ -15,7 +16,11 @@ const IngredientListItemContent = ({
         amount={amount}
         unit={unit}
       />
-      <IngredientListItemData nutritionData={nutritionData} />
+      {isDetailed ? (
+        <IngredientListItemData nutritionData={nutritionData} />
+      ) : (
+        ""
+      )}
     </Stack>
   );
 };

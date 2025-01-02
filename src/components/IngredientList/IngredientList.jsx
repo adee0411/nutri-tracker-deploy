@@ -1,8 +1,8 @@
-import { List, ListDivider } from "@mui/joy";
+import { List } from "@mui/joy";
 
 import IngredientListItem from "./IngredientListItem";
 
-const IngredientList = ({ ingredientList, actions }) => {
+const IngredientList = ({ ingredientList, actionList, listName }) => {
   return (
     <List
       color="primary"
@@ -13,8 +13,10 @@ const IngredientList = ({ ingredientList, actions }) => {
         return (
           <IngredientListItem
             ingredient={ingredient}
-            key={ingredient.id}
+            key={`${ingredient.id}_${ingredient.amount}`}
             index={index}
+            actionList={actionList}
+            listName={listName}
           />
         );
       })}

@@ -3,16 +3,24 @@ import { ButtonGroup, IconButton } from "@mui/joy";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { CiTrash } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";
-import { TbListDetails } from "react-icons/tb";
+import { CiViewList } from "react-icons/ci";
 import { useNavigate, useParams } from "react-router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
-import { emptyList } from "../../store/ingredientSlie";
+import {
+  emptyList,
+  addIngredient,
+  addFavoriteIngredient,
+  addCustomIngredient,
+  setLastRemoved,
+  toggleView,
+} from "../../store/ingredientSlie";
 
-const IngredientListActions = ({ listName }) => {
+const IngredientListActions = ({ listName, listActions }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const mealName = useParams().mealTitle;
+  const { lastRemoved } = useSelector((state) => state.ingredient);
 
   const handleAddIngredient = () => {
     navigate("add-food");
@@ -22,41 +30,74 @@ const IngredientListActions = ({ listName }) => {
     dispatch(emptyList({ listName: listName, mealName: mealName }));
   };
 
-  const listActions = {
-    addIngredient: {
+  const handleBackupIngredient = () => {
+    switch (lastRemoved.listName) {
+      case "addedIngredients":
+        dispatch(
+          addIngredient({
+            mealName: mealName,
+            ingredient: lastRemoved.ingredient,
+          })
+        );
+        break;
+
+      case "favoriteIngredients":
+        dispatch(addFavoriteIngredient(lastRemoved.ingredient));
+        break;
+
+      case "customIngredients":
+        dispatch(addCustomIngredient(lastRemoved.ingredient));
+        break;
+
+      default:
+        return;
+    }
+    dispatch(setLastRemoved(null));
+  };
+
+  const handleToggleView = () => {
+    dispatch(toggleView());
+  };
+
+  const listActionsObj = {
+    add: {
       icon: <IoIosAddCircleOutline />,
       title: "Alapanyag hozzáadása",
       handler: handleAddIngredient,
     },
-    emptyList: {
+    empty: {
       icon: <CiTrash />,
       title: "Lista ürítése",
       handler: handleEmptyList,
     },
-    undoDeleteIngredient: {
+    backup: {
       icon: <IoIosRefresh />,
       title: "Visszavonás",
+      handler: handleBackupIngredient,
     },
-    changeDetails: {
-      icon: <TbListDetails />,
+    view: {
+      icon: <CiViewList />,
       title: "Nézet",
+      handler: handleToggleView,
     },
   };
   return (
     <ButtonGroup size="sm">
-      {Object.entries(listActions).map((action) => {
-        const actionName = action[0];
-        const { icon, title, handler } = action[1];
+      {listActions.map((action) => {
         return (
           <IconButton
-            title={title}
+            title={listActionsObj[action].title}
             sx={{ fontSize: 18 }}
-            variant={actionName === "addIngredient" ? "solid" : ""}
-            color={actionName === "addIngredient" ? "primary" : ""}
-            onClick={handler}
-            key={actionName}
+            variant={action === "add" ? "solid" : ""}
+            color={action === "add" ? "primary" : ""}
+            onClick={listActionsObj[action].handler}
+            key={action}
+            disabled={
+              (!lastRemoved || lastRemoved.listName !== listName) &&
+              action === "backup"
+            }
           >
-            {icon}
+            {listActionsObj[action].icon}
           </IconButton>
         );
       })}

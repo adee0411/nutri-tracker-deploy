@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import IngredientList from "../IngredientList/IngredientList";
 
 import NoMeal from "../IngredientList/NoMeal";
@@ -6,8 +6,10 @@ import NoMeal from "../IngredientList/NoMeal";
 import IngredientListHeader from "../IngredientList/IngredientListHeader";
 
 const FavoriteIngredients = () => {
-  const dispatch = useDispatch();
   const { favoriteIngredients } = useSelector((state) => state.ingredient);
+
+  const favoriteIngredientsActions = ["add", "update", "remove"];
+  const favoriteListActions = ["empty", "backup", "view"];
 
   return (
     <>
@@ -18,8 +20,13 @@ const FavoriteIngredients = () => {
           <IngredientListHeader
             listTitle="Kedvencek"
             listName="favoriteIngredients"
+            listActions={favoriteListActions}
           />
-          <IngredientList ingredientList={favoriteIngredients} actions={null} />
+          <IngredientList
+            ingredientList={favoriteIngredients}
+            actionList={favoriteIngredientsActions}
+            listName="favoriteIngredients"
+          />
         </>
       )}
     </>

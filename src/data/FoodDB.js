@@ -25,7 +25,7 @@ modules.forEach((module) => {
       ingredientName: data.name,
       nutritionData: data.nutritions,
       unit: data.unit,
-      unitage: data.unit === "g" ? 100 : 1,
+      unitage: data.unit === "g" || data.unit === "ml" ? 100 : 1,
       id: generateUniqueId(),
       imageURL: data.imageURL,
     };
