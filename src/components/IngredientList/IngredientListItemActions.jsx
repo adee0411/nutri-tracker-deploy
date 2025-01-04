@@ -18,7 +18,9 @@ import {
   removeIngredient,
   setRecentIngredients,
   setLastRemoved,
-} from "../../store/ingredientSlie";
+  setEditableIngredient,
+  setEditableIngredientInput,
+} from "../../store/ingredientSlice";
 import IngredientListItemActionBtn from "./IngredientListItemActionBtn";
 
 const IngredientListItemActions = ({
@@ -44,6 +46,8 @@ const IngredientListItemActions = ({
   const handleUpdateIngredient = (e) => {
     const editableIngredient = { ...ingredient };
     dispatch(setIsEditIngredientModalOpen(true));
+    dispatch(setEditableIngredient(editableIngredient));
+    dispatch(setEditableIngredientInput(ingredient.amount));
   };
 
   const handleAddToFavorites = (e) => {

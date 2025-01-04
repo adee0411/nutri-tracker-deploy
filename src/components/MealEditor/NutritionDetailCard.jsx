@@ -6,7 +6,7 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
   const { carb, protein, fat, energy } = nutritionData;
   return (
     <Stack gap={3}>
-      <Typography level="title-lg" fontWeight={800} textAlign="center">
+      <Typography level="title-lg" fontWeight={700} textAlign="center">
         {title}
       </Typography>
       <Stack
@@ -19,19 +19,47 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
       >
         <Stack>
           <Typography level="title-sm">Szénhidrát</Typography>
-          <Typography level="body-sm">{carb} g</Typography>
+          <Typography
+            level="body-lg"
+            fontSize={20}
+            fontWeight={700}
+            color="neutral"
+          >
+            {carb} g
+          </Typography>
         </Stack>
         <Stack>
           <Typography level="title-sm">Fehérje</Typography>
-          <Typography level="body-sm">{protein} g</Typography>
+          <Typography
+            level="body-lg"
+            fontSize={20}
+            fontWeight={700}
+            color="neutral"
+          >
+            {protein} g
+          </Typography>
         </Stack>
         <Stack>
           <Typography level="title-sm">Zsír</Typography>
-          <Typography level="body-sm">{fat} g</Typography>
+          <Typography
+            level="body-lg"
+            fontSize={20}
+            fontWeight={700}
+            color="neutral"
+          >
+            {fat} g
+          </Typography>
         </Stack>
         <Stack>
           <Typography level="title-sm">Energia</Typography>
-          <Typography level="body-sm">{energy} cal</Typography>
+          <Typography
+            level="body-lg"
+            fontSize={20}
+            fontWeight={700}
+            color="neutral"
+          >
+            {energy} cal
+          </Typography>
         </Stack>
       </Stack>
     </Stack>

@@ -11,7 +11,7 @@ import {
   setSearchQueryInput,
   setSearchResultList,
   setRecentIngredients,
-} from "../../store/ingredientSlie";
+} from "../../store/ingredientSlice";
 
 import { transformNutritionData } from "../../data/TESTDATA";
 
@@ -44,6 +44,7 @@ const SelectedIngredient = ({ selectedIngredient }) => {
       ...selectedIngredient,
       nutritionData: transformedNutritionData,
       amount: +newIngredientInput,
+      nutritionDataPerUnit: selectedIngredient.nutritionData,
     };
     dispatch(addIngredient({ mealName: mealTitle, ingredient: newIngredient }));
     dispatch(setSearchQueryInput(""));

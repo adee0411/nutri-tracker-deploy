@@ -14,7 +14,9 @@ import SnackImg from "../img/snack.png";
 
 const mealImages = {
   breakfast: BreakfastImg,
-  meal: LunchImg,
+  meal2: LunchImg,
+  meal3: LunchImg,
+  meal4: LunchImg,
   snack: SnackImg,
 };
 
@@ -38,7 +40,7 @@ const MealDetails = () => {
     ? `${mealTitle.at(-1)}. étkezés`
     : mealTitle === "breakfast"
     ? "Reggeli"
-    : "Nasi";
+    : "Snack";
 
   // Initialize total nutrition object
   let totalNutritionData = {
@@ -61,7 +63,7 @@ const MealDetails = () => {
         <Typography level="title-lg" textAlign="center">
           2024. 11. 18.
         </Typography>
-        <CardWrapper>
+        <CardWrapper backgroundImg={mealImages[mealTitle]}>
           <NutritionDetailCard
             title={formattedMealTitle}
             nutritionData={totalNutritionData}

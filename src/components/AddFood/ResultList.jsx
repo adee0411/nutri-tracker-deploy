@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   setSelectedIngredient,
   setNewIngredientInput,
-} from "../../store/ingredientSlie";
+} from "../../store/ingredientSlice";
 
 const ResultList = ({ resultList }) => {
   const dispatch = useDispatch();

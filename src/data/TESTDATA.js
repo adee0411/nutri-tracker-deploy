@@ -195,6 +195,8 @@ const TEST_INGREDIENT_LIST = {
 // Correct ingredient's nutrition data by amount and unitage
 export const transformNutritionData = (nutritionData, amount, unitage) => {
   const transformedNutritionData = { ...nutritionData };
+  const ratio = Number(unitage / amount);
+  console.log(ratio);
 
   for (const [key, value] of Object.entries(transformedNutritionData)) {
     transformedNutritionData[key] = Number(

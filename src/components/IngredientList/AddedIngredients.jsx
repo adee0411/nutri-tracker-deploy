@@ -8,7 +8,7 @@ import IngredientListHeader from "./IngredientListHeader";
 import IngredientList from "./IngredientList";
 import FeedBack from "./FeedBack";
 
-import { setAddToFavoritesAlert } from "../../store/ingredientSlie";
+import { setAddToFavoritesAlert } from "../../store/ingredientSlice";
 
 const AddedIngredients = ({ ingredientList }) => {
   const dispatch = useDispatch();

@@ -10,7 +10,7 @@ import {
   setSelectedIngredient,
   setSearchQueryInput,
   setSearchResultList,
-} from "../../store/ingredientSlie";
+} from "../../store/ingredientSlice";
 
 const SearchForm = () => {
   const dispatch = useDispatch();

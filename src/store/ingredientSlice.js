@@ -14,7 +14,7 @@ const ingredientSlice = createSlice({
           ingredientName: "Csirkemell",
           amount: 100,
           unit: "g",
-          unnitage: 100,
+          unitage: 100,
           nutritionData: {
             carb: 0,
             protein: 22,
@@ -77,19 +77,7 @@ const ingredientSlice = createSlice({
     lastRemoved: null,
     searchResultList: [],
     selectedIngredient: null,
-    editableIngredient: {
-      id: "break001",
-      ingredientName: "Csirkemell",
-      amount: 100,
-      unit: "g",
-      unnitage: 100,
-      nutritionData: {
-        carb: 0,
-        protein: 22,
-        fat: 1,
-        energy: 120,
-      },
-    },
+    editableIngredient: null,
     UI: {
       searchQueryInput: "",
       newIngredientInput: "",
@@ -100,6 +88,7 @@ const ingredientSlice = createSlice({
         state: "",
       },
       detailedView: true,
+      editableIngredientInput: "",
     },
   },
   reducers: {
@@ -139,6 +128,16 @@ const ingredientSlice = createSlice({
         );
         state[listName].splice(ingredientIndex, 1);
       }
+    },
+    updateIngredient: (state, action) => {
+      const { mealName } = action.payload;
+      const ingredientID = action.payload.ingredient.id;
+      const existingIngredientIndex = state.addedIngredients[
+        mealName
+      ].findIndex((ingredient) => ingredient.id === ingredientID);
+
+      state.addedIngredients[mealName][existingIngredientIndex] =
+        action.payload.ingredient;
     },
     emptyList: (state, action) => {
       const { mealName, listName } = action.payload;
@@ -211,12 +210,19 @@ const ingredientSlice = createSlice({
     toggleView: (state, action) => {
       state.UI.detailedView = !state.UI.detailedView;
     },
+    setEditableIngredient: (state, action) => {
+      state.editableIngredient = action.payload;
+    },
+    setEditableIngredientInput: (state, action) => {
+      state.UI.editableIngredientInput = action.payload;
+    },
   },
 });
 
 export const {
   removeIngredient,
   addIngredient,
+  updateIngredient,
   emptyList,
   setSelectedIngredient,
   setSearchQueryInput,
@@ -231,6 +237,8 @@ export const {
   setLastRemoved,
   addCustomIngredient,
   toggleView,
+  setEditableIngredient,
+  setEditableIngredientInput,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

@@ -14,7 +14,7 @@ import {
   addCustomIngredient,
   setLastRemoved,
   toggleView,
-} from "../../store/ingredientSlie";
+} from "../../store/ingredientSlice";
 
 const IngredientListActions = ({ listName, listActions }) => {
   const navigate = useNavigate();

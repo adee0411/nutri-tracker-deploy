@@ -17,7 +17,7 @@ const MealButtonLabel = ({ title }) => {
     ? `${title.at(-1)}. étkezés`
     : title === "breakfast"
     ? "Reggeli"
-    : "Nasi";
+    : "Snack";
   return (
     <Stack direction="row" gap={1}>
       <img src={mealIcons[mealIcon]} alt="breakfast-icon" width={24} />
