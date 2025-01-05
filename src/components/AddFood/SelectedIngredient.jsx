@@ -73,11 +73,6 @@ const SelectedIngredient = ({ selectedIngredient }) => {
             Hozzáad
           </Button>
         </FormControl>
-        <FormControl sx={{ flex: 1 }}>
-          <IconButton variant="soft" color="warning">
-            <FaRegHeart />
-          </IconButton>
-        </FormControl>
       </Stack>
     </CardWrapper>
   );

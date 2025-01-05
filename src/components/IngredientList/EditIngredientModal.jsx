@@ -13,6 +13,7 @@ import { useParams } from "react-router";
 
 import NutritionDetails from "../NutritionDetails";
 import {
+  addIngredient,
   setEditableIngredient,
   setEditableIngredientInput,
   setIsEditIngredientModalOpen,
@@ -21,7 +22,7 @@ import {
 import { transformNutritionData } from "../../data/TESTDATA";
 import { useMemo } from "react";
 
-const EditIngredientModal = ({ isModalOpen, ingredient }) => {
+const EditIngredientModal = ({ isModalOpen, ingredient, listName }) => {
   const { ingredientName, unit, unitage, nutritionData, nutritionDataPerUnit } =
     ingredient;
   const { editableIngredientInput } = useSelector(
@@ -66,13 +67,33 @@ const EditIngredientModal = ({ isModalOpen, ingredient }) => {
     dispatch(setEditableIngredientInput(""));
   };
 
+  const handleAddIngredient = (e) => {
+    e.preventDefault();
+    const updatedIngredient = {
+      ...ingredient,
+      nutritionData: transformedNutritionData,
+      amount: +editableIngredientInput,
+    };
+    dispatch(
+      addIngredient({ mealName: mealTitle, ingredient: updatedIngredient })
+    );
+    dispatch(setEditableIngredient(null));
+    dispatch(setEditableIngredientInput(""));
+  };
+
   return (
     <Modal open={isModalOpen} onClose={handleCloseModal}>
       <ModalDialog>
         <ModalClose />
         <Typography level="title-md">{`${ingredientName}, ${+editableIngredientInput}${unit}`}</Typography>
         <NutritionDetails nutritionData={transformedNutritionData} />
-        <form onSubmit={handleUpdateIngredient}>
+        <form
+          onSubmit={
+            listName === "addedIngredients"
+              ? handleUpdateIngredient
+              : handleAddIngredient
+          }
+        >
           <Stack direction="row" gap={2}>
             <FormControl>
               <Input
@@ -82,7 +103,11 @@ const EditIngredientModal = ({ isModalOpen, ingredient }) => {
               />
             </FormControl>
             <FormControl>
-              <Button type="submit">Módosít</Button>
+              {listName === "addedIngredients" ? (
+                <Button type="submit">Módosít</Button>
+              ) : (
+                <Button type="submit">Hozzáad</Button>
+              )}
             </FormControl>
           </Stack>
         </form>

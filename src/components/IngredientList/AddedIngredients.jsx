@@ -21,7 +21,7 @@ const AddedIngredients = ({ ingredientList }) => {
 
   const { addToFavoritesAlert } = useSelector((state) => state.ingredient.UI);
 
-  const actionList = ["addAgain", "update", "addToFavorites", "remove"];
+  const actionList = ["update", "addToFavorites", "remove"];
 
   useEffect(() => {
     const errorTimeout = setTimeout(() => {

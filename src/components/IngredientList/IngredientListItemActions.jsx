@@ -1,8 +1,9 @@
-import { Button, Dropdown, MenuButton, Menu, MenuItem } from "@mui/joy";
+import { Button, Dropdown, MenuButton, Menu, MenuItem, Stack } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
 import EditIngredientModal from "./EditIngredientModal";
+import QuickAddBtn from "./QuickAddBtn";
 
 import { CiEdit } from "react-icons/ci";
 import { HiOutlineDotsVertical } from "react-icons/hi";
@@ -126,38 +127,44 @@ const IngredientListItemActions = ({
 
   return (
     <>
-      <Dropdown>
-        <MenuButton
-          slots={{ root: Button }}
-          slotProps={{ root: { variant: "plain", color: "neutral" } }}
-        >
-          <HiOutlineDotsVertical />
-        </MenuButton>
-        <Menu
-          placement="bottom-start"
-          size="sm"
-          sx={{ minWidth: "120px" }}
-          color="neutral"
-          variant="plain"
-        >
-          {actionList.map((action) => {
-            return (
-              <MenuItem key={action}>
-                <IngredientListItemActionBtn
-                  ingredient={ingredient}
-                  icon={ingredientListActions[action].icon}
-                  title={ingredientListActions[action].title}
-                  handler={ingredientListActions[action].handler}
-                />
-              </MenuItem>
-            );
-          })}
-        </Menu>
-      </Dropdown>
+      <Stack direction="row">
+        <QuickAddBtn mealName={mealName} ingredient={ingredient} />
+
+        <Dropdown>
+          <MenuButton
+            slots={{ root: Button }}
+            slotProps={{ root: { variant: "plain", color: "neutral" } }}
+          >
+            <HiOutlineDotsVertical />
+          </MenuButton>
+          <Menu
+            placement="bottom-start"
+            size="sm"
+            sx={{ minWidth: "120px" }}
+            color="neutral"
+            variant="plain"
+          >
+            {actionList.map((action) => {
+              return (
+                <MenuItem key={action}>
+                  <IngredientListItemActionBtn
+                    ingredient={ingredient}
+                    icon={ingredientListActions[action].icon}
+                    title={ingredientListActions[action].title}
+                    handler={ingredientListActions[action].handler}
+                  />
+                </MenuItem>
+              );
+            })}
+          </Menu>
+        </Dropdown>
+      </Stack>
+
       {editableIngredient ? (
         <EditIngredientModal
           isModalOpen={isEditIngredientModalOpen}
           ingredient={editableIngredient}
+          listName={listName}
         />
       ) : (
         ""
