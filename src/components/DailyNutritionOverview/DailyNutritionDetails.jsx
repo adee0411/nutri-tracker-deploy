@@ -1,13 +1,20 @@
-import { Stack } from "@mui/joy";
+import { Stack, Typography } from "@mui/joy";
+
+import { useSelector } from "react-redux";
 
 import CalorieGoalDetails from "./CalorieGoalDetails";
 import MacroDetailTab from "./MacroDetailTab";
 import MealList from "../MealEditor/MealList";
 
 const DailyNutritionDetails = () => {
+  const { name, calorieGoal } = useSelector(
+    (state) => state.profile.profileData
+  );
+  const { currentCalorie } = useSelector((state) => state.profile.dietData);
   return (
     <Stack gap={3} px={3} py={1}>
-      <CalorieGoalDetails current={2600} goal={2500} />
+      <Typography level="title-lg">Üdv, {name}!</Typography>
+      <CalorieGoalDetails current={currentCalorie} goal={calorieGoal} />
       <MacroDetailTab />
       <MealList />
     </Stack>

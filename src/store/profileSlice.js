@@ -5,20 +5,36 @@ const profileSlice = createSlice({
   initialState: {
     profileData: {
       name: "Ádám",
-      calorieGoal: 2500,
+      calorieGoal: 2200,
       avatar: "man",
     },
+    dietData: {
+      currentCalorie: 2000,
+    },
     UI: {
-      isProfileModalOpen: true,
+      isProfileModalOpen: false,
+      profileInput: {
+        name: "",
+        avatar: "",
+        calorieGoal: "",
+      },
     },
   },
   reducers: {
-    showProfileModal: (state, action) => {
+    showProfileModal: (state) => {
       state.UI.isProfileModalOpen = !state.UI.isProfileModalOpen;
+    },
+    setProfileInput: (state, action) => {
+      state.UI.profileInput[action.payload.inputName] =
+        action.payload.inputValue;
+    },
+    setProfileData: (state, action) => {
+      state.profileData[action.payload.inputName] = action.payload.inputValue;
     },
   },
 });
 
-export const { showProfileModal } = profileSlice.actions;
+export const { showProfileModal, setProfileInput, setProfileData } =
+  profileSlice.actions;
 
 export default profileSlice.reducer;
