@@ -1,12 +1,14 @@
 import { Stack, Typography, Button } from "@mui/joy";
 
 import { useParams, useNavigate } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import NutritionDetailCard from "../components/MealEditor/NutritionDetailCard";
 import AddedIngredients from "../components/IngredientList/AddedIngredients";
 import NoMeal from "../components/IngredientList/NoMeal";
 import CardWrapper from "../UI/CardWrapper";
+
+import { setTotalNutritionData } from "../store/ingredientSlice";
 
 import BreakfastImg from "../img/breakfast.png";
 import LunchImg from "../img/lunch.png";
@@ -21,6 +23,7 @@ const mealImages = {
 };
 
 const MealDetails = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   // Handle Add Ingredient
   const handleAddIngredient = () => {

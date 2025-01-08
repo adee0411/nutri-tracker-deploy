@@ -4,7 +4,7 @@ import { Stack, Typography, LinearProgress } from "@mui/joy";
 
 const MacroGoalDetails = ({ macroType, goal, current, color }) => {
   const ratio = Number((current / goal).toFixed(1));
-  const ratioInPercent = ratio * 100;
+  const ratioInPercent = Number((ratio * 100).toFixed(0));
 
   return (
     <Stack gap={2} sx={{ flex: 1 }}>
@@ -13,7 +13,7 @@ const MacroGoalDetails = ({ macroType, goal, current, color }) => {
       </Typography>
       <LinearProgress
         determinate
-        value={ratioInPercent}
+        value={ratioInPercent > 100 ? 100 : ratioInPercent}
         sx={{ width: "80%", alignSelf: "center" }}
         color={color}
         variant="solid"

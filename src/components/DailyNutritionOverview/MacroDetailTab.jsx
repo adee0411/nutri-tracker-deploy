@@ -1,11 +1,52 @@
 // Overall Tab Component for the Macro details
 
-import { Sheet, Tabs, TabList, Tab, TabPanel, Stack } from "@mui/joy";
+import { Sheet, Tabs, TabList, Tab, TabPanel } from "@mui/joy";
 import { tabClasses } from "@mui/joy";
+import TabContent from "./TabContent";
 
 import MacroGoalDetails from "./MacroGoalDetails";
+import { useSelector } from "react-redux";
 
 const MacroDetailTab = () => {
+  //const { calorieGoal } = useSelector((state) => state.profile.profileData);
+  const calculateMacros = (calorie) => {
+    const macroRatios = {
+      lowCarb: {
+        protein: 0.4,
+        fat: 0.4,
+        carb: 0.2,
+      },
+      balanced: {
+        protein: 0.3,
+        fat: 0.35,
+        carb: 0.35,
+      },
+      highCarb: {
+        protein: 0.3,
+        fat: 0.2,
+        carb: 0.5,
+      },
+    };
+    let calculatedMacros = Object.assign({}, macroRatios);
+
+    for (const [key, value] of Object.entries(calculatedMacros)) {
+      const current = value;
+      for (const [macroType, macroValue] of Object.entries(current)) {
+        if (macroType === "fat") {
+          calculatedMacros[key][macroType] = Number(
+            ((calorie * macroValue) / 9).toFixed(0)
+          );
+        } else {
+          calculatedMacros[key][macroType] = Number(
+            ((calorie * macroValue) / 4).toFixed(0)
+          );
+        }
+      }
+    }
+    return calculatedMacros;
+  };
+
+  const calculatedMacros = calculateMacros(2200);
   return (
     <Sheet>
       <Tabs
@@ -45,26 +86,13 @@ const MacroDetailTab = () => {
           </Tab>
         </TabList>
         <TabPanel value={0}>
-          <Stack direction="row" justifyContent="space-between" gap={2}>
-            <MacroGoalDetails
-              macroType="Szénhidrát"
-              goal={300}
-              current={180}
-              color="primary"
-            />
-            <MacroGoalDetails
-              macroType="Fehérje"
-              goal={200}
-              current={120}
-              color="warning"
-            />
-            <MacroGoalDetails
-              macroType="Zsír"
-              goal={80}
-              current={20}
-              color="success"
-            />
-          </Stack>
+          <TabContent macroData={calculatedMacros.lowCarb} />
+        </TabPanel>
+        <TabPanel value={1}>
+          <TabContent macroData={calculatedMacros.balanced} />
+        </TabPanel>
+        <TabPanel value={2}>
+          <TabContent macroData={calculatedMacros.highCarb} />
         </TabPanel>
       </Tabs>
     </Sheet>

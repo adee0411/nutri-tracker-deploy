@@ -25,7 +25,7 @@ const CalorieGoalDetails = ({ current, goal }) => {
     <Stack alignItems="center" gap={2}>
       <CircularProgress
         determinate
-        value={value >= 100 ? 100 : value}
+        value={Number(value) >= 100 ? 100 : Number(value)}
         sx={{ "--CircularProgress-size": "120px" }}
         color={progressColor}
         key="calorieRatio"

@@ -34,6 +34,7 @@ const ingredientSlice = createSlice({
       meal4: [],
       snack: [],
     },
+    totalNutritionData: {},
     favoriteIngredients: [
       {
         ingredientName: "Zabpehely",
@@ -234,6 +235,10 @@ const ingredientSlice = createSlice({
     setEditableIngredientInput: (state, action) => {
       state.UI.editableIngredientInput = action.payload;
     },
+    setTotalNutritionData: (state, action) => {
+      state.totalNutritionData[action.payload.mealName] =
+        action.payload.totalNutritionData;
+    },
   },
 });
 
@@ -257,6 +262,7 @@ export const {
   toggleView,
   setEditableIngredient,
   setEditableIngredientInput,
+  setTotalNutritionData,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;
