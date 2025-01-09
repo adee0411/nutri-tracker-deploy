@@ -52,7 +52,7 @@ const SelectedIngredient = ({ selectedIngredient }) => {
     dispatch(setRecentIngredients(newIngredient));
   };
   return (
-    <CardWrapper>
+    <CardWrapper color="primary" variant="solid">
       <NutritionDetailCard
         title={selectedIngredient.ingredientName}
         imageURL={selectedIngredient.imageURL}

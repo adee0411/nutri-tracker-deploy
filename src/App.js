@@ -13,6 +13,7 @@ import RootLayout from "./UI/RootLayout";
 import DailyOverview from "./routes/DailyOverview";
 import MealDetails from "./routes/MealDetails";
 import AddFood from "./routes/AddFood";
+import CustomIngredientsRoute from "./routes/CustomIngredientsRoute";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: ":mealTitle/add-food",
         element: <AddFood />,
+      },
+      {
+        path: "/custom-ingredients",
+        element: <CustomIngredientsRoute />,
       },
     ],
   },

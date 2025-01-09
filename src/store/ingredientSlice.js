@@ -108,6 +108,7 @@ const ingredientSlice = createSlice({
       },
       detailedView: true,
       editableIngredientInput: "",
+      isNewCustomIngredientModalOpen: true,
     },
   },
   reducers: {
@@ -239,6 +240,10 @@ const ingredientSlice = createSlice({
       state.totalNutritionData[action.payload.mealName] =
         action.payload.totalNutritionData;
     },
+    toggleNewCustomIngredientModal: (state, action) => {
+      state.UI.isNewCustomIngredientModalOpen =
+        !state.UI.isNewCustomIngredientModalOpen;
+    },
   },
 });
 
@@ -263,6 +268,7 @@ export const {
   setEditableIngredient,
   setEditableIngredientInput,
   setTotalNutritionData,
+  toggleNewCustomIngredientModal,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

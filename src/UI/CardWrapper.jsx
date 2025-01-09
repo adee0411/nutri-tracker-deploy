@@ -1,6 +1,6 @@
 import { Sheet } from "@mui/joy";
 
-const CardWrapper = ({ children, backgroundImg }) => {
+const CardWrapper = ({ children, backgroundImg, color, variant }) => {
   return (
     <Sheet
       sx={{
@@ -8,7 +8,6 @@ const CardWrapper = ({ children, backgroundImg }) => {
         px: 1,
         boxShadow: "md",
         borderRadius: "md",
-        backgroundColor: "transparent",
 
         "&:after": {
           content: '""',
@@ -25,6 +24,9 @@ const CardWrapper = ({ children, backgroundImg }) => {
           opacity: 0.4,
         },
       }}
+      color={color}
+      variant={variant}
+      invertedColors
     >
       {children}
     </Sheet>

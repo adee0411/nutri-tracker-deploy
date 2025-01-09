@@ -8,8 +8,8 @@ import IngredientListHeader from "../IngredientList/IngredientListHeader";
 const CustomIngredients = () => {
   const { customIngredients } = useSelector((state) => state.ingredient);
 
+  const customListActions = ["new", "empty", "backup", "view"];
   const customIngredientsActions = ["add", "update", "remove"];
-  const customListActions = ["empty", "backup", "view"];
 
   return (
     <>

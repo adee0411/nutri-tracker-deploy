@@ -14,6 +14,7 @@ import {
   addCustomIngredient,
   setLastRemoved,
   toggleView,
+  toggleNewCustomIngredientModal,
 } from "../../store/ingredientSlice";
 
 const IngredientListActions = ({ listName, listActions }) => {
@@ -59,6 +60,10 @@ const IngredientListActions = ({ listName, listActions }) => {
     dispatch(toggleView());
   };
 
+  const handleNewCustomIngredient = () => {
+    dispatch(toggleNewCustomIngredientModal());
+  };
+
   const listActionsObj = {
     add: {
       icon: <IoIosAddCircleOutline />,
@@ -80,6 +85,11 @@ const IngredientListActions = ({ listName, listActions }) => {
       title: "Nézet",
       handler: handleToggleView,
     },
+    new: {
+      icon: <IoIosAddCircleOutline />,
+      title: "Saját alapanyag hozzáadása",
+      handler: handleNewCustomIngredient,
+    },
   };
   return (
     <ButtonGroup size="sm">
@@ -88,8 +98,8 @@ const IngredientListActions = ({ listName, listActions }) => {
           <IconButton
             title={listActionsObj[action].title}
             sx={{ fontSize: 18 }}
-            variant={action === "add" ? "solid" : ""}
-            color={action === "add" ? "primary" : ""}
+            variant={action === "add" || action === "new" ? "solid" : ""}
+            color={action === "add" || action === "new" ? "primary" : ""}
             onClick={listActionsObj[action].handler}
             key={action}
             disabled={

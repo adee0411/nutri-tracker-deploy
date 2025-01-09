@@ -38,11 +38,6 @@ const IngredientListItem = ({ ingredient, index, actionList, listName }) => {
           />
         </Stack>
       </ListItem>
-      {ingredientList.length > 1 && index !== ingredientList.length - 1 ? (
-        <ListDivider></ListDivider>
-      ) : (
-        ""
-      )}
     </>
   );
 };
