@@ -18,7 +18,7 @@ const DailyNutritionDetails = ({ totalNutritionData }) => {
         current={totalNutritionData.energy}
         goal={calorieGoal}
       />
-      <MacroDetailTab />
+      <MacroDetailTab totalNutritionData={totalNutritionData} />
       <MealList />
     </Stack>
   );

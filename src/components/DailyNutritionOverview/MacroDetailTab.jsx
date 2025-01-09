@@ -7,7 +7,7 @@ import TabContent from "./TabContent";
 import MacroGoalDetails from "./MacroGoalDetails";
 import { useSelector } from "react-redux";
 
-const MacroDetailTab = () => {
+const MacroDetailTab = ({ totalNutritionData }) => {
   //const { calorieGoal } = useSelector((state) => state.profile.profileData);
   const calculateMacros = (calorie) => {
     const macroRatios = {
@@ -46,7 +46,7 @@ const MacroDetailTab = () => {
     return calculatedMacros;
   };
 
-  const calculatedMacros = calculateMacros(2200);
+  const calculatedMacroGoals = calculateMacros(2200);
   return (
     <Sheet>
       <Tabs
@@ -86,13 +86,22 @@ const MacroDetailTab = () => {
           </Tab>
         </TabList>
         <TabPanel value={0}>
-          <TabContent macroData={calculatedMacros.lowCarb} />
+          <TabContent
+            macroGoal={calculatedMacroGoals.lowCarb}
+            currentMacro={totalNutritionData}
+          />
         </TabPanel>
         <TabPanel value={1}>
-          <TabContent macroData={calculatedMacros.balanced} />
+          <TabContent
+            macroGoal={calculatedMacroGoals.balanced}
+            currentMacro={totalNutritionData}
+          />
         </TabPanel>
         <TabPanel value={2}>
-          <TabContent macroData={calculatedMacros.highCarb} />
+          <TabContent
+            macroGoal={calculatedMacroGoals.highCarb}
+            currentMacro={totalNutritionData}
+          />
         </TabPanel>
       </Tabs>
     </Sheet>
