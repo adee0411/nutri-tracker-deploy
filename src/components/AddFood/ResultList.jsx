@@ -34,6 +34,9 @@ const ResultList = ({ resultList }) => {
         }}
       >
         {resultList.map((result) => {
+          const ingredientName =
+            result.ingredientName[0].toUpperCase() +
+            result.ingredientName.slice(1);
           return (
             <ListItem key={result.id}>
               <ListItemButton
@@ -45,7 +48,7 @@ const ResultList = ({ resultList }) => {
                 id={result.id}
                 onClick={handleSelectedIngredient}
               >
-                {result.ingredientName}
+                {ingredientName}
               </ListItemButton>
             </ListItem>
           );

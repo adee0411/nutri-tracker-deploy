@@ -15,6 +15,8 @@ import MealDetails from "./routes/MealDetails";
 import AddFood from "./routes/AddFood";
 import CustomIngredientsRoute from "./routes/CustomIngredientsRoute";
 
+import { ingredientLoader } from "./routes/AddFood";
+
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
@@ -31,6 +33,7 @@ const router = createBrowserRouter([
       {
         path: ":mealTitle/add-food",
         element: <AddFood />,
+        loader: ingredientLoader,
       },
       {
         path: "/custom-ingredients",

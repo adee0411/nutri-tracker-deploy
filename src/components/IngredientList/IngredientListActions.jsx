@@ -61,7 +61,7 @@ const IngredientListActions = ({ listName, listActions }) => {
   };
 
   const handleNewCustomIngredient = () => {
-    dispatch(toggleNewCustomIngredientModal());
+    navigate("/custom-ingredients");
   };
 
   const listActionsObj = {

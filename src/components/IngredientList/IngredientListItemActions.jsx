@@ -2,6 +2,8 @@ import { Button, Dropdown, MenuButton, Menu, MenuItem, Stack } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
+import { useState } from "react";
+
 import EditIngredientModal from "./EditIngredientModal";
 import QuickAddBtn from "./QuickAddBtn";
 
@@ -21,8 +23,10 @@ import {
   setLastRemoved,
   setEditableIngredient,
   setEditableIngredientInput,
+  setIsEditCustomIngredientModalOpen,
 } from "../../store/ingredientSlice";
 import IngredientListItemActionBtn from "./IngredientListItemActionBtn";
+import { useLocation } from "react-router";
 
 const IngredientListItemActions = ({
   mealName,
@@ -30,6 +34,7 @@ const IngredientListItemActions = ({
   actionList,
   listName,
 }) => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const { editableIngredient, favoriteIngredients } = useSelector(
     (state) => state.ingredient
@@ -38,17 +43,26 @@ const IngredientListItemActions = ({
     (state) => state.ingredient.UI
   );
 
+  const [selectedAction, setSelectedAction] = useState(null);
+
   // Add the same ingredient (duplicate) again action
   const handleAddIngredientAgain = (e) => {
     dispatch(addIngredient({ mealName: mealName, ingredient: ingredient }));
   };
 
   // Update single ingredient action
-  const handleUpdateIngredient = (e) => {
+  const handleUpdateIngredient = () => {
     const editableIngredient = { ...ingredient };
-    dispatch(setIsEditIngredientModalOpen(true));
+
+    if (listName === "customIngredients") {
+      dispatch(setIsEditCustomIngredientModalOpen());
+    } else {
+      dispatch(setIsEditIngredientModalOpen(true));
+      dispatch(setEditableIngredientInput(ingredient.amount));
+      setSelectedAction("update");
+    }
+
     dispatch(setEditableIngredient(editableIngredient));
-    dispatch(setEditableIngredientInput(ingredient.amount));
   };
 
   const handleAddToFavorites = (e) => {
@@ -90,17 +104,20 @@ const IngredientListItemActions = ({
     dispatch(setLastRemoved(removedIngredient));
   };
 
-  const handleAddIngredient = () => {
-    dispatch(addIngredient({ mealName: mealName, ingredient: ingredient }));
-    dispatch(setRecentIngredients(ingredient));
+  const handleLogIngredient = () => {
+    const editableIngredient = { ...ingredient };
+    dispatch(setIsEditIngredientModalOpen(true));
+    dispatch(setEditableIngredient(editableIngredient));
+    dispatch(setEditableIngredientInput(ingredient.amount));
+    setSelectedAction("log");
   };
 
   // Added ingredient list item actions
   const ingredientListActions = {
-    add: {
+    log: {
       title: "Naplóz",
       icon: <IoIosAdd />,
-      handler: handleAddIngredient,
+      handler: handleLogIngredient,
     },
 
     addAgain: {
@@ -128,7 +145,11 @@ const IngredientListItemActions = ({
   return (
     <>
       <Stack direction="row">
-        <QuickAddBtn mealName={mealName} ingredient={ingredient} />
+        {!location.pathname.includes("custom-ingredients") ? (
+          <QuickAddBtn mealName={mealName} ingredient={ingredient} />
+        ) : (
+          ""
+        )}
 
         <Dropdown>
           <MenuButton
@@ -164,6 +185,7 @@ const IngredientListItemActions = ({
         <EditIngredientModal
           isModalOpen={isEditIngredientModalOpen}
           ingredient={editableIngredient}
+          ingredientAction={selectedAction}
           listName={listName}
         />
       ) : (

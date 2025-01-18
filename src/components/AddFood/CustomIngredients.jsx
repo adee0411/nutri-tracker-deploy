@@ -9,7 +9,7 @@ const CustomIngredients = () => {
   const { customIngredients } = useSelector((state) => state.ingredient);
 
   const customListActions = ["new", "empty", "backup", "view"];
-  const customIngredientsActions = ["add", "update", "remove"];
+  const customIngredientsActions = ["log", "update", "remove"];
 
   return (
     <>

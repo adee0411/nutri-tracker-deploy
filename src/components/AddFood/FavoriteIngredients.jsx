@@ -8,7 +8,7 @@ import IngredientListHeader from "../IngredientList/IngredientListHeader";
 const FavoriteIngredients = () => {
   const { favoriteIngredients } = useSelector((state) => state.ingredient);
 
-  const favoriteIngredientsActions = ["add", "update", "remove"];
+  const favoriteIngredientsActions = ["log", "update", "remove"];
   const favoriteListActions = ["empty", "backup", "view"];
 
   return (

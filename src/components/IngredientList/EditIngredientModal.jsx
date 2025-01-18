@@ -11,6 +11,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
 
+import { CiEdit } from "react-icons/ci";
+
 import NutritionDetails from "../NutritionDetails";
 import {
   addIngredient,
@@ -22,9 +24,13 @@ import {
 import { transformNutritionData } from "../../data/TESTDATA";
 import { useMemo } from "react";
 
-const EditIngredientModal = ({ isModalOpen, ingredient, listName }) => {
-  const { ingredientName, unit, unitage, nutritionData, nutritionDataPerUnit } =
-    ingredient;
+const EditIngredientModal = ({
+  isModalOpen,
+  ingredient,
+  ingredientAction,
+  listName,
+}) => {
+  const { ingredientName, unit, unitage, nutritionDataPerUnit } = ingredient;
   const { editableIngredientInput } = useSelector(
     (state) => state.ingredient.UI
   );
@@ -49,6 +55,7 @@ const EditIngredientModal = ({ isModalOpen, ingredient, listName }) => {
     [nutritionDataPerUnit, editableIngredientInput, unitage]
   );
 
+  // UPDATE ingredient in list
   const handleUpdateIngredient = (e) => {
     e.preventDefault();
 
@@ -58,22 +65,37 @@ const EditIngredientModal = ({ isModalOpen, ingredient, listName }) => {
       amount: +editableIngredientInput,
     };
 
-    // Update ingredient
-    dispatch(
-      updateIngredient({ mealName: mealTitle, ingredient: updatedIngredient })
-    );
+    // Update ingredient in selected list
+    if (listName === "addedIngredients") {
+      dispatch(
+        updateIngredient({
+          mealName: mealTitle,
+          ingredient: updatedIngredient,
+          listName: listName,
+        })
+      );
+    } else {
+      dispatch(
+        updateIngredient({
+          ingredient: updatedIngredient,
+          listName: listName,
+        })
+      );
+    }
 
     dispatch(setEditableIngredient(null));
     dispatch(setEditableIngredientInput(""));
   };
 
-  const handleAddIngredient = (e) => {
+  // LOG updated ingredient to day
+  const handleLogIngredient = (e) => {
     e.preventDefault();
     const updatedIngredient = {
       ...ingredient,
       nutritionData: transformedNutritionData,
       amount: +editableIngredientInput,
     };
+    // Log ingredient to day
     dispatch(
       addIngredient({ mealName: mealTitle, ingredient: updatedIngredient })
     );
@@ -85,13 +107,21 @@ const EditIngredientModal = ({ isModalOpen, ingredient, listName }) => {
     <Modal open={isModalOpen} onClose={handleCloseModal}>
       <ModalDialog>
         <ModalClose />
-        <Typography level="title-md">{`${ingredientName}, ${+editableIngredientInput}${unit}`}</Typography>
+        <Stack direction="row" gap={2} alignItems="center">
+          <CiEdit />
+          <Typography level="title-lg">Alapanyag szerkesztése</Typography>
+        </Stack>
+
+        <Typography
+          level="title-md"
+          color="primary"
+        >{`${ingredientName}, ${+editableIngredientInput}${unit}`}</Typography>
         <NutritionDetails nutritionData={transformedNutritionData} />
         <form
           onSubmit={
-            listName === "addedIngredients"
+            ingredientAction === "update"
               ? handleUpdateIngredient
-              : handleAddIngredient
+              : handleLogIngredient
           }
         >
           <Stack direction="row" gap={2}>
@@ -103,10 +133,10 @@ const EditIngredientModal = ({ isModalOpen, ingredient, listName }) => {
               />
             </FormControl>
             <FormControl>
-              {listName === "addedIngredients" ? (
+              {ingredientAction === "update" ? (
                 <Button type="submit">Módosít</Button>
               ) : (
-                <Button type="submit">Hozzáad</Button>
+                <Button type="submit">Naplóz</Button>
               )}
             </FormControl>
           </Stack>

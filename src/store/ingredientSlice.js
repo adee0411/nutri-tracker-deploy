@@ -7,6 +7,7 @@ import { transformNutritionData } from "../data/TESTDATA";
 const ingredientSlice = createSlice({
   name: "ingredient",
   initialState: {
+    ingredientList: [],
     addedIngredients: {
       breakfast: [
         {
@@ -101,6 +102,7 @@ const ingredientSlice = createSlice({
       searchQueryInput: "",
       newIngredientInput: "",
       isEditIngredientModalOpen: false,
+      isEditCustomIngredientModalOpen: false,
       addToFavoritesAlert: {
         isShown: false,
         message: "",
@@ -135,6 +137,10 @@ const ingredientSlice = createSlice({
       }
     },
 
+    addCustomIngredient: (state, action) => {
+      state.customIngredients.push(action.payload.ingredient);
+    },
+
     removeIngredient: (state, action) => {
       const { mealName, ingredient, listName } = action.payload;
 
@@ -150,14 +156,24 @@ const ingredientSlice = createSlice({
       }
     },
     updateIngredient: (state, action) => {
-      const { mealName } = action.payload;
+      const { mealName, listName } = action.payload;
       const ingredientID = action.payload.ingredient.id;
-      const existingIngredientIndex = state.addedIngredients[
-        mealName
-      ].findIndex((ingredient) => ingredient.id === ingredientID);
+      let existingIngredientIndex;
 
-      state.addedIngredients[mealName][existingIngredientIndex] =
-        action.payload.ingredient;
+      if (mealName) {
+        existingIngredientIndex = state.addedIngredients[mealName].findIndex(
+          (ingredient) => ingredient.id === ingredientID
+        );
+
+        state.addedIngredients[mealName][existingIngredientIndex] =
+          action.payload.ingredient;
+      } else {
+        existingIngredientIndex = state[listName].findIndex(
+          (ingredient) => ingredient.id === ingredientID
+        );
+
+        state[listName][existingIngredientIndex] = action.payload.ingredient;
+      }
     },
     emptyList: (state, action) => {
       const { mealName, listName } = action.payload;
@@ -196,6 +212,10 @@ const ingredientSlice = createSlice({
     },
     setIsEditIngredientModalOpen: (state, action) => {
       state.UI.isEditIngredientModalOpen = action.payload;
+    },
+    setIsEditCustomIngredientModalOpen: (state, action) => {
+      state.UI.isEditCustomIngredientModalOpen =
+        !state.UI.isEditCustomIngredientModalOpen;
     },
     resetSelectedIngredient: (state) => {
       state.selectedIngredient = null;
@@ -240,9 +260,8 @@ const ingredientSlice = createSlice({
       state.totalNutritionData[action.payload.mealName] =
         action.payload.totalNutritionData;
     },
-    toggleNewCustomIngredientModal: (state, action) => {
-      state.UI.isNewCustomIngredientModalOpen =
-        !state.UI.isNewCustomIngredientModalOpen;
+    setIngredientList: (state, action) => {
+      state.ingredientList = action.payload;
     },
   },
 });
@@ -250,6 +269,7 @@ const ingredientSlice = createSlice({
 export const {
   removeIngredient,
   addIngredient,
+  addCustomIngredient,
   updateIngredient,
   emptyList,
   setSelectedIngredient,
@@ -259,16 +279,16 @@ export const {
   setNewIngredientInput,
   addFavoriteIngredient,
   setIsEditIngredientModalOpen,
+  setIsEditCustomIngredientModalOpen,
   resetSelectedIngredient,
   setAddToFavoritesAlert,
   setRecentIngredients,
   setLastRemoved,
-  addCustomIngredient,
   toggleView,
   setEditableIngredient,
   setEditableIngredientInput,
   setTotalNutritionData,
-  toggleNewCustomIngredientModal,
+  setIngredientList,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

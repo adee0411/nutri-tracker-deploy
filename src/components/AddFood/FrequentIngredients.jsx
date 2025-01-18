@@ -8,7 +8,7 @@ import IngredientListHeader from "../IngredientList/IngredientListHeader";
 const FrequentIngredients = () => {
   const { frequentIngredients } = useSelector((state) => state.ingredient);
 
-  const frequentIngredientsActions = ["add"];
+  const frequentIngredientsActions = ["log"];
   const frequentListActions = ["view"];
 
   return (

@@ -4,10 +4,11 @@ import NoImage from "../../img/no_image.png";
 
 const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
   const { carb, protein, fat, energy } = nutritionData;
+  const formattedTitle = title[0].toUpperCase() + title.slice(1);
   return (
-    <Stack gap={3}>
+    <Stack gap={3} sx={{ zIndex: 1 }}>
       <Typography level="title-lg" fontWeight={700} textAlign="center">
-        {title}
+        {formattedTitle}
       </Typography>
       <Stack
         direction="row"

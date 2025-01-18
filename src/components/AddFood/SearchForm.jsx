@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import ResultList from "./ResultList";
 
-import queryList from "../../data/FoodDB";
+//import queryList from "../../data/FoodDB";
 
 import {
   setSelectedIngredient,
@@ -16,7 +16,9 @@ const SearchForm = () => {
   const dispatch = useDispatch();
 
   const { searchQueryInput } = useSelector((state) => state.ingredient.UI);
-  const { searchResultList } = useSelector((state) => state.ingredient);
+  const { ingredientList, searchResultList } = useSelector(
+    (state) => state.ingredient
+  );
 
   const handleQueryInputChange = (e) => {
     dispatch(setSearchQueryInput(e.target.value));
@@ -27,7 +29,7 @@ const SearchForm = () => {
     const resultList =
       searchQueryInput === ""
         ? []
-        : queryList.filter(
+        : ingredientList.filter(
             (data) =>
               data.ingredientName
                 .toLowerCase()
@@ -36,7 +38,7 @@ const SearchForm = () => {
           );
 
     dispatch(setSearchResultList(resultList));
-  }, [searchQueryInput]);
+  }, [searchQueryInput, dispatch, ingredientList]);
 
   return (
     <>

@@ -8,7 +8,7 @@ import IngredientListHeader from "../IngredientList/IngredientListHeader";
 const RecentIngredients = () => {
   const { recentIngredients } = useSelector((state) => state.ingredient);
 
-  const recentIngredientsActions = ["add"];
+  const recentIngredientsActions = ["log"];
   const recentListActions = ["view"];
 
   return (
