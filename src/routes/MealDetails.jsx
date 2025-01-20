@@ -10,6 +10,7 @@ import NutritionDetailCard from "../components/MealEditor/NutritionDetailCard";
 import AddedIngredients from "../components/IngredientList/AddedIngredients";
 import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
 import CardWrapper from "../UI/CardWrapper";
+import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
 
 import BreakfastImg from "../img/breakfast.png";
 import LunchImg from "../img/lunch.png";
@@ -33,20 +34,19 @@ const MealDetails = () => {
   const handleAddIngredient = () => {
     navigate("add-food");
   };
+
   // Get meal's name
   const { mealTitle } = useParams();
 
   const mealData = useLoaderData();
 
-  useEffect(() => {
-    dispatch(
-      setMealIngredients({ mealName: mealTitle, ingredientList: mealData })
-    );
-  }, []);
-
   //fetch the selected meal's ingredientlist from store
   const addedIngredients = useSelector(
     (state) => state.ingredient.addedIngredients[mealTitle]
+  );
+
+  const { isConfirmEmptyListModalOpen } = useSelector(
+    (state) => state.ingredient.UI
   );
 
   const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
@@ -71,6 +71,12 @@ const MealDetails = () => {
       totalNutritionData[key] += value;
     }
   });
+
+  useEffect(() => {
+    dispatch(
+      setMealIngredients({ mealName: mealTitle, ingredientList: mealData })
+    );
+  }, []);
 
   return (
     <>
@@ -100,6 +106,11 @@ const MealDetails = () => {
           <AddedIngredients ingredientList={addedIngredients} />
         )}
       </Stack>
+      {isConfirmEmptyListModalOpen ? (
+        <ConfirmEmptyListModal mealName={mealTitle} />
+      ) : (
+        ""
+      )}
     </>
   );
 };

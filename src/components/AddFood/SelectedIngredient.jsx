@@ -27,7 +27,7 @@ const SelectedIngredient = ({ selectedIngredient }) => {
   const { mealTitle } = useParams();
 
   const { newIngredientInput } = useSelector((state) => state.ingredient.UI);
-  const ingredients = useSelector(
+  let ingredients = useSelector(
     (state) => state.ingredient.addedIngredients[mealTitle]
   );
 
@@ -46,17 +46,48 @@ const SelectedIngredient = ({ selectedIngredient }) => {
   };
 
   const handleAddIngredient = () => {
-    const newIngredient = {
-      ...selectedIngredient,
-      nutritionData: transformedNutritionData,
-      amount: +newIngredientInput,
-      nutritionDataPerUnit: selectedIngredient.nutritionData,
-    };
+    // 1) Check if selectedIngredient exists in state list
+    let ingredientsCopy = [...ingredients];
+    const existingIngredientIndex = ingredientsCopy.findIndex((ingredient) => {
+      return ingredient.id === selectedIngredient.id;
+    });
+
+    // No matching ingredient based on ID
+    if (existingIngredientIndex === -1) {
+      const newIngredient = {
+        ...selectedIngredient,
+        nutritionData: transformedNutritionData,
+        amount: +newIngredientInput,
+        nutritionDataPerUnit: selectedIngredient.nutritionData,
+      };
+
+      ingredientsCopy.push(newIngredient);
+      // Selected ingredient exists
+    } else {
+      let newNutritionData = {
+        ...ingredientsCopy[existingIngredientIndex].nutritionData,
+      };
+
+      let newAmount = ingredientsCopy[existingIngredientIndex].amount;
+      newAmount += +newIngredientInput;
+      for (let [key, value] of Object.entries(
+        selectedIngredient.nutritionData
+      )) {
+        newNutritionData[key] += value;
+      }
+      const newIngredient = {
+        ...selectedIngredient,
+        nutritionData: newNutritionData,
+        amount: newAmount,
+        nutritionDataPerUnit: selectedIngredient.nutritionData,
+      };
+
+      ingredientsCopy[existingIngredientIndex] = newIngredient;
+    }
 
     const newIngredientList = {
-      ingredients: [...ingredients],
+      ingredients: [...ingredientsCopy],
     };
-    newIngredientList.ingredients.push(newIngredient);
 
     (async function (mealTitle) {
       await setDoc(doc(db, "addedIngredients", mealTitle), newIngredientList);

@@ -48,9 +48,17 @@ const IngredientListItemActions = ({
 
   const [selectedAction, setSelectedAction] = useState(null);
 
-  // Add the same ingredient (duplicate) again action
-  const handleAddIngredientAgain = (e) => {
-    dispatch(addIngredient({ mealName: mealName, ingredient: ingredient }));
+  // POST data to firebase
+  const addFavoriteToFirebase = async (ingredient) => {
+    await setDoc(doc(db, "favoriteIngredients", ingredient.id), ingredient);
+  };
+
+  const handleLogIngredient = () => {
+    const editableIngredient = { ...ingredient };
+    dispatch(setIsEditIngredientModalOpen(true));
+    dispatch(setEditableIngredient(editableIngredient));
+    dispatch(setEditableIngredientInput(ingredient.amount));
+    setSelectedAction("log");
   };
 
   // Update single ingredient action
@@ -68,11 +76,7 @@ const IngredientListItemActions = ({
     dispatch(setEditableIngredient(editableIngredient));
   };
 
-  // POST data to firebase
-  const addFavoriteToFirebase = async (ingredient) => {
-    await setDoc(doc(db, "favoriteIngredients", ingredient.id), ingredient);
-  };
-
+  // Add ingredient to favorites
   const handleAddToFavorites = (e) => {
     const { id, amount } = ingredient;
     const existingIngredient = favoriteIngredients.find((ing) => ing.id === id);
@@ -96,7 +100,7 @@ const IngredientListItemActions = ({
       );
     }
   };
-  // Remove single ingredient action
+  // Remove single ingredient
   const handleRemoveIngredient = () => {
     dispatch(
       removeIngredient({
@@ -112,26 +116,12 @@ const IngredientListItemActions = ({
     dispatch(setLastRemoved(removedIngredient));
   };
 
-  const handleLogIngredient = () => {
-    const editableIngredient = { ...ingredient };
-    dispatch(setIsEditIngredientModalOpen(true));
-    dispatch(setEditableIngredient(editableIngredient));
-    dispatch(setEditableIngredientInput(ingredient.amount));
-    setSelectedAction("log");
-  };
-
   // Added ingredient list item actions
   const ingredientListActions = {
     log: {
       title: "Naplóz",
       icon: <IoIosAdd />,
       handler: handleLogIngredient,
-    },
-
-    addAgain: {
-      title: "Hozzáadás ismét",
-      icon: <IoIosAdd />,
-      handler: handleAddIngredientAgain,
     },
     update: {
       title: "Szerkeszt",

@@ -23,6 +23,8 @@ const AddedIngredients = ({ ingredientList }) => {
 
   const actionList = ["update", "addToFavorites", "remove"];
 
+  const addedListActions = ["add", "empty", "backup", "view"];
+
   useEffect(() => {
     const errorTimeout = setTimeout(() => {
       dispatch(
@@ -34,7 +36,6 @@ const AddedIngredients = ({ ingredientList }) => {
     };
   });
 
-  const addedListActions = ["add", "empty", "backup", "view"];
   return (
     <Sheet variant="plain" sx={{ backgroundColor: "transparent", my: 4 }}>
       {" "}

@@ -33,6 +33,7 @@ const ingredientSlice = createSlice({
       detailedView: true,
       editableIngredientInput: "",
       isNewCustomIngredientModalOpen: true,
+      isConfirmEmptyListModalOpen: false,
     },
   },
   reducers: {
@@ -202,6 +203,10 @@ const ingredientSlice = createSlice({
     setCustomIngredients: (state, action) => {
       state.customIngredients = action.payload;
     },
+    toggleIsConfirmEmptyListModalOpen: (state) => {
+      state.UI.isConfirmEmptyListModalOpen =
+        !state.UI.isConfirmEmptyListModalOpen;
+    },
   },
 });
 
@@ -233,6 +238,7 @@ export const {
   setRecentIngredients,
   setFrequentIngredients,
   setCustomIngredients,
+  toggleIsConfirmEmptyListModalOpen,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;
