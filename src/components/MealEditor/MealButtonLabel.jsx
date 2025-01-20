@@ -19,9 +19,9 @@ const MealButtonLabel = ({ title }) => {
     ? "Reggeli"
     : "Snack";
   return (
-    <Stack direction="row" gap={1}>
+    <Stack direction="row" gap={1} width="25%" alignItems="center">
       <img src={mealIcons[mealIcon]} alt="breakfast-icon" width={24} />
-      <Typography> {formattedMealTitle}</Typography>
+      <Typography level="title-sm"> {formattedMealTitle}</Typography>
     </Stack>
   );
 };

@@ -1,20 +1,32 @@
+import { Stack, Button, Typography } from "@mui/joy";
 import { useSelector } from "react-redux";
 import IngredientList from "../IngredientList/IngredientList";
 
-import NoMeal from "../IngredientList/NoMeal";
+import EmptyListPlaceholder from "../IngredientList/EmptyListPlaceholder";
 
 import IngredientListHeader from "../IngredientList/IngredientListHeader";
+import { useNavigate } from "react-router";
 
 const CustomIngredients = () => {
+  const navigate = useNavigate();
   const { customIngredients } = useSelector((state) => state.ingredient);
 
   const customListActions = ["new", "empty", "backup", "view"];
   const customIngredientsActions = ["log", "update", "remove"];
 
+  const handleNavigate = () => {
+    navigate("/custom-ingredients");
+  };
+
   return (
     <>
       {customIngredients.length === 0 ? (
-        <NoMeal text="Még nincsenek saját alapanyagok." />
+        <Stack>
+          <EmptyListPlaceholder text="Még nincsenek saját alapanyagok." />
+          <Button onClick={handleNavigate} sx={{ width: "50%", m: "0 auto" }}>
+            Hozzáadás
+          </Button>
+        </Stack>
       ) : (
         <>
           <IngredientListHeader

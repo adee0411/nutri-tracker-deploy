@@ -18,8 +18,6 @@ import { useDispatch } from "react-redux";
 const AddCustomIngredient = () => {
   const dispatch = useDispatch();
 
-  const ingredientNameRef = useRef();
-  const unitageRef = useRef();
   const carbRef = useRef();
   const proteinRef = useRef();
   const fatRef = useRef();
@@ -27,6 +25,7 @@ const AddCustomIngredient = () => {
 
   const [unit, setUnit] = useState("g");
   const [unitage, setUnitage] = useState(100);
+  const [ingredientName, setIngredientName] = useState("");
 
   const handleUnitChange = (e, newValue) => {
     setUnit(newValue);
@@ -43,10 +42,10 @@ const AddCustomIngredient = () => {
 
     const newCustomIngredient = {
       id: generateUniqueId(),
-      ingredientName: ingredientNameRef.current.value,
-      unitage: +unitageRef.current.value,
+      ingredientName: ingredientName,
+      unitage: +unitage,
       unit: unit,
-      amount: +unitageRef.current.value,
+      amount: +unitage,
       nutritionData: {
         carb: +carbRef.current.value,
         protein: +proteinRef.current.value,
@@ -54,20 +53,21 @@ const AddCustomIngredient = () => {
         energy: +energyRef.current.value,
       },
     };
-    console.log(newCustomIngredient);
     dispatch(addCustomIngredient(newCustomIngredient));
   };
   return (
-    <form style={{ padding: "24px" }} onSubmit={handleAddCustomIngredient}>
+    <form onSubmit={handleAddCustomIngredient}>
       <Typography level="title-lg">Új alapanyag hozzáadása</Typography>
-      <Stack gap={2} my={4}>
+      <Stack gap={4} my={4}>
         <Stack direction="row" gap={2}>
           <FormControl>
             <FormLabel>Alapanyag neve</FormLabel>
             <Input
               slotProps={{
-                input: { ref: ingredientNameRef, style: { width: "100%" } },
+                input: { style: { width: "100%" } },
               }}
+              value={ingredientName}
+              onChange={(e) => setIngredientName(e.target.value)}
             />
           </FormControl>
           <FormControl>
@@ -76,7 +76,7 @@ const AddCustomIngredient = () => {
               value={unitage}
               type="number"
               slotProps={{
-                input: { ref: unitageRef, style: { width: "100%" } },
+                input: { style: { width: "100%" } },
               }}
               onChange={handleUnitageChange}
             />
@@ -139,7 +139,9 @@ const AddCustomIngredient = () => {
             />
           </FormControl>
         </Stack>
-        <Button type="submit">Hozzáad</Button>
+        <Button type="submit" disabled={ingredientName.length === 0}>
+          Hozzáad
+        </Button>
       </Stack>
     </form>
   );

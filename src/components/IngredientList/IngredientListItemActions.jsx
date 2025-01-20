@@ -1,3 +1,6 @@
+import db from "../../firebase/firestore_config";
+import { doc, setDoc } from "firebase/firestore";
+
 import { Button, Dropdown, MenuButton, Menu, MenuItem, Stack } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -65,6 +68,11 @@ const IngredientListItemActions = ({
     dispatch(setEditableIngredient(editableIngredient));
   };
 
+  // POST data to firebase
+  const addFavoriteToFirebase = async (ingredient) => {
+    await setDoc(doc(db, "favoriteIngredients", ingredient.id), ingredient);
+  };
+
   const handleAddToFavorites = (e) => {
     const { id, amount } = ingredient;
     const existingIngredient = favoriteIngredients.find((ing) => ing.id === id);
@@ -78,7 +86,7 @@ const IngredientListItemActions = ({
         })
       );
     } else {
-      dispatch(addFavoriteIngredient(ingredient));
+      addFavoriteToFirebase(ingredient);
       dispatch(
         setAddToFavoritesAlert({
           state: "success",

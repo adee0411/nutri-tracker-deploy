@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 import IngredientList from "../IngredientList/IngredientList";
 
-import NoMeal from "../IngredientList/NoMeal";
+import EmptyListPlaceholder from "../IngredientList/EmptyListPlaceholder";
 
 import IngredientListHeader from "../IngredientList/IngredientListHeader";
+import { Typography } from "@mui/joy";
 
 const FrequentIngredients = () => {
   const { frequentIngredients } = useSelector((state) => state.ingredient);
@@ -14,7 +15,7 @@ const FrequentIngredients = () => {
   return (
     <>
       {frequentIngredients.length === 0 ? (
-        <NoMeal text="Még nincsenek gyakoriak." />
+        <EmptyListPlaceholder text="Még nincsenek gyakoriak." />
       ) : (
         <>
           <IngredientListHeader

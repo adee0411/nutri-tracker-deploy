@@ -1,3 +1,6 @@
+import db from "../../firebase/firestore_config";
+import { doc, setDoc } from "firebase/firestore";
+
 import { Sheet, Stack, FormControl, Input, Button, IconButton } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -24,6 +27,9 @@ const SelectedIngredient = ({ selectedIngredient }) => {
   const { mealTitle } = useParams();
 
   const { newIngredientInput } = useSelector((state) => state.ingredient.UI);
+  const ingredients = useSelector(
+    (state) => state.ingredient.addedIngredients[mealTitle]
+  );
 
   let transformedNutritionData;
   if (selectedIngredient) {
@@ -46,13 +52,23 @@ const SelectedIngredient = ({ selectedIngredient }) => {
       amount: +newIngredientInput,
       nutritionDataPerUnit: selectedIngredient.nutritionData,
     };
-    dispatch(addIngredient({ mealName: mealTitle, ingredient: newIngredient }));
+
+    const newIngredientList = {
+      ingredients: [...ingredients],
+    };
+    newIngredientList.ingredients.push(newIngredient);
+
+    (async function (mealTitle) {
+      await setDoc(doc(db, "addedIngredients", mealTitle), newIngredientList);
+    })(mealTitle);
+
+    //dispatch(addIngredient({ mealName: mealTitle, ingredient: newIngredient }));
     dispatch(setSearchQueryInput(""));
     dispatch(setSearchResultList([]));
-    dispatch(setRecentIngredients(newIngredient));
+    //dispatch(setRecentIngredients(newIngredient));
   };
   return (
-    <CardWrapper color="primary" variant="solid">
+    <CardWrapper color="primary" variant="plain">
       <NutritionDetailCard
         title={selectedIngredient.ingredientName}
         imageURL={selectedIngredient.imageURL}

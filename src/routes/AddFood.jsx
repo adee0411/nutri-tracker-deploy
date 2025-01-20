@@ -9,17 +9,33 @@ import SearchForm from "../components/AddFood/SearchForm";
 import SelectedIngredient from "../components/AddFood/SelectedIngredient";
 import QuickIngredientTab from "../components/AddFood/QuickIngredientTab";
 
-import { setIngredientList } from "../store/ingredientSlice";
+import {
+  setQueryList,
+  setFavoriteIngredients,
+  setRecentIngredients,
+  setFrequentIngredients,
+  setCustomIngredients,
+} from "../store/ingredientSlice";
 import { useEffect } from "react";
 
 const AddFood = () => {
-  const ingredientList = useLoaderData();
+  const {
+    queryList,
+    favoriteIngredients,
+    recentIngredients,
+    frequentIngredients,
+    customIngredients,
+  } = useLoaderData();
 
   const dispatch = useDispatch();
 
   // Avoid parallel component rendering
   useEffect(() => {
-    dispatch(setIngredientList(ingredientList));
+    dispatch(setQueryList(queryList));
+    dispatch(setFavoriteIngredients(favoriteIngredients));
+    dispatch(setRecentIngredients(recentIngredients));
+    dispatch(setFrequentIngredients(frequentIngredients));
+    dispatch(setCustomIngredients(customIngredients));
   }, []);
 
   const { selectedIngredient } = useSelector((state) => state.ingredient);
@@ -42,14 +58,51 @@ const AddFood = () => {
 };
 
 export const ingredientLoader = async () => {
-  const ingredientList = [];
-  const ingredientSnapshot = await getDocs(collection(db, "ingredients"));
-  ingredientSnapshot.forEach((ingredient) => {
+  const listMap = {
+    queryList: [],
+    favoriteIngredients: [],
+    recentIngredients: [],
+    frequentIngredients: [],
+    customIngredients: [],
+  };
+
+  const querySnapshot = await getDocs(collection(db, "ingredients"));
+  const favoriteIngredientsSnapshot = await getDocs(
+    collection(db, "favoriteIngredients")
+  );
+  const recentIngredientsSnapshot = await getDocs(
+    collection(db, "recentIngredients")
+  );
+  const frequentIngredientsSnapshot = await getDocs(
+    collection(db, "frequentIngredients")
+  );
+  const customIngredientsSnapshot = await getDocs(
+    collection(db, "customIngredients")
+  );
+
+  querySnapshot.forEach((ingredient) => {
     const ingredientData = { id: ingredient.id, ...ingredient.data() };
-    ingredientList.push(ingredientData);
+    listMap.queryList.push(ingredientData);
   });
 
-  return ingredientList;
+  favoriteIngredientsSnapshot.forEach((ingredient) => {
+    const ingredientData = { id: ingredient.id, ...ingredient.data() };
+    listMap.favoriteIngredients.push(ingredientData);
+  });
+  recentIngredientsSnapshot.forEach((ingredient) => {
+    const ingredientData = { id: ingredient.id, ...ingredient.data() };
+    listMap.recentIngredients.push(ingredientData);
+  });
+  frequentIngredientsSnapshot.forEach((ingredient) => {
+    const ingredientData = { id: ingredient.id, ...ingredient.data() };
+    listMap.frequentIngredients.push(ingredientData);
+  });
+  customIngredientsSnapshot.forEach((ingredient) => {
+    const ingredientData = { id: ingredient.id, ...ingredient.data() };
+    listMap.customIngredients.push(ingredientData);
+  });
+
+  return listMap;
 };
 
 export default AddFood;

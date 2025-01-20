@@ -44,15 +44,16 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
     e.preventDefault();
     const newIngredient = {
       ...ingredient,
-      ingredientName: ingredientNameRef,
-      unitage: unitageRef,
-      unit: unitRef,
-      nutritionDataPerUnit: {
+      ingredientName: ingredientNameRef.current.value,
+      unitage: +unitageRef.current.value,
+      unit: unit,
+      amount: +unitageRef.current.value,
+      nutritionData: {
         ...ingredient.nutritionDataPerUnit,
-        carb: carbRef,
-        protein: proteinRef,
-        fat: fatRef,
-        energy: energyRef,
+        carb: +carbRef.current.value,
+        protein: +proteinRef.current.value,
+        fat: +fatRef.current.value,
+        energy: +energyRef.current.value,
       },
     };
 
@@ -80,6 +81,7 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                   },
                 }}
                 defaultValue={ingredient.ingredientName}
+                required
               />
             </FormControl>
             <FormControl>
@@ -120,6 +122,7 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                 }}
                 endDecorator="g"
                 placeholder="0"
+                defaultValue={ingredient.nutritionData.carb}
               />
             </FormControl>
             <FormControl sx={{ flex: 1 }}>
@@ -131,6 +134,7 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                 }}
                 endDecorator="g"
                 placeholder="0"
+                defaultValue={ingredient.nutritionData.protein}
               />
             </FormControl>
             <FormControl sx={{ flex: 1 }}>
@@ -142,6 +146,7 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                 }}
                 endDecorator="g"
                 placeholder="0"
+                defaultValue={ingredient.nutritionData.fat}
               />
             </FormControl>
             <FormControl sx={{ flex: 1 }}>
@@ -153,6 +158,7 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                 }}
                 endDecorator="kcal"
                 placeholder="0"
+                defaultValue={ingredient.nutritionData.energy}
               />
             </FormControl>
 

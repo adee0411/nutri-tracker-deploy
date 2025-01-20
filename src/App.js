@@ -11,16 +11,19 @@ import RootLayout from "./UI/RootLayout";
 
 /** Import Routes */
 import DailyOverview from "./routes/DailyOverview";
-import MealDetails from "./routes/MealDetails";
+import MealDetails, { mealDataLoader } from "./routes/MealDetails";
 import AddFood from "./routes/AddFood";
 import CustomIngredientsRoute from "./routes/CustomIngredientsRoute";
 
 import { ingredientLoader } from "./routes/AddFood";
+import { addedIngredientsListLoader } from "./UI/RootLayout";
 
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
     path: "/",
+    loader: addedIngredientsListLoader,
+
     children: [
       {
         path: "/",
@@ -29,6 +32,7 @@ const router = createBrowserRouter([
       {
         path: ":mealTitle",
         element: <MealDetails />,
+        loader: mealDataLoader,
       },
       {
         path: ":mealTitle/add-food",

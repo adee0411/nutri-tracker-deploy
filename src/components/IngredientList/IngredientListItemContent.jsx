@@ -10,7 +10,7 @@ const IngredientListItemContent = ({
   isDetailed,
 }) => {
   return (
-    <Stack gap={0.5}>
+    <Stack gap={0.5} width="70%">
       <IngredientListItemTitle
         ingredientName={ingredientName}
         amount={amount}

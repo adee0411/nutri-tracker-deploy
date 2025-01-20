@@ -4,7 +4,7 @@ const NutritionDetails = ({ nutritionData }) => {
   // Destructure macro data
   const { carb, protein, fat, energy } = nutritionData;
   return (
-    <Stack direction="row" gap={2}>
+    <Stack direction="row" gap={2} justifyContent="space-between" flex={1}>
       <Typography level="body-sm" fontSize={12} fontWeight={400}>
         Szénhidrát: {carb}g
       </Typography>

@@ -1,8 +1,8 @@
 import { Sheet, Typography } from "@mui/joy";
 
-import NoMealImg from "../../img/undraw_breakfast_psiw.svg";
+import EmptyListImg from "../../img/undraw_breakfast_psiw.svg";
 
-const NoMeal = ({ text }) => {
+const EmptyListPlaceholder = ({ text }) => {
   return (
     <Sheet
       sx={{
@@ -15,10 +15,10 @@ const NoMeal = ({ text }) => {
         my: 10,
       }}
     >
-      <img width="50%" src={NoMealImg} alt="no-data-img" />
+      <img width="50%" src={EmptyListImg} alt="no-data-img" />
       <Typography color="neutral">{text}</Typography>
     </Sheet>
   );
 };
 
-export default NoMeal;
+export default EmptyListPlaceholder;

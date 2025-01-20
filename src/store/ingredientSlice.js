@@ -1,98 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import TEST_INGREDIENT_LIST from "../data/TESTDATA";
-
-import { transformNutritionData } from "../data/TESTDATA";
-
 const ingredientSlice = createSlice({
   name: "ingredient",
   initialState: {
     ingredientList: [],
     addedIngredients: {
-      breakfast: [
-        {
-          ingredientName: "Zabpehely",
-          nutritionData: {
-            energy: 389,
-            protein: 17,
-            fat: 7,
-            carb: 56,
-          },
-          unit: "g",
-          unitage: 100,
-          id: "iaz2dt93zl6tec8amtkn",
-          amount: 100,
-          nutritionDataPerUnit: {
-            energy: 389,
-            protein: 17,
-            fat: 7,
-            carb: 56,
-          },
-        },
-      ],
+      breakfast: [],
       meal2: [],
       meal3: [],
       meal4: [],
       snack: [],
     },
     totalNutritionData: {},
-    favoriteIngredients: [
-      {
-        ingredientName: "Zabpehely",
-        nutritionData: {
-          energy: 389,
-          protein: 17,
-          fat: 7,
-          carb: 56,
-        },
-        unit: "g",
-        unitage: 100,
-        id: "iaz2dt93zl6tec8amtkn",
-        amount: 100,
-        nutritionDataPerUnit: {
-          energy: 389,
-          protein: 17,
-          fat: 7,
-          carb: 56,
-        },
-      },
-    ],
-    frequentIngredients: [
-      {
-        id: "break001",
-        ingredientName: "Csirkemell",
-        amount: 100,
-        unit: "g",
-        unnitage: 100,
-        nutritionData: {
-          carb: 0,
-          protein: 22,
-          fat: 1,
-          energy: 120,
-        },
-      },
-    ],
-    customIngredients: [
-      {
-        ingredientName: "Zabpehely",
-        nutritionData: {
-          energy: 389,
-          protein: 17,
-          fat: 7,
-          carb: 56,
-        },
-        unit: "g",
-        unitage: 100,
-        id: "iaz2dt93zl6tec8amtkn",
-        amount: 100,
-        nutritionDataPerUnit: {
-          energy: 389,
-          protein: 17,
-          fat: 7,
-          carb: 56,
-        },
-      },
-    ],
+    favoriteIngredients: [],
+    frequentIngredients: [],
+    customIngredients: [],
     recentIngredients: [],
     lastRemoved: null,
     searchResultList: [],
@@ -224,7 +146,7 @@ const ingredientSlice = createSlice({
       state.UI.addToFavoritesAlert.isShown = action.payload.isShown;
       state.UI.addToFavoritesAlert.message = action.payload.message;
       state.UI.addToFavoritesAlert.state = action.payload.state;
-    },
+    } /*
     setRecentIngredients: (state, action) => {
       const isIngredient = state.recentIngredients.find(
         (ingredient) =>
@@ -240,12 +162,9 @@ const ingredientSlice = createSlice({
         }
         state.recentIngredients.push(action.payload);
       }
-    },
+    },*/,
     setLastRemoved: (state, action) => {
       state.lastRemoved = action.payload;
-    },
-    addCustomIngredient: (state, action) => {
-      state.customIngredients.push(action.payload);
     },
     toggleView: (state, action) => {
       state.UI.detailedView = !state.UI.detailedView;
@@ -260,8 +179,28 @@ const ingredientSlice = createSlice({
       state.totalNutritionData[action.payload.mealName] =
         action.payload.totalNutritionData;
     },
-    setIngredientList: (state, action) => {
+    /** Ingredient List Actions */
+    setQueryList: (state, action) => {
       state.ingredientList = action.payload;
+    },
+    setAddedIngredients: (state, action) => {
+      state.addedIngredients = action.payload;
+    },
+    setMealIngredients: (state, action) => {
+      state.addedIngredients[action.payload.mealName] =
+        action.payload.ingredientList;
+    },
+    setFavoriteIngredients: (state, action) => {
+      state.favoriteIngredients = action.payload;
+    },
+    setRecentIngredients: (state, action) => {
+      state.recentIngredients = action.payload;
+    },
+    setFrequentIngredients: (state, action) => {
+      state.frequentIngredients = action.payload;
+    },
+    setCustomIngredients: (state, action) => {
+      state.customIngredients = action.payload;
     },
   },
 });
@@ -282,13 +221,18 @@ export const {
   setIsEditCustomIngredientModalOpen,
   resetSelectedIngredient,
   setAddToFavoritesAlert,
-  setRecentIngredients,
   setLastRemoved,
   toggleView,
   setEditableIngredient,
   setEditableIngredientInput,
   setTotalNutritionData,
-  setIngredientList,
+  setQueryList,
+  setAddedIngredients,
+  setMealIngredients,
+  setFavoriteIngredients,
+  setRecentIngredients,
+  setFrequentIngredients,
+  setCustomIngredients,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

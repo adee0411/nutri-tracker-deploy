@@ -38,6 +38,7 @@ const IngredientListItem = ({ ingredient, index, actionList, listName }) => {
           />
         </Stack>
       </ListItem>
+      <ListDivider />
     </>
   );
 };

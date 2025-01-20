@@ -37,6 +37,9 @@ const EditIngredientModal = ({
   const dispatch = useDispatch();
   const { mealTitle } = useParams();
 
+  const formattedIngredientName =
+    ingredientName[0].toUpperCase() + ingredientName.slice(1);
+
   const handleCloseModal = () => {
     dispatch(setIsEditIngredientModalOpen(false));
   };
@@ -115,7 +118,7 @@ const EditIngredientModal = ({
         <Typography
           level="title-md"
           color="primary"
-        >{`${ingredientName}, ${+editableIngredientInput}${unit}`}</Typography>
+        >{`${formattedIngredientName}, ${+editableIngredientInput} ${unit}`}</Typography>
         <NutritionDetails nutritionData={transformedNutritionData} />
         <form
           onSubmit={

@@ -1,18 +1,22 @@
+import db from "../firebase/firestore_config";
+import { collection, doc, getDoc } from "firebase/firestore";
+
 import { Stack, Typography, Button } from "@mui/joy";
 
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, useLoaderData } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import NutritionDetailCard from "../components/MealEditor/NutritionDetailCard";
 import AddedIngredients from "../components/IngredientList/AddedIngredients";
-import NoMeal from "../components/IngredientList/NoMeal";
+import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
 import CardWrapper from "../UI/CardWrapper";
-
-import { setTotalNutritionData } from "../store/ingredientSlice";
 
 import BreakfastImg from "../img/breakfast.png";
 import LunchImg from "../img/lunch.png";
 import SnackImg from "../img/snack.png";
+import { useEffect } from "react";
+
+import { setMealIngredients } from "../store/ingredientSlice";
 
 const mealImages = {
   breakfast: BreakfastImg,
@@ -23,14 +27,22 @@ const mealImages = {
 };
 
 const MealDetails = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   // Handle Add Ingredient
   const handleAddIngredient = () => {
     navigate("add-food");
   };
   // Get meal's name
   const { mealTitle } = useParams();
+
+  const mealData = useLoaderData();
+
+  useEffect(() => {
+    dispatch(
+      setMealIngredients({ mealName: mealTitle, ingredientList: mealData })
+    );
+  }, []);
 
   //fetch the selected meal's ingredientlist from store
   const addedIngredients = useSelector(
@@ -76,7 +88,7 @@ const MealDetails = () => {
 
         {addedIngredients.length === 0 ? (
           <>
-            <NoMeal text="A lista üres. Adj hozzá alapanyagokat!" />
+            <EmptyListPlaceholder text="A lista üres. Adj hozzá alapanyagokat!" />
             <Button
               onClick={handleAddIngredient}
               sx={{ width: "50%", m: "0 auto" }}
@@ -93,3 +105,14 @@ const MealDetails = () => {
 };
 
 export default MealDetails;
+
+export const mealDataLoader = async ({ params }) => {
+  const mealName = params.mealTitle;
+
+  const mealRef = doc(db, "addedIngredients", mealName);
+  const mealSnap = await getDoc(mealRef);
+
+  const mealIngredientList = mealSnap.data().ingredients;
+
+  return mealIngredientList;
+};
