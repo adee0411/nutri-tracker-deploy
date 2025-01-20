@@ -27,6 +27,7 @@ import {
   setEditableIngredient,
   setEditableIngredientInput,
   setIsEditCustomIngredientModalOpen,
+  setMealIngredients,
 } from "../../store/ingredientSlice";
 import IngredientListItemActionBtn from "./IngredientListItemActionBtn";
 import { useLocation } from "react-router";
@@ -45,6 +46,9 @@ const IngredientListItemActions = ({
   const { isEditIngredientModalOpen } = useSelector(
     (state) => state.ingredient.UI
   );
+  const ingredients = useSelector(
+    (state) => state.ingredient.addedIngredients[mealName]
+  );
 
   const [selectedAction, setSelectedAction] = useState(null);
 
@@ -53,6 +57,7 @@ const IngredientListItemActions = ({
     await setDoc(doc(db, "favoriteIngredients", ingredient.id), ingredient);
   };
 
+  // Log ingredient to list
   const handleLogIngredient = () => {
     const editableIngredient = { ...ingredient };
     dispatch(setIsEditIngredientModalOpen(true));
@@ -102,13 +107,31 @@ const IngredientListItemActions = ({
   };
   // Remove single ingredient
   const handleRemoveIngredient = () => {
+    let ingredientsCopy = [...ingredients];
+
+    const newIngredientList = {
+      ingredients: ingredientsCopy.filter((ing) => ing.id !== ingredient.id),
+    };
+
+    (async function (mealName) {
+      await setDoc(doc(db, "addedIngredients", mealName), newIngredientList);
+      dispatch(
+        setMealIngredients({
+          mealName: mealName,
+          ingredientList: newIngredientList.ingredients,
+        })
+      );
+    })(mealName);
+
+    /*
     dispatch(
       removeIngredient({
         ingredient: ingredient,
         mealName: mealName,
         listName: listName,
       })
-    );
+    );*/
+
     const removedIngredient = {
       listName,
       ingredient,

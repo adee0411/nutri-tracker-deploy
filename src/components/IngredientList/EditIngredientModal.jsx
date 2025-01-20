@@ -1,3 +1,6 @@
+import db from "../../firebase/firestore_config";
+import { doc, updateDoc } from "firebase/firestore";
+
 import {
   Modal,
   ModalClose,
@@ -10,6 +13,7 @@ import {
 } from "@mui/joy";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { useMemo } from "react";
 
 import { CiEdit } from "react-icons/ci";
 
@@ -20,9 +24,9 @@ import {
   setEditableIngredientInput,
   setIsEditIngredientModalOpen,
   updateIngredient,
+  setMealIngredients,
 } from "../../store/ingredientSlice";
 import { transformNutritionData } from "../../data/TESTDATA";
-import { useMemo } from "react";
 
 const EditIngredientModal = ({
   isModalOpen,
@@ -36,6 +40,9 @@ const EditIngredientModal = ({
   );
   const dispatch = useDispatch();
   const { mealTitle } = useParams();
+  const ingredients = useSelector(
+    (state) => state.ingredient.addedIngredients[mealTitle]
+  );
 
   const formattedIngredientName =
     ingredientName[0].toUpperCase() + ingredientName.slice(1);
@@ -62,14 +69,35 @@ const EditIngredientModal = ({
   const handleUpdateIngredient = (e) => {
     e.preventDefault();
 
+    let ingredientsCopy = [...ingredients];
+    const existingIngredientIndex = ingredientsCopy.findIndex((ing) => {
+      return ing.id === ingredient.id;
+    });
+
     const updatedIngredient = {
       ...ingredient,
       nutritionData: transformedNutritionData,
       amount: +editableIngredientInput,
     };
 
+    ingredientsCopy[existingIngredientIndex] = updatedIngredient;
+
+    (async function (mealName) {
+      const mealRef = doc(db, "addedIngredients", mealName);
+      await updateDoc(mealRef, {
+        ingredients: ingredientsCopy,
+      });
+
+      dispatch(
+        setMealIngredients({
+          mealName: mealName,
+          ingredientList: ingredientsCopy,
+        })
+      );
+    })(mealTitle);
+
     // Update ingredient in selected list
-    if (listName === "addedIngredients") {
+    /*if (listName === "addedIngredients") {
       dispatch(
         updateIngredient({
           mealName: mealTitle,
@@ -84,7 +112,7 @@ const EditIngredientModal = ({
           listName: listName,
         })
       );
-    }
+    }*/
 
     dispatch(setEditableIngredient(null));
     dispatch(setEditableIngredientInput(""));
@@ -133,6 +161,7 @@ const EditIngredientModal = ({
                 type="number"
                 onChange={handleInputChange}
                 value={editableIngredientInput}
+                endDecorator={ingredient.unit}
               />
             </FormControl>
             <FormControl>
