@@ -124,7 +124,10 @@ const MealDetails = () => {
         )}
       </Stack>
       {isConfirmEmptyListModalOpen ? (
-        <ConfirmEmptyListModal mealName={mealTitle} />
+        <ConfirmEmptyListModal
+          mealName={mealTitle}
+          listName="addedIngredients"
+        />
       ) : (
         ""
       )}

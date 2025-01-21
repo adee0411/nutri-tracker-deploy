@@ -1,5 +1,5 @@
 import db from "../firebase/firestore_config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useLoaderData } from "react-router";
@@ -10,13 +10,15 @@ import { Outlet } from "react-router";
 import Header from "../components/Header/Header";
 
 import { setAddedIngredients } from "../store/ingredientSlice";
+import { setProfile } from "../store/profileSlice";
 
 const RootLayout = () => {
   const dispatch = useDispatch();
 
-  const addedIngredientsList = useLoaderData();
+  const { addedIngredients, profile } = useLoaderData();
   useEffect(() => {
-    dispatch(setAddedIngredients(addedIngredientsList));
+    dispatch(setAddedIngredients(addedIngredients));
+    dispatch(setProfile(profile));
   }, []);
   return (
     <>
@@ -31,11 +33,17 @@ const RootLayout = () => {
 export default RootLayout;
 
 export const addedIngredientsListLoader = async () => {
-  const addedIngredients = {};
-  const snapshot = await getDocs(collection(db, "addedIngredients"));
-  snapshot.forEach((meal) => {
-    addedIngredients[meal.id] = meal.data().ingredients;
+  const initialData = {
+    addedIngredients: {},
+    profile: {},
+  };
+  const addedIngredientsSnapshot = await getDocs(
+    collection(db, "addedIngredients")
+  );
+  addedIngredientsSnapshot.forEach((meal) => {
+    initialData.addedIngredients[meal.id] = meal.data().ingredients;
   });
+  initialData.profile = (await getDoc(doc(db, "profile", "data"))).data();
 
-  return addedIngredients;
+  return initialData;
 };

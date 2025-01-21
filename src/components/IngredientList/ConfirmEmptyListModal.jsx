@@ -1,5 +1,11 @@
 import db from "../../firebase/firestore_config";
-import { setDoc, doc } from "firebase/firestore";
+import {
+  setDoc,
+  doc,
+  getDocs,
+  collection,
+  deleteDoc,
+} from "firebase/firestore";
 
 import {
   Modal,
@@ -14,9 +20,10 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   toggleIsConfirmEmptyListModalOpen,
   setMealIngredients,
+  setIngredientList,
 } from "../../store/ingredientSlice";
 
-const ConfirmEmptyListModal = ({ mealName }) => {
+const ConfirmEmptyListModal = ({ mealName, listName }) => {
   const dispatch = useDispatch();
   const isModalOpen = useSelector(
     (state) => state.ingredient.UI.isConfirmEmptyListModalOpen
@@ -27,7 +34,19 @@ const ConfirmEmptyListModal = ({ mealName }) => {
     const emptyList = {
       ingredients: [],
     };
-    await setDoc(doc(db, "addedIngredients", mealName), emptyList);
+
+    if (listName === "addedIngredients") {
+      await setDoc(doc(db, "addedIngredients", mealName), emptyList);
+      dispatch(setMealIngredients({ mealName: mealName, ingredientList: [] }));
+      dispatch(toggleIsConfirmEmptyListModalOpen());
+    } else {
+      const listSnapshot = await getDocs(collection(db, listName));
+      listSnapshot.forEach(async (document) => {
+        await deleteDoc(doc(db, listName, document.id));
+      });
+      dispatch(setIngredientList({ listName: listName, ingredientList: [] }));
+      dispatch(toggleIsConfirmEmptyListModalOpen());
+    }
   };
 
   const handleCloseModal = () => {
@@ -37,8 +56,6 @@ const ConfirmEmptyListModal = ({ mealName }) => {
   const submitEmptyList = (e) => {
     e.preventDefault();
     emptyMealListInFirebase(mealName);
-    dispatch(setMealIngredients({ mealName: mealName, ingredientList: [] }));
-    dispatch(toggleIsConfirmEmptyListModalOpen());
   };
   return (
     <Modal open={isModalOpen} onClose={handleCloseModal}>

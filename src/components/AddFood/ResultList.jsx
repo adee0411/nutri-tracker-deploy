@@ -1,4 +1,10 @@
-import { Typography, List, ListItem, ListItemButton } from "@mui/joy";
+import {
+  Typography,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemDecorator,
+} from "@mui/joy";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -6,13 +12,16 @@ import {
   setNewIngredientInput,
 } from "../../store/ingredientSlice";
 
+import { FaRegUser } from "react-icons/fa";
+import { IoFastFoodOutline } from "react-icons/io5";
+
 const ResultList = ({ resultList }) => {
   const dispatch = useDispatch();
 
   const { selectedIngredient } = useSelector((state) => state.ingredient);
 
   const handleSelectedIngredient = (e) => {
-    const ingredientID = e.target.id;
+    const ingredientID = e.currentTarget.id;
     const ingredient = resultList.find(
       (ingredient) => ingredient.id === ingredientID
     );
@@ -48,7 +57,14 @@ const ResultList = ({ resultList }) => {
                 id={result.id}
                 onClick={handleSelectedIngredient}
               >
-                {ingredientName}
+                <ListItemDecorator>
+                  {result.id.includes("custom") ? (
+                    <FaRegUser />
+                  ) : (
+                    <IoFastFoodOutline />
+                  )}
+                </ListItemDecorator>
+                <Typography level="body-md">{ingredientName}</Typography>
               </ListItemButton>
             </ListItem>
           );

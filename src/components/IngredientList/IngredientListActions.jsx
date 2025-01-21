@@ -16,6 +16,7 @@ import {
   toggleView,
   toggleNewCustomIngredientModal,
   toggleIsConfirmEmptyListModalOpen,
+  setEmptyListName,
 } from "../../store/ingredientSlice";
 
 const IngredientListActions = ({ listName, listActions }) => {
@@ -31,6 +32,7 @@ const IngredientListActions = ({ listName, listActions }) => {
   const handleEmptyList = () => {
     //dispatch(emptyList({ listName: listName, mealName: mealName }));
     dispatch(toggleIsConfirmEmptyListModalOpen());
+    dispatch(setEmptyListName(listName));
   };
 
   const handleBackupIngredient = () => {

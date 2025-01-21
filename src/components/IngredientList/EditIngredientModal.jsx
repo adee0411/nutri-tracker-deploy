@@ -118,24 +118,6 @@ const EditIngredientModal = ({
       })();
     }
 
-    // Update ingredient in selected list
-    /*if (listName === "addedIngredients") {
-      dispatch(
-        updateIngredient({
-          mealName: mealTitle,
-          ingredient: updatedIngredient,
-          listName: listName,
-        })
-      );
-    } else {
-      dispatch(
-        updateIngredient({
-          ingredient: updatedIngredient,
-          listName: listName,
-        })
-      );
-    }*/
-
     dispatch(setEditableIngredientInput(""));
     dispatch(setIsEditIngredientModalOpen(false));
   };

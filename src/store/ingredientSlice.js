@@ -37,6 +37,7 @@ const ingredientSlice = createSlice({
         actionName: null,
         listName: null,
       },
+      emptyListName: null,
     },
   },
   reducers: {
@@ -216,6 +217,9 @@ const ingredientSlice = createSlice({
     setIngredientAction: (state, action) => {
       state.UI.ingredientAction = action.payload;
     },
+    setEmptyListName: (state, action) => {
+      state.UI.emptyListName = action.payload;
+    },
   },
 });
 
@@ -250,6 +254,7 @@ export const {
   setCustomIngredients,
   toggleIsConfirmEmptyListModalOpen,
   setIngredientAction,
+  setEmptyListName,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

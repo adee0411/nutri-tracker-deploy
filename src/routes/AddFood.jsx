@@ -9,6 +9,7 @@ import SearchForm from "../components/AddFood/SearchForm";
 import SelectedIngredient from "../components/AddFood/SelectedIngredient";
 import QuickIngredientTab from "../components/AddFood/QuickIngredientTab";
 import EditIngredientModal from "../components/IngredientList/EditIngredientModal";
+import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
 
 import {
   setQueryList,
@@ -32,16 +33,20 @@ const AddFood = () => {
   const dispatch = useDispatch();
 
   const { editableIngredient } = useSelector((state) => state.ingredient);
-  const { isEditIngredientModalOpen } = useSelector(
-    (state) => state.ingredient.UI
-  );
+  const {
+    isEditIngredientModalOpen,
+    isConfirmEmptyListModalOpen,
+    emptyListName,
+  } = useSelector((state) => state.ingredient.UI);
   const { actionName, listName } = useSelector(
     (state) => state.ingredient.UI.ingredientAction
   );
 
+  const mergedQueryList = queryList.concat(customIngredients);
+
   // Avoid parallel component rendering
   useEffect(() => {
-    dispatch(setQueryList(queryList));
+    dispatch(setQueryList(mergedQueryList));
     dispatch(setFavoriteIngredients(favoriteIngredients));
     dispatch(setRecentIngredients(recentIngredients));
     dispatch(setFrequentIngredients(frequentIngredients));
@@ -64,6 +69,11 @@ const AddFood = () => {
         )}
         <QuickIngredientTab />
       </Sheet>
+      {isConfirmEmptyListModalOpen ? (
+        <ConfirmEmptyListModal listName={emptyListName} />
+      ) : (
+        ""
+      )}
       {isEditIngredientModalOpen ? (
         <EditIngredientModal
           isModalOpen={isEditIngredientModalOpen}

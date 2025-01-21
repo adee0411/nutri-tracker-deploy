@@ -51,7 +51,7 @@ const AddCustomIngredient = () => {
     const customIngredientsCopy = [...customIngredients];
 
     const newCustomIngredient = {
-      id: generateUniqueId(),
+      id: "custom_" + generateUniqueId(),
       ingredientName: ingredientName,
       unitage: +unitage,
       unit: unit,

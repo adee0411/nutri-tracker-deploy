@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AddCustomIngredient from "../components/CustomIngredients/AddCustomIngredient";
 import EditCustomIngredientModal from "../components/CustomIngredients/EditCustomIngredientModal";
 import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
+import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
 import { useLoaderData } from "react-router";
 import { setIngredientList } from "../store/ingredientSlice";
 import { useEffect } from "react";
@@ -17,9 +18,8 @@ import { useEffect } from "react";
 const CustomIngredientsRoute = () => {
   const dispatch = useDispatch();
   const { customIngredients } = useSelector((state) => state.ingredient);
-  const { isEditCustomIngredientModalOpen } = useSelector(
-    (state) => state.ingredient.UI
-  );
+  const { isEditCustomIngredientModalOpen, isConfirmEmptyListModalOpen } =
+    useSelector((state) => state.ingredient.UI);
   const { editableIngredient } = useSelector((state) => state.ingredient);
 
   const loadedData = useLoaderData();
@@ -34,34 +34,41 @@ const CustomIngredientsRoute = () => {
   }, []);
 
   return (
-    <Stack p={4} gap={3}>
-      <AddCustomIngredient />
+    <>
+      <Stack p={4} gap={3}>
+        <AddCustomIngredient />
 
-      {customIngredients.length === 0 ? (
-        <EmptyListPlaceholder text="Még nincsnek saját alapanyagok." />
-      ) : (
-        <>
-          <IngredientListHeader
-            listTitle="Saját alapanyagok"
-            listName="customIngredients"
-            listActions={["empty", "backup", "view"]}
-          />
-          <IngredientList
-            listName="customIngredients"
-            actionList={["update", "remove"]}
-            ingredientList={customIngredients}
-          />
-          {isEditCustomIngredientModalOpen ? (
-            <EditCustomIngredientModal
-              isModalOpen={isEditCustomIngredientModalOpen}
-              ingredient={editableIngredient}
+        {customIngredients.length === 0 ? (
+          <EmptyListPlaceholder text="Még nincsnek saját alapanyagok." />
+        ) : (
+          <>
+            <IngredientListHeader
+              listTitle="Saját alapanyagok"
+              listName="customIngredients"
+              listActions={["empty", "backup", "view"]}
             />
-          ) : (
-            ""
-          )}
-        </>
+            <IngredientList
+              listName="customIngredients"
+              actionList={["update", "remove"]}
+              ingredientList={customIngredients}
+            />
+            {isEditCustomIngredientModalOpen ? (
+              <EditCustomIngredientModal
+                isModalOpen={isEditCustomIngredientModalOpen}
+                ingredient={editableIngredient}
+              />
+            ) : (
+              ""
+            )}
+          </>
+        )}
+      </Stack>
+      {isConfirmEmptyListModalOpen ? (
+        <ConfirmEmptyListModal listName="customIngredients" />
+      ) : (
+        ""
       )}
-    </Stack>
+    </>
   );
 };
 

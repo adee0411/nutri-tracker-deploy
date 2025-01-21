@@ -4,11 +4,7 @@ import IngredientListItem from "./IngredientListItem";
 
 const IngredientList = ({ ingredientList, actionList, listName }) => {
   return (
-    <List
-      color="primary"
-      variant="plain"
-      sx={{ "--ListDivider-gap": "8px", my: 2 }}
-    >
+    <List color="primary" variant="plain" sx={{ "--ListDivider-gap": "8px" }}>
       {ingredientList.map((ingredient, index) => {
         return (
           <IngredientListItem
