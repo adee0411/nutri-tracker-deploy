@@ -40,17 +40,11 @@ const IngredientListItemActions = ({
 }) => {
   const location = useLocation();
   const dispatch = useDispatch();
-  const { editableIngredient, favoriteIngredients } = useSelector(
-    (state) => state.ingredient
-  );
-  const { isEditIngredientModalOpen } = useSelector(
-    (state) => state.ingredient.UI
-  );
+  const { favoriteIngredients } = useSelector((state) => state.ingredient);
+
   const ingredients = useSelector(
     (state) => state.ingredient.addedIngredients[mealName]
   );
-
-  const [selectedAction, setSelectedAction] = useState(null);
 
   // POST data to firebase
   const addFavoriteToFirebase = async (ingredient) => {
@@ -63,30 +57,26 @@ const IngredientListItemActions = ({
     dispatch(setIsEditIngredientModalOpen(true));
     dispatch(setEditableIngredient(editableIngredient));
     dispatch(setEditableIngredientInput(ingredient.amount));
-    setSelectedAction("log");
   };
 
   // Update single ingredient action
   const handleUpdateIngredient = () => {
-    const editableIngredient = { ...ingredient };
-
     if (listName === "customIngredients") {
       dispatch(setIsEditCustomIngredientModalOpen());
     } else {
       dispatch(setIsEditIngredientModalOpen(true));
       dispatch(setEditableIngredientInput(ingredient.amount));
-      setSelectedAction("update");
     }
 
-    dispatch(setEditableIngredient(editableIngredient));
+    dispatch(setEditableIngredient(ingredient));
   };
 
   // Add ingredient to favorites
   const handleAddToFavorites = (e) => {
-    const { id, amount } = ingredient;
+    const { id } = ingredient;
     const existingIngredient = favoriteIngredients.find((ing) => ing.id === id);
 
-    if (existingIngredient && amount === existingIngredient.amount) {
+    if (existingIngredient) {
       dispatch(
         setAddToFavoritesAlert({
           state: "error",
@@ -201,17 +191,6 @@ const IngredientListItemActions = ({
           </Menu>
         </Dropdown>
       </Stack>
-
-      {editableIngredient ? (
-        <EditIngredientModal
-          isModalOpen={isEditIngredientModalOpen}
-          ingredient={editableIngredient}
-          ingredientAction={selectedAction}
-          listName={listName}
-        />
-      ) : (
-        ""
-      )}
     </>
   );
 };

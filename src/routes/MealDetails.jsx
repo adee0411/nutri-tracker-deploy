@@ -11,13 +11,18 @@ import AddedIngredients from "../components/IngredientList/AddedIngredients";
 import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
 import CardWrapper from "../UI/CardWrapper";
 import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
+import EditIngredientModal from "../components/IngredientList/EditIngredientModal";
 
 import BreakfastImg from "../img/breakfast.png";
 import LunchImg from "../img/lunch.png";
 import SnackImg from "../img/snack.png";
 import { useEffect } from "react";
 
-import { setMealIngredients } from "../store/ingredientSlice";
+import {
+  setEditableIngredient,
+  setIsEditIngredientModalOpen,
+  setMealIngredients,
+} from "../store/ingredientSlice";
 
 const mealImages = {
   breakfast: BreakfastImg,
@@ -30,10 +35,11 @@ const mealImages = {
 const MealDetails = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // Handle Add Ingredient
-  const handleAddIngredient = () => {
-    navigate("add-food");
-  };
+
+  const { editableIngredient } = useSelector((state) => state.ingredient);
+  const { isEditIngredientModalOpen } = useSelector(
+    (state) => state.ingredient.UI
+  );
 
   // Get meal's name
   const { mealTitle } = useParams();
@@ -72,10 +78,18 @@ const MealDetails = () => {
     }
   });
 
+  // Handle Add Ingredient
+  const handleAddIngredient = () => {
+    navigate("add-food");
+  };
+
   useEffect(() => {
     dispatch(
       setMealIngredients({ mealName: mealTitle, ingredientList: mealData })
     );
+
+    // Reset edit ingredient modal on first render
+    dispatch(setIsEditIngredientModalOpen(false));
   }, []);
 
   return (
@@ -108,6 +122,16 @@ const MealDetails = () => {
       </Stack>
       {isConfirmEmptyListModalOpen ? (
         <ConfirmEmptyListModal mealName={mealTitle} />
+      ) : (
+        ""
+      )}
+      {isEditIngredientModalOpen ? (
+        <EditIngredientModal
+          isModalOpen={isEditIngredientModalOpen}
+          ingredient={editableIngredient}
+          ingredientAction="update"
+          listName="addedIngredients"
+        />
       ) : (
         ""
       )}

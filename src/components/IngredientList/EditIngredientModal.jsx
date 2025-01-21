@@ -114,8 +114,8 @@ const EditIngredientModal = ({
       );
     }*/
 
-    dispatch(setEditableIngredient(null));
     dispatch(setEditableIngredientInput(""));
+    dispatch(setIsEditIngredientModalOpen(false));
   };
 
   // LOG updated ingredient to day
