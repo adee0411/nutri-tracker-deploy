@@ -1,5 +1,5 @@
 import db from "../../firebase/firestore_config";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc, setDoc } from "firebase/firestore";
 
 import {
   Modal,
@@ -25,6 +25,11 @@ import {
   setIsEditIngredientModalOpen,
   updateIngredient,
   setMealIngredients,
+  setIngredientList,
+  setFavoriteIngredients,
+  setRecentIngredients,
+  setFrequentIngredients,
+  setCustomIngredients,
 } from "../../store/ingredientSlice";
 import { transformNutritionData } from "../../data/TESTDATA";
 
@@ -40,20 +45,12 @@ const EditIngredientModal = ({
   );
   const dispatch = useDispatch();
   const { mealTitle } = useParams();
-  const ingredients = useSelector(
+  const ingredients = useSelector((state) => state.ingredient[listName]);
+  const mealIngredients = useSelector(
     (state) => state.ingredient.addedIngredients[mealTitle]
   );
-
   const formattedIngredientName =
     ingredientName[0].toUpperCase() + ingredientName.slice(1);
-
-  const handleCloseModal = () => {
-    dispatch(setIsEditIngredientModalOpen(false));
-  };
-
-  const handleInputChange = (e) => {
-    dispatch(setEditableIngredientInput(e.target.value));
-  };
 
   let transformedNutritionData = useMemo(
     () =>
@@ -65,11 +62,22 @@ const EditIngredientModal = ({
     [nutritionDataPerUnit, editableIngredientInput, unitage]
   );
 
+  const handleCloseModal = () => {
+    dispatch(setIsEditIngredientModalOpen(false));
+  };
+
+  const handleInputChange = (e) => {
+    dispatch(setEditableIngredientInput(e.target.value));
+  };
+
   // UPDATE ingredient in list
   const handleUpdateIngredient = (e) => {
     e.preventDefault();
 
-    let ingredientsCopy = [...ingredients];
+    let ingredientsCopy =
+      listName === "addedIngredients"
+        ? [...ingredients[mealTitle]]
+        : [...ingredients];
     const existingIngredientIndex = ingredientsCopy.findIndex((ing) => {
       return ing.id === ingredient.id;
     });
@@ -82,19 +90,33 @@ const EditIngredientModal = ({
 
     ingredientsCopy[existingIngredientIndex] = updatedIngredient;
 
-    (async function (mealName) {
-      const mealRef = doc(db, "addedIngredients", mealName);
-      await updateDoc(mealRef, {
-        ingredients: ingredientsCopy,
-      });
+    if (listName === "addedIngredients") {
+      (async function (mealName) {
+        const mealRef = doc(db, listName, mealName);
+        await updateDoc(mealRef, {
+          ingredients: ingredientsCopy,
+        });
 
-      dispatch(
-        setMealIngredients({
-          mealName: mealName,
-          ingredientList: ingredientsCopy,
-        })
-      );
-    })(mealTitle);
+        dispatch(
+          setMealIngredients({
+            mealName: mealName,
+            ingredientList: ingredientsCopy,
+          })
+        );
+      })(mealTitle);
+    } else {
+      (async function () {
+        await setDoc(doc(db, listName, ingredient.id), updatedIngredient);
+
+        // Set the appropriate ingredient list to state!!!
+        dispatch(
+          setIngredientList({
+            listName: listName,
+            ingredientList: ingredientsCopy,
+          })
+        );
+      })();
+    }
 
     // Update ingredient in selected list
     /*if (listName === "addedIngredients") {
@@ -121,17 +143,47 @@ const EditIngredientModal = ({
   // LOG updated ingredient to day
   const handleLogIngredient = (e) => {
     e.preventDefault();
-    const updatedIngredient = {
-      ...ingredient,
-      nutritionData: transformedNutritionData,
-      amount: +editableIngredientInput,
+    let ingredientsCopy = [...mealIngredients];
+    const existingIngredientIndex = ingredientsCopy.findIndex((ing) => {
+      return ing.id === ingredient.id;
+    });
+
+    if (existingIngredientIndex === -1) {
+      ingredientsCopy.push(ingredient);
+    } else {
+      let newNutritionData = {
+        ...ingredientsCopy[existingIngredientIndex].nutritionData,
+      };
+
+      let newAmount =
+        ingredientsCopy[existingIngredientIndex].amount +
+        +editableIngredientInput;
+      for (let [key, value] of Object.entries(ingredient.nutritionData)) {
+        newNutritionData[key] += value;
+      }
+      const newIngredient = {
+        ...ingredient,
+        nutritionData: newNutritionData,
+        amount: newAmount,
+      };
+
+      ingredientsCopy[existingIngredientIndex] = newIngredient;
+    }
+
+    const newIngredientList = {
+      ingredients: [...ingredientsCopy],
     };
-    // Log ingredient to day
-    dispatch(
-      addIngredient({ mealName: mealTitle, ingredient: updatedIngredient })
-    );
-    dispatch(setEditableIngredient(null));
-    dispatch(setEditableIngredientInput(""));
+
+    (async function (mealName) {
+      await setDoc(doc(db, "addedIngredients", mealName), newIngredientList);
+      dispatch(
+        setMealIngredients({
+          mealName: mealName,
+          ingredientList: newIngredientList.ingredients,
+        })
+      );
+      dispatch(setIsEditIngredientModalOpen(false));
+    })(mealTitle);
   };
 
   return (

@@ -54,6 +54,9 @@ const MealDetails = () => {
   const { isConfirmEmptyListModalOpen } = useSelector(
     (state) => state.ingredient.UI
   );
+  const { actionName, listName } = useSelector(
+    (state) => state.ingredient.UI.ingredientAction
+  );
 
   const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
   const mealImage = isMeal ? "meal" : mealTitle;
@@ -129,8 +132,8 @@ const MealDetails = () => {
         <EditIngredientModal
           isModalOpen={isEditIngredientModalOpen}
           ingredient={editableIngredient}
-          ingredientAction="update"
-          listName="addedIngredients"
+          ingredientAction={actionName}
+          listName={listName}
         />
       ) : (
         ""

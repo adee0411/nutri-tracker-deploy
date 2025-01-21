@@ -1,5 +1,5 @@
 import db from "../../firebase/firestore_config";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, deleteDoc } from "firebase/firestore";
 
 import { Button, Dropdown, MenuButton, Menu, MenuItem, Stack } from "@mui/joy";
 
@@ -28,6 +28,8 @@ import {
   setEditableIngredientInput,
   setIsEditCustomIngredientModalOpen,
   setMealIngredients,
+  setIngredientAction,
+  setIngredientList,
 } from "../../store/ingredientSlice";
 import IngredientListItemActionBtn from "./IngredientListItemActionBtn";
 import { useLocation } from "react-router";
@@ -42,7 +44,8 @@ const IngredientListItemActions = ({
   const dispatch = useDispatch();
   const { favoriteIngredients } = useSelector((state) => state.ingredient);
 
-  const ingredients = useSelector(
+  const ingredients = useSelector((state) => state.ingredient[listName]);
+  const addedIngredients = useSelector(
     (state) => state.ingredient.addedIngredients[mealName]
   );
 
@@ -57,6 +60,7 @@ const IngredientListItemActions = ({
     dispatch(setIsEditIngredientModalOpen(true));
     dispatch(setEditableIngredient(editableIngredient));
     dispatch(setEditableIngredientInput(ingredient.amount));
+    dispatch(setIngredientAction({ actionName: "log", listName: listName }));
   };
 
   // Update single ingredient action
@@ -66,6 +70,12 @@ const IngredientListItemActions = ({
     } else {
       dispatch(setIsEditIngredientModalOpen(true));
       dispatch(setEditableIngredientInput(ingredient.amount));
+      dispatch(
+        setIngredientAction({
+          actionName: "update",
+          listName: listName,
+        })
+      );
     }
 
     dispatch(setEditableIngredient(ingredient));
@@ -97,21 +107,38 @@ const IngredientListItemActions = ({
   };
   // Remove single ingredient
   const handleRemoveIngredient = () => {
-    let ingredientsCopy = [...ingredients];
+    let ingredientsCopy =
+      listName === "addedIngredients"
+        ? [...addedIngredients]
+        : [...ingredients];
 
-    const newIngredientList = {
-      ingredients: ingredientsCopy.filter((ing) => ing.id !== ingredient.id),
-    };
+    const newIngredientList = ingredientsCopy.filter(
+      (ing) => ing.id !== ingredient.id
+    );
 
-    (async function (mealName) {
-      await setDoc(doc(db, "addedIngredients", mealName), newIngredientList);
-      dispatch(
-        setMealIngredients({
-          mealName: mealName,
-          ingredientList: newIngredientList.ingredients,
-        })
-      );
-    })(mealName);
+    if (listName === "addedIngredients") {
+      (async function (mealName) {
+        await setDoc(doc(db, listName, mealName), {
+          ingredients: newIngredientList,
+        });
+        dispatch(
+          setMealIngredients({
+            mealName: mealName,
+            ingredientList: newIngredientList,
+          })
+        );
+      })(mealName);
+    } else {
+      (async function () {
+        await deleteDoc(doc(db, listName, ingredient.id));
+        dispatch(
+          setIngredientList({
+            listName: listName,
+            ingredientList: newIngredientList,
+          })
+        );
+      })();
+    }
 
     /*
     dispatch(

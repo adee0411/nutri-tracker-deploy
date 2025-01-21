@@ -8,6 +8,7 @@ import { useLoaderData } from "react-router";
 import SearchForm from "../components/AddFood/SearchForm";
 import SelectedIngredient from "../components/AddFood/SelectedIngredient";
 import QuickIngredientTab from "../components/AddFood/QuickIngredientTab";
+import EditIngredientModal from "../components/IngredientList/EditIngredientModal";
 
 import {
   setQueryList,
@@ -15,6 +16,7 @@ import {
   setRecentIngredients,
   setFrequentIngredients,
   setCustomIngredients,
+  setIsEditIngredientModalOpen,
 } from "../store/ingredientSlice";
 import { useEffect } from "react";
 
@@ -29,6 +31,14 @@ const AddFood = () => {
 
   const dispatch = useDispatch();
 
+  const { editableIngredient } = useSelector((state) => state.ingredient);
+  const { isEditIngredientModalOpen } = useSelector(
+    (state) => state.ingredient.UI
+  );
+  const { actionName, listName } = useSelector(
+    (state) => state.ingredient.UI.ingredientAction
+  );
+
   // Avoid parallel component rendering
   useEffect(() => {
     dispatch(setQueryList(queryList));
@@ -36,6 +46,7 @@ const AddFood = () => {
     dispatch(setRecentIngredients(recentIngredients));
     dispatch(setFrequentIngredients(frequentIngredients));
     dispatch(setCustomIngredients(customIngredients));
+    dispatch(setIsEditIngredientModalOpen(false));
   }, []);
 
   const { selectedIngredient } = useSelector((state) => state.ingredient);
@@ -53,6 +64,16 @@ const AddFood = () => {
         )}
         <QuickIngredientTab />
       </Sheet>
+      {isEditIngredientModalOpen ? (
+        <EditIngredientModal
+          isModalOpen={isEditIngredientModalOpen}
+          ingredient={editableIngredient}
+          ingredientAction={actionName}
+          listName={listName}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };

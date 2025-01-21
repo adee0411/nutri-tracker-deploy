@@ -11,13 +11,12 @@ const ingredientSlice = createSlice({
       meal4: [],
       snack: [],
     },
-    totalNutritionData: {},
     favoriteIngredients: [],
+    recentIngredients: [],
     frequentIngredients: [],
     customIngredients: [],
-    recentIngredients: [],
-    lastRemoved: null,
     searchResultList: [],
+    lastRemoved: null,
     selectedIngredient: null,
     editableIngredient: null,
     UI: {
@@ -34,6 +33,10 @@ const ingredientSlice = createSlice({
       editableIngredientInput: "",
       isNewCustomIngredientModalOpen: true,
       isConfirmEmptyListModalOpen: false,
+      ingredientAction: {
+        actionName: null,
+        listName: null,
+      },
     },
   },
   reducers: {
@@ -191,6 +194,9 @@ const ingredientSlice = createSlice({
       state.addedIngredients[action.payload.mealName] =
         action.payload.ingredientList;
     },
+    setIngredientList: (state, action) => {
+      state[action.payload.listName] = action.payload.ingredientList;
+    },
     setFavoriteIngredients: (state, action) => {
       state.favoriteIngredients = action.payload;
     },
@@ -206,6 +212,9 @@ const ingredientSlice = createSlice({
     toggleIsConfirmEmptyListModalOpen: (state) => {
       state.UI.isConfirmEmptyListModalOpen =
         !state.UI.isConfirmEmptyListModalOpen;
+    },
+    setIngredientAction: (state, action) => {
+      state.UI.ingredientAction = action.payload;
     },
   },
 });
@@ -234,11 +243,13 @@ export const {
   setQueryList,
   setAddedIngredients,
   setMealIngredients,
+  setIngredientList,
   setFavoriteIngredients,
   setRecentIngredients,
   setFrequentIngredients,
   setCustomIngredients,
   toggleIsConfirmEmptyListModalOpen,
+  setIngredientAction,
 } = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;
