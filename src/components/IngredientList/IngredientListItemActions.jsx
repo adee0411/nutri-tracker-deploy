@@ -26,7 +26,7 @@ import {
   setLastRemoved,
   setEditableIngredient,
   setEditableIngredientInput,
-  setIsEditCustomIngredientModalOpen,
+  toggleIsEditCustomIngredientModalOpen,
   setMealIngredients,
   setIngredientAction,
   setIngredientList,
@@ -66,7 +66,7 @@ const IngredientListItemActions = ({
   // Update single ingredient action
   const handleUpdateIngredient = () => {
     if (listName === "customIngredients") {
-      dispatch(setIsEditCustomIngredientModalOpen());
+      dispatch(toggleIsEditCustomIngredientModalOpen());
     } else {
       dispatch(setIsEditIngredientModalOpen(true));
       dispatch(setEditableIngredientInput(ingredient.amount));

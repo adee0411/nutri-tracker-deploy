@@ -13,7 +13,9 @@ import RootLayout from "./UI/RootLayout";
 import DailyOverview from "./routes/DailyOverview";
 import MealDetails, { mealDataLoader } from "./routes/MealDetails";
 import AddFood from "./routes/AddFood";
-import CustomIngredientsRoute from "./routes/CustomIngredientsRoute";
+import CustomIngredientsRoute, {
+  customIngredientsListLoader,
+} from "./routes/CustomIngredientsRoute";
 
 import { ingredientLoader } from "./routes/AddFood";
 import { addedIngredientsListLoader } from "./UI/RootLayout";
@@ -42,6 +44,7 @@ const router = createBrowserRouter([
       {
         path: "/custom-ingredients",
         element: <CustomIngredientsRoute />,
+        loader: customIngredientsListLoader,
       },
     ],
   },

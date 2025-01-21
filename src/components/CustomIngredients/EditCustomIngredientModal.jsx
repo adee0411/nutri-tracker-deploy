@@ -1,3 +1,6 @@
+import db from "../../firebase/firestore_config";
+import { setDoc, doc } from "firebase/firestore";
+
 import {
   Modal,
   ModalDialog,
@@ -15,12 +18,17 @@ import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  setIsEditCustomIngredientModalOpen,
+  toggleIsEditCustomIngredientModalOpen,
   updateIngredient,
+  setIngredientList,
+  setEditableIngredientInput,
+  setIsEditIngredientModalOpen,
 } from "../../store/ingredientSlice";
 
 const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
   const dispatch = useDispatch();
+
+  const { customIngredients } = useSelector((state) => state.ingredient);
 
   const ingredientNameRef = useRef();
   const unitageRef = useRef();
@@ -37,12 +45,18 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
   };
 
   const handleShowModal = () => {
-    dispatch(setIsEditCustomIngredientModalOpen());
+    dispatch(toggleIsEditCustomIngredientModalOpen());
   };
 
   const handleUpdateCustomIngredient = (e) => {
     e.preventDefault();
-    const newIngredient = {
+
+    let ingredientsCopy = [...customIngredients];
+    const existingIngredientIndex = ingredientsCopy.findIndex((ing) => {
+      return ing.id === ingredient.id;
+    });
+
+    const updatedIngredient = {
       ...ingredient,
       ingredientName: ingredientNameRef.current.value,
       unitage: +unitageRef.current.value,
@@ -57,12 +71,24 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
       },
     };
 
-    dispatch(
-      updateIngredient({
-        listName: "customIngredients",
-        ingredient: newIngredient,
-      })
-    );
+    ingredientsCopy[existingIngredientIndex] = updatedIngredient;
+
+    (async function () {
+      await setDoc(
+        doc(db, "customIngredients", ingredient.id),
+        updatedIngredient
+      );
+
+      // Set the appropriate ingredient list to state!!!
+      dispatch(
+        setIngredientList({
+          listName: "customIngredients",
+          ingredientList: ingredientsCopy,
+        })
+      );
+
+      dispatch(toggleIsEditCustomIngredientModalOpen());
+    })();
   };
   return (
     <Modal open={isModalOpen} onClose={handleShowModal}>

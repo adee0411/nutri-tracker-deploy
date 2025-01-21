@@ -1,3 +1,6 @@
+import db from "../../firebase/firestore_config";
+import { collection, getDocs, doc, setDoc } from "firebase/firestore";
+
 import {
   Typography,
   Stack,
@@ -12,11 +15,16 @@ import { useRef, useState } from "react";
 
 import generateUniqueId from "generate-unique-id";
 
-import { addCustomIngredient } from "../../store/ingredientSlice";
-import { useDispatch } from "react-redux";
+import {
+  addCustomIngredient,
+  setIngredientList,
+} from "../../store/ingredientSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const AddCustomIngredient = () => {
   const dispatch = useDispatch();
+
+  const { customIngredients } = useSelector((state) => state.ingredient);
 
   const carbRef = useRef();
   const proteinRef = useRef();
@@ -40,6 +48,8 @@ const AddCustomIngredient = () => {
   const handleAddCustomIngredient = (e) => {
     e.preventDefault();
 
+    const customIngredientsCopy = [...customIngredients];
+
     const newCustomIngredient = {
       id: generateUniqueId(),
       ingredientName: ingredientName,
@@ -53,7 +63,23 @@ const AddCustomIngredient = () => {
         energy: +energyRef.current.value,
       },
     };
-    dispatch(addCustomIngredient(newCustomIngredient));
+
+    customIngredientsCopy.push(newCustomIngredient);
+
+    (async function () {
+      await setDoc(
+        doc(db, "customIngredients", newCustomIngredient.id),
+        newCustomIngredient
+      );
+      dispatch(
+        setIngredientList({
+          listName: "customIngredients",
+          ingredientList: customIngredientsCopy,
+        })
+      );
+    })();
+
+    //dispatch(addCustomIngredient(newCustomIngredient));
   };
   return (
     <form onSubmit={handleAddCustomIngredient}>

@@ -139,7 +139,7 @@ const ingredientSlice = createSlice({
     setIsEditIngredientModalOpen: (state, action) => {
       state.UI.isEditIngredientModalOpen = action.payload;
     },
-    setIsEditCustomIngredientModalOpen: (state, action) => {
+    toggleIsEditCustomIngredientModalOpen: (state, action) => {
       state.UI.isEditCustomIngredientModalOpen =
         !state.UI.isEditCustomIngredientModalOpen;
     },
@@ -232,7 +232,7 @@ export const {
   setNewIngredientInput,
   addFavoriteIngredient,
   setIsEditIngredientModalOpen,
-  setIsEditCustomIngredientModalOpen,
+  toggleIsEditCustomIngredientModalOpen,
   resetSelectedIngredient,
   setAddToFavoritesAlert,
   setLastRemoved,
