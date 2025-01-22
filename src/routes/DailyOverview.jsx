@@ -1,12 +1,5 @@
-import db from "../firebase/firestore_config";
-import { getDocs, collection } from "firebase/firestore";
-
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import DailyNutritionDetails from "../components/DailyNutritionOverview/DailyNutritionDetails";
-import { useEffect } from "react";
-
-import { setAddedIngredients } from "../store/ingredientSlice";
-import { useLoaderData } from "react-router";
 
 const DailyOverview = () => {
   const { addedIngredients } = useSelector((state) => state.ingredient);

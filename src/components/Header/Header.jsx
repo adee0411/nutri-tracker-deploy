@@ -1,4 +1,4 @@
-import { Avatar, Button, Typography } from "@mui/joy";
+import { Avatar, Button, Typography, Switch, Stack } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,6 +13,9 @@ import AvatarMan from "../../icons/avatar_man.png";
 import AvatarBoy from "../../icons/avatar_boy.png";
 import AvatarLady from "../../icons/avatar_lady.png";
 import AvatarGirl from "../../icons/avatar_girl.png";
+
+import { IoSunnyOutline } from "react-icons/io5";
+import { MdOutlineModeNight } from "react-icons/md";
 
 const AVATARS = {
   man: AvatarMan,
@@ -40,32 +43,36 @@ const Header = () => {
 
   return (
     <>
-      <header
-        style={{
-          padding: "24px",
-          display: "grid",
-          gridTemplateColumns: "48px 1fr 48px",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Link to="/">
-          <div
-            style={{
-              width: "48px",
-              height: "auto",
-            }}
-          >
-            <img src={Logo} alt="logo" width="100%" />
-          </div>
-        </Link>
+      <header style={{ padding: "24px" }}>
+        <Stack direction="row">
+          {" "}
+          <Link to="/">
+            <Stack
+              direction="row"
+              justifyContent="flex-start"
+              alignItems="center"
+            >
+              <img src={Logo} alt="logo" width="48px" />
+            </Stack>
+          </Link>
+          <Typography level="h1" textAlign="center" flex={1}>
+            NutriTracker
+          </Typography>
+          <Stack direction="row" sx={{ "& > *": { flex: 1 } }}>
+            {/**             <Switch
+              size="sm"
+              startDecorator={<IoSunnyOutline />}
+              endDecorator={<MdOutlineModeNight />}
+              color="primary"
+              variant="soft"
+              slotProps={{ "aria-label": "Toggle theme" }}
+            />*/}
 
-        <Typography level="h1" textAlign="center">
-          NutriTracker
-        </Typography>
-        <Button size="lg" variant="plain" onClick={handleShowModal}>
-          <Avatar src={AVATARS[avatar]}></Avatar>
-        </Button>
+            <Button size="sm" variant="plain" onClick={handleShowModal}>
+              <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
+            </Button>
+          </Stack>
+        </Stack>
       </header>
       {isProfileModalOpen ? (
         <EditProfileModal

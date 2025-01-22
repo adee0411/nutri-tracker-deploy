@@ -23,6 +23,7 @@ import {
   setIsEditIngredientModalOpen,
   setMealIngredients,
 } from "../store/ingredientSlice";
+import MealNutritionSummary from "../components/MealNutritionSummary";
 
 const mealImages = {
   breakfast: BreakfastImg,
@@ -47,7 +48,7 @@ const MealDetails = () => {
   const mealData = useLoaderData();
 
   //fetch the selected meal's ingredientlist from store
-  const addedIngredients = useSelector(
+  const mealIngredients = useSelector(
     (state) => state.ingredient.addedIngredients[mealTitle]
   );
 
@@ -58,16 +59,8 @@ const MealDetails = () => {
     (state) => state.ingredient.UI.ingredientAction
   );
 
-  const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
-  const mealImage = isMeal ? "meal" : mealTitle;
-  const formattedMealTitle = isMeal
-    ? `${mealTitle.at(-1)}. étkezés`
-    : mealTitle === "breakfast"
-    ? "Reggeli"
-    : "Snack";
-
   // Initialize total nutrition object
-  let totalNutritionData = {
+  let totalMealNutritionData = {
     carb: 0,
     protein: 0,
     fat: 0,
@@ -75,9 +68,9 @@ const MealDetails = () => {
   };
 
   // Reduce all ingredient's nutrition data
-  addedIngredients.forEach((ingredient) => {
+  mealIngredients.forEach((ingredient) => {
     for (const [key, value] of Object.entries(ingredient.nutritionData)) {
-      totalNutritionData[key] += value;
+      totalMealNutritionData[key] += value;
     }
   });
 
@@ -97,19 +90,17 @@ const MealDetails = () => {
 
   return (
     <>
+      <MealNutritionSummary />
       <Stack px={4} py={2} gap={2}>
-        <Typography level="title-lg" textAlign="center">
-          2024. 11. 18.
-        </Typography>
-        <CardWrapper backgroundImg={mealImages[mealTitle]}>
+        {/**        <CardWrapper backgroundImg={mealImages[mealTitle]}>
           <NutritionDetailCard
             title={formattedMealTitle}
             nutritionData={totalNutritionData}
             imageURL={mealImages[mealImage]}
           />
-        </CardWrapper>
+        </CardWrapper> */}
 
-        {addedIngredients.length === 0 ? (
+        {mealIngredients.length === 0 ? (
           <>
             <EmptyListPlaceholder text="A lista üres. Adj hozzá alapanyagokat!" />
             <Button
@@ -120,7 +111,7 @@ const MealDetails = () => {
             </Button>
           </>
         ) : (
-          <AddedIngredients ingredientList={addedIngredients} />
+          <AddedIngredients ingredientList={mealIngredients} />
         )}
       </Stack>
       {isConfirmEmptyListModalOpen ? (

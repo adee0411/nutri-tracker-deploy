@@ -4,39 +4,14 @@ import { useCountUp } from "use-count-up";
 import AlertBox from "./AlertBox";
 
 import BurnIcon from "../../icons/burn.svg";
+import DailyGoalProgress from "../DailyGoalProgress";
 
 const CalorieGoalDetails = ({ current, goal }) => {
-  const ratio = Number((current / goal).toFixed(2));
-  const ratioInPercentage = Number((ratio * 100).toFixed(0));
-
   const calorieDifference = current - goal;
-
-  const progressColor = ratio >= 1 ? "danger" : "primary";
-
-  const { value, reset } = useCountUp({
-    isCounting: true,
-    duration: 1,
-    start: 0,
-    end: ratioInPercentage,
-    easing: "easeOutCubic",
-  });
 
   return (
     <Stack alignItems="center" gap={2}>
-      <CircularProgress
-        determinate
-        value={Number(value) >= 100 ? 100 : Number(value)}
-        sx={{ "--CircularProgress-size": "120px" }}
-        color={progressColor}
-        key="calorieRatio"
-      >
-        <div style={{ width: "32px" }}>
-          <img src={BurnIcon} alt="burn-icon" width="100%" />
-        </div>
-        <Typography color="neutral" variant="plain" fontSize={18}>
-          {ratioInPercentage}%
-        </Typography>
-      </CircularProgress>
+      <DailyGoalProgress current={current} goal={goal} size="md" />
 
       <Stack
         direction="row"

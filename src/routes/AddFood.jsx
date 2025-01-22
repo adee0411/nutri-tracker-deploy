@@ -5,6 +5,7 @@ import { Sheet } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData } from "react-router";
 
+import MealNutritionSummary from "../components/MealNutritionSummary";
 import SearchForm from "../components/AddFood/SearchForm";
 import SelectedIngredient from "../components/AddFood/SelectedIngredient";
 import QuickIngredientTab from "../components/AddFood/QuickIngredientTab";
@@ -58,6 +59,7 @@ const AddFood = () => {
 
   return (
     <>
+      <MealNutritionSummary />
       <Sheet sx={{ p: 4, backgroundColor: "transparent" }}>
         <SearchForm />
 
