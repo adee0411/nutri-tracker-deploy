@@ -1,8 +1,11 @@
+import { Typography } from "@mui/joy";
 import { useSelector } from "react-redux";
+import ContentWrapper from "../UI/ContentWrapper";
 import DailyNutritionDetails from "../components/DailyNutritionOverview/DailyNutritionDetails";
 
 const DailyOverview = () => {
   const { addedIngredients } = useSelector((state) => state.ingredient);
+  const { name } = useSelector((state) => state.profile.profileData);
 
   const reduceMealNutritionData = (ingredients) => {
     // Initialize total nutrition object
@@ -60,7 +63,12 @@ const DailyOverview = () => {
     mealTotalNutritionCollection
   );
 
-  return <DailyNutritionDetails totalNutritionData={totalNutritionData} />;
+  return (
+    <ContentWrapper>
+      <Typography level="title-lg">Üdv, {name}!</Typography>
+      <DailyNutritionDetails totalNutritionData={totalNutritionData} />
+    </ContentWrapper>
+  );
 };
 
 export default DailyOverview;

@@ -1,17 +1,15 @@
-import { CircularProgress, Typography, Stack } from "@mui/joy";
-import { useCountUp } from "use-count-up";
+import { Typography, Stack } from "@mui/joy";
 
 import AlertBox from "./AlertBox";
 
-import BurnIcon from "../../icons/burn.svg";
 import DailyGoalProgress from "../DailyGoalProgress";
 
 const CalorieGoalDetails = ({ current, goal }) => {
   const calorieDifference = current - goal;
 
   return (
-    <Stack alignItems="center" gap={2}>
-      <DailyGoalProgress current={current} goal={goal} size="md" />
+    <Stack alignItems="center" gap={4}>
+      <DailyGoalProgress current={current} goal={goal} size="lg" />
 
       <Stack
         direction="row"
@@ -20,7 +18,7 @@ const CalorieGoalDetails = ({ current, goal }) => {
         textAlign="center"
       >
         <Stack flex={1}>
-          <Typography level="title-sm">Jelenlegi</Typography>
+          <Typography level="title-sm">Bevitt</Typography>
           <Typography level="body-lg" fontWeight={800}>
             {current} cal
           </Typography>

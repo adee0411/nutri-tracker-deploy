@@ -1,15 +1,14 @@
 import db from "../firebase/firestore_config";
-import { collection, doc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
-import { Stack, Typography, Button } from "@mui/joy";
+import { Stack, Button } from "@mui/joy";
 
 import { useParams, useNavigate, useLoaderData } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
-import NutritionDetailCard from "../components/MealEditor/NutritionDetailCard";
+import ContentWrapper from "../UI/ContentWrapper";
 import AddedIngredients from "../components/IngredientList/AddedIngredients";
 import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
-import CardWrapper from "../UI/CardWrapper";
 import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
 import EditIngredientModal from "../components/IngredientList/EditIngredientModal";
 
@@ -19,7 +18,6 @@ import SnackImg from "../img/snack.png";
 import { useEffect } from "react";
 
 import {
-  setEditableIngredient,
   setIsEditIngredientModalOpen,
   setMealIngredients,
 } from "../store/ingredientSlice";
@@ -89,17 +87,9 @@ const MealDetails = () => {
   }, []);
 
   return (
-    <>
+    <ContentWrapper>
       <MealNutritionSummary />
-      <Stack px={4} py={2} gap={2}>
-        {/**        <CardWrapper backgroundImg={mealImages[mealTitle]}>
-          <NutritionDetailCard
-            title={formattedMealTitle}
-            nutritionData={totalNutritionData}
-            imageURL={mealImages[mealImage]}
-          />
-        </CardWrapper> */}
-
+      <Stack>
         {mealIngredients.length === 0 ? (
           <>
             <EmptyListPlaceholder text="A lista üres. Adj hozzá alapanyagokat!" />
@@ -132,7 +122,7 @@ const MealDetails = () => {
       ) : (
         ""
       )}
-    </>
+    </ContentWrapper>
   );
 };
 

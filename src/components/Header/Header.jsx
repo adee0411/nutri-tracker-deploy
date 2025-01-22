@@ -1,4 +1,4 @@
-import { Avatar, Button, Typography, Switch, Stack } from "@mui/joy";
+import { Avatar, Button, Typography, Switch, Stack, Grid } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -46,7 +46,7 @@ const Header = () => {
       <header style={{ padding: "24px" }}>
         <Stack direction="row">
           {" "}
-          <Link to="/">
+          <Link to="/" style={{ width: "20%" }}>
             <Stack
               direction="row"
               justifyContent="flex-start"
@@ -55,10 +55,10 @@ const Header = () => {
               <img src={Logo} alt="logo" width="48px" />
             </Stack>
           </Link>
-          <Typography level="h1" textAlign="center" flex={1}>
+          <Typography level="h1" textAlign="center" flex={1} flexGrow={1}>
             NutriTracker
           </Typography>
-          <Stack direction="row" sx={{ "& > *": { flex: 1 } }}>
+          <Stack direction="row" width="20%" justifyContent="flex-end">
             {/**             <Switch
               size="sm"
               startDecorator={<IoSunnyOutline />}
@@ -69,7 +69,7 @@ const Header = () => {
             />*/}
 
             <Button size="sm" variant="plain" onClick={handleShowModal}>
-              <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
+              <Avatar size="lg" src={AVATARS[avatar]}></Avatar>
             </Button>
           </Stack>
         </Stack>

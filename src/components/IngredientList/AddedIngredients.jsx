@@ -1,4 +1,4 @@
-import { Sheet } from "@mui/joy";
+import { Stack } from "@mui/joy";
 
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -30,31 +30,32 @@ const AddedIngredients = ({ ingredientList }) => {
       dispatch(
         setAddToFavoritesAlert({ message: "", isShown: false, state: "" })
       );
-    }, 2000);
+    }, 3000);
     return () => {
       clearTimeout(errorTimeout);
     };
   });
 
   return (
-    <Sheet variant="plain" sx={{ backgroundColor: "transparent", my: 4 }}>
-      {" "}
-      <IngredientListHeader
-        listTitle="Alapanyagok"
-        listName="addedIngredients"
-        listActions={addedListActions}
-      />
-      <IngredientList
-        ingredientList={ingredientList}
-        actionList={actionList}
-        listName="addedIngredients"
-      />
+    <>
+      <Stack my={8} gap={4}>
+        <IngredientListHeader
+          listTitle="Alapanyagok"
+          listName="addedIngredients"
+          listActions={addedListActions}
+        />
+        <IngredientList
+          ingredientList={ingredientList}
+          actionList={actionList}
+          listName="addedIngredients"
+        />
+      </Stack>
       {addToFavoritesAlert.isShown ? (
         <FeedBack alertDetails={addToFavoritesAlert} />
       ) : (
         ""
       )}
-    </Sheet>
+    </>
   );
 };
 

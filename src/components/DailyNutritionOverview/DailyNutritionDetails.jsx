@@ -7,13 +7,9 @@ import MacroDetailTab from "./MacroDetailTab";
 import MealList from "../MealEditor/MealList";
 
 const DailyNutritionDetails = ({ totalNutritionData }) => {
-  const { name, calorieGoal } = useSelector(
-    (state) => state.profile.profileData
-  );
-  const { currentCalorie } = useSelector((state) => state.profile.dietData);
+  const { calorieGoal } = useSelector((state) => state.profile.profileData);
   return (
-    <Stack gap={3} px={3} py={1}>
-      <Typography level="title-lg">Üdv, {name}!</Typography>
+    <Stack gap={6}>
       <CalorieGoalDetails
         current={totalNutritionData.energy}
         goal={calorieGoal}

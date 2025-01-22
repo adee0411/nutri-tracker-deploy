@@ -1,4 +1,4 @@
-import { Alert } from "@mui/joy";
+import { Alert, Typography } from "@mui/joy";
 
 import { CiCircleCheck } from "react-icons/ci";
 import { VscError } from "react-icons/vsc";
@@ -13,9 +13,15 @@ const FeedBack = ({ alertDetails }) => {
     <Alert
       color={alertDetails.state === "error" ? "danger" : "success"}
       variant="soft"
+      startDecorator={icons[alertDetails.state]}
     >
-      {icons[alertDetails.state]}
-      {alertDetails.message}
+      <Typography
+        level="body-sm"
+        color={alertDetails.state === "error" ? "danger" : "success"}
+      >
+        {" "}
+        {alertDetails.message}
+      </Typography>
     </Alert>
   );
 };

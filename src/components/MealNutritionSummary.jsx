@@ -83,76 +83,65 @@ const MealNutritionSummary = () => {
     mealTotalNutritionCollection
   );
   const { calorieGoal } = useSelector((state) => state.profile.profileData);
-  const currentDate = new Date().toLocaleDateString();
 
   return (
-    <>
-      <Typography
-        textAlign="center"
-        level="title-md"
-        fontSize={26}
-        fontWeight={300}
-      >
-        {currentDate}
+    <Sheet
+      sx={{ p: 4, borderRadius: "md", boxShadow: "md" }}
+      color="primary"
+      variant="soft"
+    >
+      <Typography level="title-lg" mb={2} textAlign="center">
+        {formattedMealTitle}
       </Typography>
-      <Sheet
-        sx={{ m: 4, p: 4, borderRadius: "md" }}
-        color="primary"
-        variant="soft"
+      <Stack
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        mt={2}
+        gap={4}
       >
-        <Typography level="title-lg" mb={2} textAlign="center">
-          {formattedMealTitle}
-        </Typography>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          mt={2}
-          gap={4}
-        >
-          <DailyGoalProgress
-            current={totalNutritionData.energy}
-            goal={calorieGoal}
-            size="sm"
-          />
-          <Stack gap={2} flex={1}>
-            <Stack>
-              <Stack
-                direction="row"
-                gap={2}
-                justifyContent="space-between"
-                flex={1}
-              >
-                <Stack alignItems="center" gap={1}>
-                  <img src={CarbIcon} width="24px" />
-                  <Typography level="body-md">
-                    {`${mealNutritionData.carb} g`}
-                  </Typography>
-                </Stack>
-                <Stack alignItems="center" gap={1}>
-                  <img src={ProteinIcon} width="24px" />
-                  <Typography level="body-md">
-                    {`${mealNutritionData.protein} g`}
-                  </Typography>
-                </Stack>
-                <Stack alignItems="center" gap={1}>
-                  <img src={FatIcon} width="24px" />
-                  <Typography level="body-md">
-                    {`${mealNutritionData.fat} g`}
-                  </Typography>
-                </Stack>
-                <Stack alignItems="center" gap={1}>
-                  <img src={CalorieIcon} width="24px" />
-                  <Typography level="body-md" fontWeight={700}>
-                    {`${mealNutritionData.energy} kcal`}
-                  </Typography>
-                </Stack>
+        <DailyGoalProgress
+          current={totalNutritionData.energy}
+          goal={calorieGoal}
+          size="sm"
+        />
+        <Stack gap={2} flex={1}>
+          <Stack>
+            <Stack
+              direction="row"
+              gap={2}
+              justifyContent="space-between"
+              flex={1}
+            >
+              <Stack alignItems="center" gap={1}>
+                <img src={CarbIcon} width="24px" />
+                <Typography level="body-md">
+                  {`${mealNutritionData.carb} g`}
+                </Typography>
+              </Stack>
+              <Stack alignItems="center" gap={1}>
+                <img src={ProteinIcon} width="24px" />
+                <Typography level="body-md">
+                  {`${mealNutritionData.protein} g`}
+                </Typography>
+              </Stack>
+              <Stack alignItems="center" gap={1}>
+                <img src={FatIcon} width="24px" />
+                <Typography level="body-md">
+                  {`${mealNutritionData.fat} g`}
+                </Typography>
+              </Stack>
+              <Stack alignItems="center" gap={1}>
+                <img src={CalorieIcon} width="24px" />
+                <Typography level="body-md" fontWeight={700}>
+                  {`${mealNutritionData.energy} kcal`}
+                </Typography>
               </Stack>
             </Stack>
           </Stack>
         </Stack>
-      </Sheet>
-    </>
+      </Stack>
+    </Sheet>
   );
 };
 

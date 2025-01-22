@@ -26,7 +26,7 @@ const MealButton = ({ title, ingredientData }) => {
           alignItems="center"
         >
           <MealButtonLabel title={title} />
-          <NutritionDetails nutritionData={ingredientData} />
+          <NutritionDetails nutritionData={ingredientData} fontSize={12} />
         </Stack>
       </Link>
     </Button>
