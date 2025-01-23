@@ -8,13 +8,11 @@ import { useNavigate, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  emptyList,
   addIngredient,
   addFavoriteIngredient,
   addCustomIngredient,
   setLastRemoved,
   toggleView,
-  toggleNewCustomIngredientModal,
   toggleIsConfirmEmptyListModalOpen,
   setEmptyListName,
 } from "../../store/ingredientSlice";

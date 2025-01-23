@@ -10,7 +10,7 @@ const FrequentIngredients = () => {
   const { frequentIngredients } = useSelector((state) => state.ingredient);
 
   const frequentIngredientsActions = ["log"];
-  const frequentListActions = ["view"];
+  const frequentListActions = [];
 
   return (
     <>

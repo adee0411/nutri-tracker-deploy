@@ -41,34 +41,27 @@ const SearchForm = () => {
   }, [searchQueryInput, dispatch, ingredientList]);
 
   return (
-    <>
-      <Sheet
-        color="primary"
-        variant="outlined"
-        invertedColors
-        sx={{ p: 2, my: 2, borderRadius: "md" }}
-      >
-        <form>
-          <Typography level="title-md">Étel keresése:</Typography>{" "}
-          <Stack direction="row" my={1}>
-            <FormControl sx={{ flex: 1 }}>
-              <Input
-                type="search"
-                name="ingredient"
-                value={searchQueryInput}
-                onChange={handleQueryInputChange}
-                placeholder="Keresés..."
-              ></Input>
-            </FormControl>
-          </Stack>
-        </form>
-        {searchResultList.length === 0 ? (
-          ""
-        ) : (
-          <ResultList resultList={searchResultList} />
-        )}
-      </Sheet>
-    </>
+    <Stack gap={2} mb={2}>
+      <form>
+        <Typography level="title-md">Alapanyag keresése:</Typography>{" "}
+        <Stack direction="row" my={1}>
+          <FormControl sx={{ flex: 1 }}>
+            <Input
+              type="search"
+              name="ingredient"
+              value={searchQueryInput}
+              onChange={handleQueryInputChange}
+              placeholder="Keresés..."
+            ></Input>
+          </FormControl>
+        </Stack>
+      </form>
+      {searchResultList.length === 0 ? (
+        ""
+      ) : (
+        <ResultList resultList={searchResultList} />
+      )}
+    </Stack>
   );
 };
 

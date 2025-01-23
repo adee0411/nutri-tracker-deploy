@@ -10,7 +10,7 @@ const RecentIngredients = () => {
   const { recentIngredients } = useSelector((state) => state.ingredient);
 
   const recentIngredientsActions = ["log"];
-  const recentListActions = ["view"];
+  const recentListActions = [];
 
   return (
     <>

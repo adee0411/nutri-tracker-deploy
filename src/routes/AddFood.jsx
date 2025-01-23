@@ -1,10 +1,11 @@
 import db from "../firebase/firestore_config";
 import { collection, getDocs } from "firebase/firestore";
 
-import { Sheet } from "@mui/joy";
+import { Sheet, Stack, Typography } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useParams } from "react-router";
 
+import ContentWrapper from "../UI/ContentWrapper";
 import MealNutritionSummary from "../components/MealNutritionSummary";
 import SearchForm from "../components/AddFood/SearchForm";
 import SelectedIngredient from "../components/AddFood/SelectedIngredient";
@@ -23,6 +24,7 @@ import {
 import { useEffect } from "react";
 
 const AddFood = () => {
+  const dispatch = useDispatch();
   const {
     queryList,
     favoriteIngredients,
@@ -31,7 +33,7 @@ const AddFood = () => {
     customIngredients,
   } = useLoaderData();
 
-  const dispatch = useDispatch();
+  const { mealTitle } = useParams();
 
   const { editableIngredient } = useSelector((state) => state.ingredient);
   const {
@@ -45,6 +47,14 @@ const AddFood = () => {
 
   const mergedQueryList = queryList.concat(customIngredients);
 
+  const mealTexts = {
+    breakfast: "a reggelihez",
+    meal2: "a 2. étkezéshez",
+    meal3: "a 3. étkezéshez",
+    meal4: "a 4. étkezéshez",
+    snack: "a nasihoz",
+  };
+
   // Avoid parallel component rendering
   useEffect(() => {
     dispatch(setQueryList(mergedQueryList));
@@ -57,20 +67,37 @@ const AddFood = () => {
 
   const { selectedIngredient } = useSelector((state) => state.ingredient);
 
-  return (
-    <>
-      <MealNutritionSummary />
-      <Sheet sx={{ p: 4, backgroundColor: "transparent" }}>
-        <SearchForm />
+  const currentDate = new Date().toLocaleDateString();
 
-        {/** Render ingredient details conditionally */}
-        {!selectedIngredient ? (
-          ""
-        ) : (
-          <SelectedIngredient selectedIngredient={selectedIngredient} />
-        )}
+  return (
+    <ContentWrapper>
+      <Stack gap={4}>
+        {/*********** Title ***********/}
+        <Stack>
+          <Typography textAlign="center" level="h1" fontWeight={300} mb={2}>
+            {currentDate}
+          </Typography>
+          <Typography textAlign="center" level="title-lg">
+            Alapanyag hozzáadása {mealTexts[mealTitle]}
+          </Typography>
+        </Stack>
+        {/********** Meal Nutritions ***********/}
+        <MealNutritionSummary />
+        {/********** Ingredient Search ***********/}
+        <Stack>
+          <SearchForm />
+
+          {/** Render ingredient details conditionally */}
+          {!selectedIngredient ? (
+            ""
+          ) : (
+            <SelectedIngredient selectedIngredient={selectedIngredient} />
+          )}
+        </Stack>
+
         <QuickIngredientTab />
-      </Sheet>
+      </Stack>
+
       {isConfirmEmptyListModalOpen ? (
         <ConfirmEmptyListModal listName={emptyListName} />
       ) : (
@@ -86,7 +113,7 @@ const AddFood = () => {
       ) : (
         ""
       )}
-    </>
+    </ContentWrapper>
   );
 };
 

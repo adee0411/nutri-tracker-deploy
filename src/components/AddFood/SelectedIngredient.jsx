@@ -10,15 +10,12 @@ import NutritionDetailCard from "../MealEditor/NutritionDetailCard";
 
 import {
   setNewIngredientInput,
-  addIngredient,
   setSearchQueryInput,
   setSearchResultList,
-  setRecentIngredients,
 } from "../../store/ingredientSlice";
 
 import { transformNutritionData } from "../../data/TESTDATA";
 
-import { FaRegHeart } from "react-icons/fa";
 import CardWrapper from "../../UI/CardWrapper";
 
 const SelectedIngredient = ({ selectedIngredient }) => {
@@ -99,14 +96,16 @@ const SelectedIngredient = ({ selectedIngredient }) => {
     //dispatch(setRecentIngredients(newIngredient));
   };
   return (
-    <CardWrapper color="primary" variant="plain">
+    <CardWrapper color="primary" variant="solid">
       <NutritionDetailCard
         title={selectedIngredient.ingredientName}
         imageURL={selectedIngredient.imageURL}
         nutritionData={transformedNutritionData}
+        amount={newIngredientInput}
+        unit={selectedIngredient.unit}
       />
 
-      <Stack direction="row" gap={2} my={4} p={2}>
+      <Stack direction="row" gap={2} p={2}>
         <FormControl sx={{ flex: 1 }}>
           <Input
             type="number"

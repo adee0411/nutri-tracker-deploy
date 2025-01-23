@@ -2,14 +2,28 @@ import { Sheet, Typography, Stack } from "@mui/joy";
 
 import NoImage from "../../img/no_image.png";
 
-const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
+const NutritionDetailCard = ({
+  title,
+  imageURL,
+  nutritionData,
+  unit,
+  amount,
+}) => {
   const { carb, protein, fat, energy } = nutritionData;
   const formattedTitle = title[0].toUpperCase() + title.slice(1);
   return (
     <Stack gap={3} sx={{ zIndex: 1 }}>
-      <Typography level="title-lg" fontWeight={700} textAlign="center">
-        {formattedTitle}
-      </Typography>
+      <Stack>
+        <Typography level="h4" fontWeight={700} textAlign="center">
+          {formattedTitle}
+        </Typography>
+        <Typography textAlign="center" level="h5" fontWeight={300}>
+          {`Tápanyag tartalom ${amount} ${unit}-${
+            unit === "ml" ? "ben" : "ban"
+          }`}
+        </Typography>
+      </Stack>
+
       <Stack
         direction="row"
         justifyContent="space-between"
@@ -23,7 +37,7 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
           <Typography
             level="body-lg"
             fontSize={20}
-            fontWeight={700}
+            fontWeight={300}
             color="neutral"
           >
             {carb} g
@@ -34,7 +48,7 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
           <Typography
             level="body-lg"
             fontSize={20}
-            fontWeight={700}
+            fontWeight={300}
             color="neutral"
           >
             {protein} g
@@ -45,7 +59,7 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
           <Typography
             level="body-lg"
             fontSize={20}
-            fontWeight={700}
+            fontWeight={300}
             color="neutral"
           >
             {fat} g
@@ -56,7 +70,7 @@ const NutritionDetailCard = ({ title, imageURL, nutritionData }) => {
           <Typography
             level="body-lg"
             fontSize={20}
-            fontWeight={700}
+            fontWeight={800}
             color="neutral"
           >
             {energy} cal

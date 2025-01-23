@@ -11,7 +11,7 @@ const CustomIngredients = () => {
   const navigate = useNavigate();
   const { customIngredients } = useSelector((state) => state.ingredient);
 
-  const customListActions = ["new", "empty", "backup", "view"];
+  const customListActions = ["new", "empty", "backup"];
   const customIngredientsActions = ["log", "update", "remove"];
 
   const handleNavigate = () => {

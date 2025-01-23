@@ -4,6 +4,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemDecorator,
+  Stack,
 } from "@mui/joy";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -13,7 +14,6 @@ import {
 } from "../../store/ingredientSlice";
 
 import { FaRegUser } from "react-icons/fa";
-import { IoFastFoodOutline } from "react-icons/io5";
 
 const ResultList = ({ resultList }) => {
   const dispatch = useDispatch();
@@ -29,7 +29,7 @@ const ResultList = ({ resultList }) => {
     dispatch(setNewIngredientInput(ingredient.unitage));
   };
   return (
-    <>
+    <Stack>
       <Typography level="title-md">Találatok:</Typography>
       <List
         variant="plain"
@@ -37,8 +37,6 @@ const ResultList = ({ resultList }) => {
         sx={{
           borderRadius: "md",
           p: 0,
-          mt: 1,
-          mb: 4,
           overflow: "hidden",
         }}
       >
@@ -51,26 +49,29 @@ const ResultList = ({ resultList }) => {
               <ListItemButton
                 sx={{
                   borderRadius: 0,
-                  fontSize: 12,
-                  fontWeight: result.id === selectedIngredient?.id ? 700 : "",
+                  fontWeight: result.id === selectedIngredient?.id ? 500 : 300,
                 }}
                 id={result.id}
                 onClick={handleSelectedIngredient}
               >
-                <ListItemDecorator>
-                  {result.id.includes("custom") ? (
-                    <FaRegUser />
-                  ) : (
-                    <IoFastFoodOutline />
-                  )}
-                </ListItemDecorator>
-                <Typography level="body-md">{ingredientName}</Typography>
+                <Stack direction="row" alignItems="center" gap={2}>
+                  <Typography level="body-sm" component="span">
+                    {ingredientName}
+                  </Typography>
+                  <ListItemDecorator>
+                    {result.id.includes("custom") ? (
+                      <FaRegUser style={{ fontSize: 10 }} />
+                    ) : (
+                      ""
+                    )}
+                  </ListItemDecorator>
+                </Stack>
               </ListItemButton>
             </ListItem>
           );
         })}
       </List>
-    </>
+    </Stack>
   );
 };
 

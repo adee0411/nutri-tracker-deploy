@@ -1,6 +1,5 @@
 import { Stack } from "@mui/joy";
 
-import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -12,18 +11,12 @@ import { setAddToFavoritesAlert } from "../../store/ingredientSlice";
 
 const AddedIngredients = ({ ingredientList }) => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const { editableIngredient } = useSelector((state) => state.ingredient);
-  const { isEditIngredientModalOpen } = useSelector(
-    (state) => state.ingredient.UI
-  );
 
   const { addToFavoritesAlert } = useSelector((state) => state.ingredient.UI);
 
   const actionList = ["update", "addToFavorites", "remove"];
 
-  const addedListActions = ["add", "empty", "backup", "view"];
+  const addedListActions = ["add", "empty", "backup"];
 
   useEffect(() => {
     const errorTimeout = setTimeout(() => {
@@ -38,7 +31,7 @@ const AddedIngredients = ({ ingredientList }) => {
 
   return (
     <>
-      <Stack my={8} gap={4}>
+      <Stack my={4} gap={2}>
         <IngredientListHeader
           listTitle="Alapanyagok"
           listName="addedIngredients"

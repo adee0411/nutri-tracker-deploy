@@ -90,8 +90,8 @@ const MealNutritionSummary = () => {
       color="primary"
       variant="soft"
     >
-      <Typography level="title-lg" mb={2} textAlign="center">
-        {formattedMealTitle}
+      <Typography level="title-lg" mb={2} textAlign="center" fontWeight={400}>
+        {formattedMealTitle} összesített tápértéke
       </Typography>
       <Stack
         direction="row"

@@ -10,7 +10,7 @@ const FavoriteIngredients = () => {
   const { favoriteIngredients } = useSelector((state) => state.ingredient);
 
   const favoriteIngredientsActions = ["log", "update", "remove"];
-  const favoriteListActions = ["empty", "backup", "view"];
+  const favoriteListActions = ["empty", "backup"];
 
   return (
     <>
