@@ -94,12 +94,12 @@ const IngredientListActions = ({ listName, listActions }) => {
     },
   };
   return (
-    <ButtonGroup size="sm">
+    <ButtonGroup size="lg">
       {listActions.map((action) => {
         return (
           <IconButton
             title={listActionsObj[action].title}
-            sx={{ fontSize: 18 }}
+            sx={{ fontSize: 22 }}
             variant={action === "add" || action === "new" ? "solid" : ""}
             color={action === "add" || action === "new" ? "primary" : ""}
             onClick={listActionsObj[action].handler}

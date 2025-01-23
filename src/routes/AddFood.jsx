@@ -1,9 +1,10 @@
 import db from "../firebase/firestore_config";
 import { collection, getDocs } from "firebase/firestore";
 
-import { Sheet, Stack, Typography } from "@mui/joy";
+import { Snackbar, Stack, Typography } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData, useParams } from "react-router";
+import { useEffect } from "react";
 
 import ContentWrapper from "../UI/ContentWrapper";
 import MealNutritionSummary from "../components/MealNutritionSummary";
@@ -20,8 +21,16 @@ import {
   setFrequentIngredients,
   setCustomIngredients,
   setIsEditIngredientModalOpen,
+  setIngredientActionFeedback,
 } from "../store/ingredientSlice";
-import { useEffect } from "react";
+
+import { VscError } from "react-icons/vsc";
+import { CiCircleCheck } from "react-icons/ci";
+
+const SnackBarIcons = {
+  error: <VscError />,
+  success: <CiCircleCheck />,
+};
 
 const AddFood = () => {
   const dispatch = useDispatch();
@@ -40,6 +49,7 @@ const AddFood = () => {
     isEditIngredientModalOpen,
     isConfirmEmptyListModalOpen,
     emptyListName,
+    ingredientActionFeedback,
   } = useSelector((state) => state.ingredient.UI);
   const { actionName, listName } = useSelector(
     (state) => state.ingredient.UI.ingredientAction
@@ -70,50 +80,81 @@ const AddFood = () => {
   const currentDate = new Date().toLocaleDateString();
 
   return (
-    <ContentWrapper>
-      <Stack gap={4}>
-        {/*********** Title ***********/}
-        <Stack>
-          <Typography textAlign="center" level="h1" fontWeight={300} mb={2}>
-            {currentDate}
-          </Typography>
-          <Typography textAlign="center" level="title-lg">
-            Alapanyag hozzáadása {mealTexts[mealTitle]}
-          </Typography>
+    <>
+      <ContentWrapper>
+        <Stack gap={4}>
+          {/*********** Title ***********/}
+          <Stack>
+            <Typography textAlign="center" level="h1" fontWeight={300} mb={2}>
+              {currentDate}
+            </Typography>
+            <Typography textAlign="center" level="title-lg">
+              Alapanyag hozzáadása {mealTexts[mealTitle]}
+            </Typography>
+          </Stack>
+          {/********** Meal Nutritions ***********/}
+          <MealNutritionSummary />
+          {/********** Ingredient Search ***********/}
+          <Stack>
+            <SearchForm />
+
+            {/** Render ingredient details conditionally */}
+            {!selectedIngredient ? (
+              ""
+            ) : (
+              <SelectedIngredient selectedIngredient={selectedIngredient} />
+            )}
+          </Stack>
+
+          <QuickIngredientTab />
         </Stack>
-        {/********** Meal Nutritions ***********/}
-        <MealNutritionSummary />
-        {/********** Ingredient Search ***********/}
-        <Stack>
-          <SearchForm />
 
-          {/** Render ingredient details conditionally */}
-          {!selectedIngredient ? (
-            ""
-          ) : (
-            <SelectedIngredient selectedIngredient={selectedIngredient} />
-          )}
-        </Stack>
-
-        <QuickIngredientTab />
-      </Stack>
-
-      {isConfirmEmptyListModalOpen ? (
-        <ConfirmEmptyListModal listName={emptyListName} />
-      ) : (
-        ""
-      )}
-      {isEditIngredientModalOpen ? (
-        <EditIngredientModal
-          isModalOpen={isEditIngredientModalOpen}
-          ingredient={editableIngredient}
-          ingredientAction={actionName}
-          listName={listName}
-        />
-      ) : (
-        ""
-      )}
-    </ContentWrapper>
+        {isConfirmEmptyListModalOpen ? (
+          <ConfirmEmptyListModal listName={emptyListName} />
+        ) : (
+          ""
+        )}
+        {isEditIngredientModalOpen ? (
+          <EditIngredientModal
+            isModalOpen={isEditIngredientModalOpen}
+            ingredient={editableIngredient}
+            ingredientAction={actionName}
+            listName={listName}
+          />
+        ) : (
+          ""
+        )}
+      </ContentWrapper>
+      <Snackbar
+        open={ingredientActionFeedback.isShown}
+        color={
+          ingredientActionFeedback.state === "error" ? "danger" : "success"
+        }
+        variant="soft"
+        size="lg"
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        autoHideDuration={4000}
+        onClose={() =>
+          dispatch(
+            setIngredientActionFeedback({
+              ...ingredientActionFeedback,
+              isShown: false,
+            })
+          )
+        }
+        invertedColors
+        startDecorator={SnackBarIcons[ingredientActionFeedback.state]}
+      >
+        <Typography
+          color={
+            ingredientActionFeedback.state === "error" ? "danger" : "success"
+          }
+          level="body-sm"
+        >
+          {ingredientActionFeedback.message}
+        </Typography>
+      </Snackbar>
+    </>
   );
 };
 

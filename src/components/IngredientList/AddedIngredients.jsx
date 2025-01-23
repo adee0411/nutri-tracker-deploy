@@ -1,33 +1,30 @@
-import { Stack } from "@mui/joy";
+import { Stack, Snackbar, Typography } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
 
 import IngredientListHeader from "./IngredientListHeader";
 import IngredientList from "./IngredientList";
-import FeedBack from "./FeedBack";
 
-import { setAddToFavoritesAlert } from "../../store/ingredientSlice";
+import { CiCircleCheck } from "react-icons/ci";
+import { VscError } from "react-icons/vsc";
+
+import { setIngredientActionFeedback } from "../../store/ingredientSlice";
+
+const SnackBarIcons = {
+  error: <VscError />,
+  success: <CiCircleCheck />,
+};
 
 const AddedIngredients = ({ ingredientList }) => {
   const dispatch = useDispatch();
 
-  const { addToFavoritesAlert } = useSelector((state) => state.ingredient.UI);
+  const { ingredientActionFeedback } = useSelector(
+    (state) => state.ingredient.UI
+  );
 
   const actionList = ["update", "addToFavorites", "remove"];
 
   const addedListActions = ["add", "empty", "backup"];
-
-  useEffect(() => {
-    const errorTimeout = setTimeout(() => {
-      dispatch(
-        setAddToFavoritesAlert({ message: "", isShown: false, state: "" })
-      );
-    }, 3000);
-    return () => {
-      clearTimeout(errorTimeout);
-    };
-  });
 
   return (
     <>
@@ -43,11 +40,35 @@ const AddedIngredients = ({ ingredientList }) => {
           listName="addedIngredients"
         />
       </Stack>
-      {addToFavoritesAlert.isShown ? (
-        <FeedBack alertDetails={addToFavoritesAlert} />
-      ) : (
-        ""
-      )}
+      <Snackbar
+        open={ingredientActionFeedback.isShown}
+        color={
+          ingredientActionFeedback.state === "error" ? "danger" : "success"
+        }
+        variant="soft"
+        size="lg"
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        autoHideDuration={2000}
+        onClose={() =>
+          dispatch(
+            setIngredientActionFeedback({
+              ...ingredientActionFeedback,
+              isShown: false,
+            })
+          )
+        }
+        invertedColors
+        startDecorator={SnackBarIcons[ingredientActionFeedback.state]}
+      >
+        <Typography
+          color={
+            ingredientActionFeedback.state === "error" ? "danger" : "success"
+          }
+          level="body-sm"
+        >
+          {ingredientActionFeedback.message}
+        </Typography>
+      </Snackbar>
     </>
   );
 };

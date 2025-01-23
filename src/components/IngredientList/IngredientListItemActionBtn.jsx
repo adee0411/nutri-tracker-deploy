@@ -4,7 +4,7 @@ const IngredientListItemActionBtn = ({ ingredient, icon, title, handler }) => {
   return (
     <Button
       value={ingredient.id}
-      size="sm"
+      size="lg"
       startDecorator={title}
       endDecorator={icon}
       color="neutral"

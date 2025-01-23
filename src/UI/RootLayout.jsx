@@ -9,15 +9,24 @@ import { Outlet } from "react-router";
 
 import Header from "../components/Header/Header";
 
-import { setAddedIngredients } from "../store/ingredientSlice";
+import {
+  setAddedIngredients,
+  setIngredientList,
+} from "../store/ingredientSlice";
 import { setProfile } from "../store/profileSlice";
 
 const RootLayout = () => {
   const dispatch = useDispatch();
 
-  const { addedIngredients, profile } = useLoaderData();
+  const { addedIngredients, favoriteIngredients, profile } = useLoaderData();
   useEffect(() => {
     dispatch(setAddedIngredients(addedIngredients));
+    dispatch(
+      setIngredientList({
+        listName: "favoriteIngredients",
+        ingredientList: favoriteIngredients,
+      })
+    );
     dispatch(setProfile(profile));
   }, []);
   return (
@@ -32,9 +41,10 @@ const RootLayout = () => {
 
 export default RootLayout;
 
-export const addedIngredientsListLoader = async () => {
+export const rootDataLoader = async () => {
   const initialData = {
     addedIngredients: {},
+    favoriteIngredients: [],
     profile: {},
   };
   const addedIngredientsSnapshot = await getDocs(
@@ -42,6 +52,12 @@ export const addedIngredientsListLoader = async () => {
   );
   addedIngredientsSnapshot.forEach((meal) => {
     initialData.addedIngredients[meal.id] = meal.data().ingredients;
+  });
+  const favoriteIngredientsSnapshot = await getDocs(
+    collection(db, "favoriteIngredients")
+  );
+  favoriteIngredientsSnapshot.forEach((ingredient) => {
+    initialData.favoriteIngredients.push(ingredient.data());
   });
   initialData.profile = (await getDoc(doc(db, "profile", "data"))).data();
 

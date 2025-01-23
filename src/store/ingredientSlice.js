@@ -24,7 +24,7 @@ const ingredientSlice = createSlice({
       newIngredientInput: "",
       isEditIngredientModalOpen: false,
       isEditCustomIngredientModalOpen: false,
-      addToFavoritesAlert: {
+      ingredientActionFeedback: {
         isShown: false,
         message: "",
         state: "",
@@ -147,10 +147,10 @@ const ingredientSlice = createSlice({
     resetSelectedIngredient: (state) => {
       state.selectedIngredient = null;
     },
-    setAddToFavoritesAlert: (state, action) => {
-      state.UI.addToFavoritesAlert.isShown = action.payload.isShown;
-      state.UI.addToFavoritesAlert.message = action.payload.message;
-      state.UI.addToFavoritesAlert.state = action.payload.state;
+    setIngredientActionFeedback: (state, action) => {
+      state.UI.ingredientActionFeedback.isShown = action.payload.isShown;
+      state.UI.ingredientActionFeedback.message = action.payload.message;
+      state.UI.ingredientActionFeedback.state = action.payload.state;
     } /*
     setRecentIngredients: (state, action) => {
       const isIngredient = state.recentIngredients.find(
@@ -238,7 +238,7 @@ export const {
   setIsEditIngredientModalOpen,
   toggleIsEditCustomIngredientModalOpen,
   resetSelectedIngredient,
-  setAddToFavoritesAlert,
+  setIngredientActionFeedback,
   setLastRemoved,
   toggleView,
   setEditableIngredient,

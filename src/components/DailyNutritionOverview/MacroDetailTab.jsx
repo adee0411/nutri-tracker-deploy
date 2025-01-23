@@ -75,13 +75,13 @@ const MacroDetailTab = ({ totalNutritionData }) => {
             },
           }}
         >
-          <Tab disableIndicator variant="soft">
+          <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
             Alacsony szénhidrát
           </Tab>
-          <Tab disableIndicator variant="soft">
+          <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
             Kiegyensúlyozott
           </Tab>
-          <Tab disableIndicator variant="soft">
+          <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
             Magas szénhidrát
           </Tab>
         </TabList>

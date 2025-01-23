@@ -18,13 +18,13 @@ import CustomIngredientsRoute, {
 } from "./routes/CustomIngredientsRoute";
 
 import { ingredientLoader } from "./routes/AddFood";
-import { addedIngredientsListLoader } from "./UI/RootLayout";
+import { rootDataLoader } from "./UI/RootLayout";
 
 const router = createBrowserRouter([
   {
     element: <RootLayout />,
     path: "/",
-    loader: addedIngredientsListLoader,
+    loader: rootDataLoader,
 
     children: [
       {

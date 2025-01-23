@@ -20,7 +20,7 @@ const MacroGoalDetails = ({ macroType, goal, current, color }) => {
       ></LinearProgress>
       <Stack>
         <Typography level="body-sm" textAlign="center">
-          {current}g / {goal}g
+          {current} g / {goal} g
         </Typography>
         <Typography level="body-sm" textAlign="center">
           ({ratioInPercent}%)

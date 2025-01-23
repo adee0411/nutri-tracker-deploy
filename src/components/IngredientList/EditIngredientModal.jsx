@@ -19,17 +19,11 @@ import { CiEdit } from "react-icons/ci";
 
 import NutritionDetails from "../NutritionDetails";
 import {
-  addIngredient,
-  setEditableIngredient,
   setEditableIngredientInput,
   setIsEditIngredientModalOpen,
-  updateIngredient,
   setMealIngredients,
   setIngredientList,
-  setFavoriteIngredients,
-  setRecentIngredients,
-  setFrequentIngredients,
-  setCustomIngredients,
+  setIngredientActionFeedback,
 } from "../../store/ingredientSlice";
 import { transformNutritionData } from "../../data/TESTDATA";
 
@@ -129,15 +123,17 @@ const EditIngredientModal = ({
     const existingIngredientIndex = ingredientsCopy.findIndex((ing) => {
       return ing.id === ingredient.id;
     });
+    let newAmount;
 
     if (existingIngredientIndex === -1) {
       ingredientsCopy.push(ingredient);
+      newAmount = +editableIngredientInput;
     } else {
       let newNutritionData = {
         ...ingredientsCopy[existingIngredientIndex].nutritionData,
       };
 
-      let newAmount =
+      newAmount =
         ingredientsCopy[existingIngredientIndex].amount +
         +editableIngredientInput;
       for (let [key, value] of Object.entries(ingredient.nutritionData)) {
@@ -162,6 +158,15 @@ const EditIngredientModal = ({
         setMealIngredients({
           mealName: mealName,
           ingredientList: newIngredientList.ingredients,
+        })
+      );
+      dispatch(
+        setIngredientActionFeedback({
+          state: "success",
+          isShown: true,
+          message: `${+editableIngredientInput} ${ingredient.unit} ${
+            ingredient.ingredientName
+          } hozzáadva a ...-hez`,
         })
       );
       dispatch(setIsEditIngredientModalOpen(false));

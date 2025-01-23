@@ -6,16 +6,16 @@ const NutritionDetails = ({ nutritionData, fontSize }) => {
   return (
     <Stack direction="row" gap={2} justifyContent="space-between" flex={1}>
       <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
-        Szénhidrát: {carb}g
+        Szénhidrát: {carb} g
       </Typography>
       <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
-        Fehérje: {protein}g
+        Fehérje: {protein} g
       </Typography>
       <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
-        Zsír: {fat}g
+        Zsír: {fat} g
       </Typography>
       <Typography level="body-sm" fontSize={fontSize} fontWeight={600}>
-        Energia: {energy}cal
+        Energia: {energy} kcal
       </Typography>
     </Stack>
   );

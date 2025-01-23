@@ -9,7 +9,12 @@ const CalorieGoalDetails = ({ current, goal }) => {
 
   return (
     <Stack alignItems="center" gap={4}>
-      <DailyGoalProgress current={current} goal={goal} size="lg" />
+      <DailyGoalProgress
+        current={current}
+        goal={goal}
+        size="lg"
+        type="circular"
+      />
 
       <Stack
         direction="row"
@@ -20,13 +25,13 @@ const CalorieGoalDetails = ({ current, goal }) => {
         <Stack flex={1}>
           <Typography level="title-sm">Bevitt</Typography>
           <Typography level="body-lg" fontWeight={800}>
-            {current} cal
+            {current} kcal
           </Typography>
         </Stack>
         <Stack flex={1}>
           <Typography level="title-sm">Cél</Typography>
           <Typography level="body-lg" fontWeight={800}>
-            {goal} cal
+            {goal} kcal
           </Typography>
         </Stack>
         <Stack flex={1}>
@@ -36,7 +41,7 @@ const CalorieGoalDetails = ({ current, goal }) => {
             fontWeight={800}
             color={calorieDifference > 0 ? "danger" : ""}
           >
-            {-calorieDifference} cal
+            {-calorieDifference} kcal
           </Typography>
         </Stack>
       </Stack>

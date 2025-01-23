@@ -21,7 +21,7 @@ const MealButton = ({ title, ingredientData }) => {
         <Stack
           direction="row"
           flex={1}
-          gap={1}
+          gap={3}
           justifyContent="space-between"
           alignItems="center"
         >

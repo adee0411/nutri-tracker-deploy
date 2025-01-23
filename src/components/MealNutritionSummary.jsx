@@ -90,55 +90,47 @@ const MealNutritionSummary = () => {
       color="primary"
       variant="soft"
     >
-      <Typography level="title-lg" mb={2} textAlign="center" fontWeight={400}>
-        {formattedMealTitle} összesített tápértéke
+      <Typography level="title-lg" mb={4} textAlign="center" fontWeight={600}>
+        {formattedMealTitle}
       </Typography>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        mt={2}
-        gap={4}
-      >
-        <DailyGoalProgress
-          current={totalNutritionData.energy}
-          goal={calorieGoal}
-          size="sm"
-        />
-        <Stack gap={2} flex={1}>
-          <Stack>
-            <Stack
-              direction="row"
-              gap={2}
-              justifyContent="space-between"
-              flex={1}
-            >
-              <Stack alignItems="center" gap={1}>
-                <img src={CarbIcon} width="24px" />
-                <Typography level="body-md">
-                  {`${mealNutritionData.carb} g`}
-                </Typography>
-              </Stack>
-              <Stack alignItems="center" gap={1}>
-                <img src={ProteinIcon} width="24px" />
-                <Typography level="body-md">
-                  {`${mealNutritionData.protein} g`}
-                </Typography>
-              </Stack>
-              <Stack alignItems="center" gap={1}>
-                <img src={FatIcon} width="24px" />
-                <Typography level="body-md">
-                  {`${mealNutritionData.fat} g`}
-                </Typography>
-              </Stack>
-              <Stack alignItems="center" gap={1}>
-                <img src={CalorieIcon} width="24px" />
-                <Typography level="body-md" fontWeight={700}>
-                  {`${mealNutritionData.energy} kcal`}
-                </Typography>
-              </Stack>
-            </Stack>
+      <Stack mt={2} gap={4}>
+        <Stack direction="row" gap={2} justifyContent="space-between" flex={1}>
+          <Stack alignItems="center">
+            <img src={CarbIcon} width="24px" />
+            <Typography>Szénhidrát:</Typography>
+            <Typography>{`${mealNutritionData.carb} g`}</Typography>
           </Stack>
+          <Stack alignItems="center">
+            <img src={ProteinIcon} width="24px" />
+            <Typography level="body-md">Fehérje:</Typography>
+            <Typography>{`${mealNutritionData.protein} g`}</Typography>
+          </Stack>
+          <Stack alignItems="center">
+            <img src={FatIcon} width="24px" />
+            <Typography level="body-md">Zsír:</Typography>
+            <Typography>{`${mealNutritionData.fat} g`}</Typography>
+          </Stack>
+          <Stack alignItems="center">
+            <img src={CalorieIcon} width="24px" />
+            <Typography level="body-md" fontWeight={700}>
+              Energia:
+            </Typography>
+            <Typography>{`${mealNutritionData.energy} kcal`}</Typography>
+          </Stack>
+        </Stack>
+        <Stack gap={2}>
+          <Typography textAlign="center">
+            A mai napon eddig bevitt kalória:{" "}
+            <Typography level="body-lg" fontWeight={600}>
+              {totalNutritionData.energy} kcal
+            </Typography>
+          </Typography>
+          <DailyGoalProgress
+            current={totalNutritionData.energy}
+            goal={calorieGoal}
+            size="sm"
+            type="linear"
+          />
         </Stack>
       </Stack>
     </Sheet>

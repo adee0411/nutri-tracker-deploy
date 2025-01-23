@@ -20,7 +20,7 @@ import {
   addIngredient,
   setIsEditIngredientModalOpen,
   addFavoriteIngredient,
-  setAddToFavoritesAlert,
+  setIngredientActionFeedback,
   removeIngredient,
   setRecentIngredients,
   setLastRemoved,
@@ -88,16 +88,17 @@ const IngredientListItemActions = ({
 
     if (existingIngredient) {
       dispatch(
-        setAddToFavoritesAlert({
+        setIngredientActionFeedback({
           state: "error",
           message: "Az alapanyag már szerepel a kedvencek közt!",
           isShown: true,
         })
       );
     } else {
+      // Add ingredient to Firebase
       addFavoriteToFirebase(ingredient);
       dispatch(
-        setAddToFavoritesAlert({
+        setIngredientActionFeedback({
           state: "success",
           message: "Hozzáadva a kedvencekhez!",
           isShown: true,
@@ -193,12 +194,13 @@ const IngredientListItemActions = ({
           <MenuButton
             slots={{ root: Button }}
             slotProps={{ root: { variant: "plain", color: "neutral" } }}
+            size="sm"
           >
-            <HiOutlineDotsVertical />
+            <HiOutlineDotsVertical style={{ fontSize: 22 }} />
           </MenuButton>
           <Menu
             placement="bottom-start"
-            size="sm"
+            size="lg"
             sx={{ minWidth: "120px" }}
             color="neutral"
             variant="plain"

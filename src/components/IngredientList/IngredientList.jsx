@@ -5,7 +5,7 @@ import IngredientListItem from "./IngredientListItem";
 
 const IngredientList = ({ ingredientList, actionList, listName }) => {
   return (
-    <List color="primary" variant="plain" sx={{ "--ListDivider-gap": "18px" }}>
+    <List color="primary" variant="plain" sx={{ "--ListDivider-gap": "12px" }}>
       {ingredientList.map((ingredient, index) => {
         return (
           <Fragment key={`${ingredient.id}_${ingredient.amount}`}>
