@@ -1,7 +1,7 @@
 import db from "../firebase/firestore_config";
 import { doc, getDoc } from "firebase/firestore";
 
-import { Stack, Button } from "@mui/joy";
+import { Stack, Button, Typography } from "@mui/joy";
 
 import { useParams, useNavigate, useLoaderData } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -77,6 +77,16 @@ const MealDetails = () => {
     navigate("add-food");
   };
 
+  const currentDate = new Date().toLocaleDateString();
+
+  const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
+  const mealImage = isMeal ? "meal" : mealTitle;
+  const formattedMealTitle = isMeal
+    ? `${mealTitle.at(-1)}. étkezés`
+    : mealTitle === "breakfast"
+    ? "Reggeli"
+    : "Snack";
+
   useEffect(() => {
     dispatch(
       setMealIngredients({ mealName: mealTitle, ingredientList: mealData })
@@ -88,6 +98,15 @@ const MealDetails = () => {
 
   return (
     <ContentWrapper>
+      <Stack mb={4}>
+        <Typography textAlign="center" level="h1" fontWeight={300} mb={2}>
+          {currentDate}
+        </Typography>
+        <Typography textAlign="center" level="title-lg">
+          {formattedMealTitle}
+        </Typography>
+      </Stack>
+
       <MealNutritionSummary />
       <Stack>
         {mealIngredients.length === 0 ? (

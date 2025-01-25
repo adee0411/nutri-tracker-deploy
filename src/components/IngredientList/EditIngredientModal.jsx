@@ -27,6 +27,14 @@ import {
 } from "../../store/ingredientSlice";
 import { transformNutritionData } from "../../data/TESTDATA";
 
+const mealTexts = {
+  breakfast: "a reggelihez",
+  meal2: "a 2. étkezéshez",
+  meal3: "a 3. étkezéshez",
+  meal4: "a 4. étkezéshez",
+  snack: "a nasihoz",
+};
+
 const EditIngredientModal = ({
   isModalOpen,
   ingredient,
@@ -166,7 +174,7 @@ const EditIngredientModal = ({
           isShown: true,
           message: `${+editableIngredientInput} ${ingredient.unit} ${
             ingredient.ingredientName
-          } hozzáadva a ...-hez`,
+          } hozzáadva ${mealTexts[mealName]}!`,
         })
       );
       dispatch(setIsEditIngredientModalOpen(false));

@@ -1,6 +1,7 @@
 import { Sheet, Stack, Typography } from "@mui/joy";
 
 import { useSelector } from "react-redux";
+import CountUp from "react-countup";
 
 import DailyGoalProgress from "./DailyGoalProgress";
 
@@ -9,6 +10,15 @@ import ProteinIcon from "../icons/proteins.png";
 import FatIcon from "../icons/pizza-slice.png";
 import CalorieIcon from "../icons/calories.png";
 import { useParams } from "react-router";
+import { useEffect, useRef } from "react";
+import MealNutritionSummaryMacro from "./MealNutritionSummaryMacro";
+
+const macroIcons = {
+  carb: CarbIcon,
+  protein: ProteinIcon,
+  fat: FatIcon,
+  energy: CalorieIcon,
+};
 
 const MealNutritionSummary = () => {
   const { addedIngredients } = useSelector((state) => state.ingredient);
@@ -16,14 +26,6 @@ const MealNutritionSummary = () => {
   const { mealTitle } = useParams();
 
   const mealIngredients = addedIngredients[mealTitle];
-
-  const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
-  const mealImage = isMeal ? "meal" : mealTitle;
-  const formattedMealTitle = isMeal
-    ? `${mealTitle.at(-1)}. étkezés`
-    : mealTitle === "breakfast"
-    ? "Reggeli"
-    : "Snack";
 
   const reduceMealNutritionData = (ingredients) => {
     // Initialize total nutrition object
@@ -90,33 +92,20 @@ const MealNutritionSummary = () => {
       color="primary"
       variant="soft"
     >
-      <Typography level="title-lg" mb={4} textAlign="center" fontWeight={600}>
-        {formattedMealTitle}
-      </Typography>
       <Stack mt={2} gap={4}>
         <Stack direction="row" gap={2} justifyContent="space-between" flex={1}>
-          <Stack alignItems="center">
-            <img src={CarbIcon} width="24px" />
-            <Typography>Szénhidrát:</Typography>
-            <Typography>{`${mealNutritionData.carb} g`}</Typography>
-          </Stack>
-          <Stack alignItems="center">
-            <img src={ProteinIcon} width="24px" />
-            <Typography level="body-md">Fehérje:</Typography>
-            <Typography>{`${mealNutritionData.protein} g`}</Typography>
-          </Stack>
-          <Stack alignItems="center">
-            <img src={FatIcon} width="24px" />
-            <Typography level="body-md">Zsír:</Typography>
-            <Typography>{`${mealNutritionData.fat} g`}</Typography>
-          </Stack>
-          <Stack alignItems="center">
-            <img src={CalorieIcon} width="24px" />
-            <Typography level="body-md" fontWeight={700}>
-              Energia:
-            </Typography>
-            <Typography>{`${mealNutritionData.energy} kcal`}</Typography>
-          </Stack>
+          {Object.entries(mealNutritionData).map((macro) => {
+            const macroName = macro[0];
+            const macroValue = macro[1];
+            return (
+              <MealNutritionSummaryMacro
+                key={macroName}
+                macroName={macroName}
+                icon={macroIcons[macroName]}
+                value={macroValue}
+              />
+            );
+          })}
         </Stack>
         <Stack gap={2}>
           <Typography textAlign="center">

@@ -26,6 +26,15 @@ import {
 
 import { VscError } from "react-icons/vsc";
 import { CiCircleCheck } from "react-icons/ci";
+import EditCustomIngredientModal from "../components/CustomIngredients/EditCustomIngredientModal";
+
+const mealTexts = {
+  breakfast: "a reggelihez",
+  meal2: "a 2. étkezéshez",
+  meal3: "a 3. étkezéshez",
+  meal4: "a 4. étkezéshez",
+  snack: "a nasihoz",
+};
 
 const SnackBarIcons = {
   error: <VscError />,
@@ -46,6 +55,7 @@ const AddFood = () => {
 
   const { editableIngredient } = useSelector((state) => state.ingredient);
   const {
+    isEditCustomIngredientModalOpen,
     isEditIngredientModalOpen,
     isConfirmEmptyListModalOpen,
     emptyListName,
@@ -56,14 +66,6 @@ const AddFood = () => {
   );
 
   const mergedQueryList = queryList.concat(customIngredients);
-
-  const mealTexts = {
-    breakfast: "a reggelihez",
-    meal2: "a 2. étkezéshez",
-    meal3: "a 3. étkezéshez",
-    meal4: "a 4. étkezéshez",
-    snack: "a nasihoz",
-  };
 
   // Avoid parallel component rendering
   useEffect(() => {
@@ -124,6 +126,14 @@ const AddFood = () => {
         ) : (
           ""
         )}
+        {isEditCustomIngredientModalOpen ? (
+          <EditCustomIngredientModal
+            isModalOpen={isEditCustomIngredientModalOpen}
+            ingredient={editableIngredient}
+          />
+        ) : (
+          ""
+        )}
       </ContentWrapper>
       <Snackbar
         open={ingredientActionFeedback.isShown}
@@ -144,12 +154,14 @@ const AddFood = () => {
         }
         invertedColors
         startDecorator={SnackBarIcons[ingredientActionFeedback.state]}
+        sx={{ textAlign: "center" }}
       >
         <Typography
           color={
             ingredientActionFeedback.state === "error" ? "danger" : "success"
           }
           level="body-sm"
+          textAlign="center"
         >
           {ingredientActionFeedback.message}
         </Typography>

@@ -9,6 +9,9 @@ import { useParams } from "react-router";
 import NutritionDetailCard from "../MealEditor/NutritionDetailCard";
 
 import {
+  setEditableIngredient,
+  setIngredientActionFeedback,
+  setMealIngredients,
   setNewIngredientInput,
   setSearchQueryInput,
   setSearchResultList,
@@ -17,6 +20,14 @@ import {
 import { transformNutritionData } from "../../data/TESTDATA";
 
 import CardWrapper from "../../UI/CardWrapper";
+
+const mealTexts = {
+  breakfast: "a reggelihez",
+  meal2: "a 2. étkezéshez",
+  meal3: "a 3. étkezéshez",
+  meal4: "a 4. étkezéshez",
+  snack: "a nasihoz",
+};
 
 const SelectedIngredient = ({ selectedIngredient }) => {
   const dispatch = useDispatch();
@@ -88,12 +99,22 @@ const SelectedIngredient = ({ selectedIngredient }) => {
 
     (async function (mealTitle) {
       await setDoc(doc(db, "addedIngredients", mealTitle), newIngredientList);
+      dispatch(
+        setMealIngredients({
+          mealName: mealTitle,
+          ingredientList: newIngredientList.ingredients,
+        })
+      );
+      dispatch(
+        setIngredientActionFeedback({
+          message: `${newIngredientInput} ${selectedIngredient.unit} ${selectedIngredient.ingredientName} hozzáadva ${mealTexts[mealTitle]}`,
+          status: "success",
+          isShown: true,
+        })
+      );
+      dispatch(setSearchQueryInput(""));
+      dispatch(setSearchResultList([]));
     })(mealTitle);
-
-    //dispatch(addIngredient({ mealName: mealTitle, ingredient: newIngredient }));
-    dispatch(setSearchQueryInput(""));
-    dispatch(setSearchResultList([]));
-    //dispatch(setRecentIngredients(newIngredient));
   };
   return (
     <CardWrapper color="primary" variant="solid">

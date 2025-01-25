@@ -12,6 +12,14 @@ import {
   setMealIngredients,
 } from "../../store/ingredientSlice";
 
+const mealTexts = {
+  breakfast: "a reggelihez",
+  meal2: "a 2. étkezéshez",
+  meal3: "a 3. étkezéshez",
+  meal4: "a 4. étkezéshez",
+  snack: "a nasihoz",
+};
+
 const QuickAddBtn = ({ mealName, ingredient }) => {
   const dispatch = useDispatch();
   const { recentIngredients, addedIngredients } = useSelector(
@@ -82,7 +90,7 @@ const QuickAddBtn = ({ mealName, ingredient }) => {
         setIngredientActionFeedback({
           state: "success",
           isShown: true,
-          message: `${ingredient.amount} ${ingredient.unit} ${ingredient.ingredientName} hozzáadva a ...-hez`,
+          message: `${ingredient.amount} ${ingredient.unit} ${ingredient.ingredientName} hozzáadva ${mealTexts[mealName]}!`,
         })
       );
     })(mealName);

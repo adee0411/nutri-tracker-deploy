@@ -2,9 +2,19 @@
 
 import { Stack, Typography, LinearProgress } from "@mui/joy";
 
+import { useCountUp } from "use-count-up";
+
 const MacroGoalDetails = ({ macroType, goal, current, color }) => {
   const ratio = Number((current / goal).toFixed(1));
   const ratioInPercent = Number((ratio * 100).toFixed(0));
+
+  const { value, reset } = useCountUp({
+    isCounting: true,
+    duration: 1,
+    start: 0,
+    end: ratioInPercent,
+    easing: "easeOutCubic",
+  });
 
   return (
     <Stack gap={2} sx={{ flex: 1 }}>
@@ -13,7 +23,7 @@ const MacroGoalDetails = ({ macroType, goal, current, color }) => {
       </Typography>
       <LinearProgress
         determinate
-        value={ratioInPercent > 100 ? 100 : ratioInPercent}
+        value={+value > 100 ? 100 : +value}
         sx={{ width: "80%", alignSelf: "center" }}
         color={color}
         variant="solid"
