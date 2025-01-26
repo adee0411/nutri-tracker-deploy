@@ -28,7 +28,7 @@ const MealNutritionSummaryMacro = ({ macroName, icon, value }) => {
         end={value}
         delay={0}
         duration={1}
-        suffix=" g"
+        suffix={macroName === "energy" ? " kcal" : " g"}
       >
         {({ countUpRef }) => (
           <Typography

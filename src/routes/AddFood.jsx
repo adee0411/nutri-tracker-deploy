@@ -1,5 +1,5 @@
 import db from "../firebase/firestore_config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
 import { Snackbar, Stack, Typography } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
@@ -183,8 +183,8 @@ export const ingredientLoader = async () => {
   const favoriteIngredientsSnapshot = await getDocs(
     collection(db, "favoriteIngredients")
   );
-  const recentIngredientsSnapshot = await getDocs(
-    collection(db, "recentIngredients")
+  const recentIngredientsSnapshot = await getDoc(
+    doc(db, "recentIngredients", "data")
   );
   const frequentIngredientsSnapshot = await getDocs(
     collection(db, "frequentIngredients")
@@ -202,9 +202,8 @@ export const ingredientLoader = async () => {
     const ingredientData = { id: ingredient.id, ...ingredient.data() };
     listMap.favoriteIngredients.push(ingredientData);
   });
-  recentIngredientsSnapshot.forEach((ingredient) => {
-    const ingredientData = { id: ingredient.id, ...ingredient.data() };
-    listMap.recentIngredients.push(ingredientData);
+  recentIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
+    listMap.recentIngredients.push(ingredient);
   });
   frequentIngredientsSnapshot.forEach((ingredient) => {
     const ingredientData = { id: ingredient.id, ...ingredient.data() };

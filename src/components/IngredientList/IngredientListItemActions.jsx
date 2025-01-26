@@ -201,9 +201,9 @@ const IngredientListItemActions = ({
           <Menu
             placement="bottom-start"
             size="lg"
-            sx={{ minWidth: "120px" }}
-            color="neutral"
-            variant="plain"
+            sx={{ minWidth: "120px", py: 0 }}
+            color="primary"
+            variant="soft"
           >
             {actionList.map((action) => {
               return (

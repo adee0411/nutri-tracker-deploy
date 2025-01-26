@@ -58,25 +58,43 @@ const QuickAddBtn = ({ mealName, ingredient }) => {
     }
 
     /********* ADD INGREDIENT TO RECENT LIST *********/
+
     /* Have to check if ingredient and amount exists in list!!! If yes, replace this ingredient with new amount */
-    if (recentIngredientsCopy.length === 3) {
-      recentIngredientsCopy.shift();
+    const existingRecentIngredientIndex = recentIngredientsCopy.findIndex(
+      (ing) => {
+        return ing.id === ingredient.id;
+      }
+    );
+
+    if (existingRecentIngredientIndex !== -1) {
+      recentIngredientsCopy[existingRecentIngredientIndex] = ingredient;
+    } else {
+      if (recentIngredientsCopy.length > 2) {
+        recentIngredientsCopy.splice(-1, 1);
+      }
+      recentIngredientsCopy.unshift(ingredient);
     }
-    recentIngredientsCopy.push(ingredient);
+
     /********************************************************* */
 
     const newIngredientList = {
       ingredients: [...ingredientsCopy],
     };
 
+    const newRecentIngredientsList = {
+      ingredients: [...recentIngredientsCopy],
+    };
+
     (async function (mealName) {
       await setDoc(doc(db, "addedIngredients", mealName), newIngredientList);
-      recentIngredientsCopy.forEach(async (ingredient) => {
-        await setDoc(doc(db, "recentIngredients", ingredient.id), ingredient);
-      });
+      await setDoc(
+        doc(db, "recentIngredients", "data"),
+        newRecentIngredientsList
+      );
+
       dispatch(
         setIngredientList({
-          ingredientList: recentIngredientsCopy,
+          ingredientList: newRecentIngredientsList.ingredients,
           listName: "recentIngredients",
         })
       );
