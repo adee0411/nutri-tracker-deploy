@@ -1,17 +1,17 @@
-import { Sheet, Stack, Typography } from "@mui/joy";
+import { Alert, Sheet, Stack, Typography } from "@mui/joy";
 
 import { useSelector } from "react-redux";
-import CountUp from "react-countup";
+import { useParams } from "react-router";
 
 import DailyGoalProgress from "./DailyGoalProgress";
+import MealNutritionSummaryMacro from "./MealNutritionSummaryMacro";
 
 import CarbIcon from "../icons/carbohydrate.png";
 import ProteinIcon from "../icons/proteins.png";
 import FatIcon from "../icons/pizza-slice.png";
 import CalorieIcon from "../icons/calories.png";
-import { useParams } from "react-router";
-import { useEffect, useRef } from "react";
-import MealNutritionSummaryMacro from "./MealNutritionSummaryMacro";
+
+import { CiWarning } from "react-icons/ci";
 
 const macroIcons = {
   carb: CarbIcon,
@@ -86,6 +86,8 @@ const MealNutritionSummary = () => {
   );
   const { calorieGoal } = useSelector((state) => state.profile.profileData);
 
+  const isCalorieSufficit = totalNutritionData.energy > calorieGoal;
+
   return (
     <Sheet
       sx={{ p: 4, borderRadius: "md", boxShadow: "md" }}
@@ -120,6 +122,27 @@ const MealNutritionSummary = () => {
             size="sm"
             type="linear"
           />
+          {isCalorieSufficit ? (
+            <Alert
+              size="sm"
+              sx={{ backgroundColor: "transparent", justifyContent: "center" }}
+            >
+              <Typography
+                color="danger"
+                level="body-sm"
+                fontWeight={300}
+                display="flex"
+                alignItems="center"
+                gap={0.5}
+              >
+                {" "}
+                <CiWarning style={{ fontSize: 18 }} /> Túllépted a mai napra
+                meghatározott célt!
+              </Typography>
+            </Alert>
+          ) : (
+            ""
+          )}
         </Stack>
       </Stack>
     </Sheet>

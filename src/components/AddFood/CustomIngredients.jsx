@@ -1,4 +1,4 @@
-import { Stack, Button, Typography } from "@mui/joy";
+import { Stack, Button } from "@mui/joy";
 import { useSelector } from "react-redux";
 import IngredientList from "../IngredientList/IngredientList";
 
@@ -11,7 +11,7 @@ const CustomIngredients = () => {
   const navigate = useNavigate();
   const { customIngredients } = useSelector((state) => state.ingredient);
 
-  const customListActions = ["new", "empty", "backup"];
+  const customListActions = ["empty", "backup"];
   const customIngredientsActions = ["log", "update", "remove"];
 
   const handleNavigate = () => {

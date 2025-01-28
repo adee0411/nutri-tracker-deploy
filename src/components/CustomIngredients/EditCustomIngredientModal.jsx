@@ -19,10 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import {
   toggleIsEditCustomIngredientModalOpen,
-  updateIngredient,
   setIngredientList,
-  setEditableIngredientInput,
-  setIsEditIngredientModalOpen,
 } from "../../store/ingredientSlice";
 
 const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {

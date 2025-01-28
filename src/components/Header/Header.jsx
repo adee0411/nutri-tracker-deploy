@@ -1,4 +1,4 @@
-import { Avatar, Button, Typography, Switch, Stack, Grid } from "@mui/joy";
+import { Avatar, Button, Typography, Stack } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
@@ -6,7 +6,7 @@ import { toggleProfileModal } from "../../store/profileSlice";
 
 import Logo from "../../icons/logo.svg";
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import EditProfileModal from "./EditProfileModal";
 
 import AvatarMan from "../../icons/avatar_man.png";
@@ -14,21 +14,12 @@ import AvatarBoy from "../../icons/avatar_boy.png";
 import AvatarLady from "../../icons/avatar_lady.png";
 import AvatarGirl from "../../icons/avatar_girl.png";
 
-import { IoSunnyOutline } from "react-icons/io5";
-import { MdOutlineModeNight } from "react-icons/md";
-
 const AVATARS = {
   man: AvatarMan,
   lady: AvatarLady,
   boy: AvatarBoy,
   girl: AvatarGirl,
 };
-
-/*
-export const profileUpdateAction = async ({ request }) => {
-  const formData = await request.formData();
-  console.log(formData);
-};*/
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -46,7 +37,7 @@ const Header = () => {
       <header style={{ padding: "24px" }}>
         <Stack direction="row">
           {" "}
-          <Link to="/" style={{ width: "20%" }}>
+          <Link to="/" style={{ width: "20%" }} viewTransition>
             <Stack
               direction="row"
               justifyContent="flex-start"
@@ -59,15 +50,6 @@ const Header = () => {
             NutriTracker
           </Typography>
           <Stack direction="row" width="20%" justifyContent="flex-end">
-            {/**             <Switch
-              size="sm"
-              startDecorator={<IoSunnyOutline />}
-              endDecorator={<MdOutlineModeNight />}
-              color="primary"
-              variant="soft"
-              slotProps={{ "aria-label": "Toggle theme" }}
-            />*/}
-
             <Button size="sm" variant="plain" onClick={handleShowModal}>
               <Avatar size="lg" src={AVATARS[avatar]}></Avatar>
             </Button>

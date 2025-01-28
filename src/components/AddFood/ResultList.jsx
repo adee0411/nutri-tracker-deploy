@@ -14,6 +14,7 @@ import {
 } from "../../store/ingredientSlice";
 
 import { FaRegUser } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa6";
 
 const ResultList = ({ resultList }) => {
   const dispatch = useDispatch();
@@ -55,6 +56,13 @@ const ResultList = ({ resultList }) => {
                 onClick={handleSelectedIngredient}
               >
                 <Stack direction="row" alignItems="center" gap={2}>
+                  {result.id === selectedIngredient?.id ? (
+                    <ListItemDecorator>
+                      <FaCheck />
+                    </ListItemDecorator>
+                  ) : (
+                    ""
+                  )}
                   <Typography level="body-sm" component="span">
                     {ingredientName}
                   </Typography>

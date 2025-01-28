@@ -1,4 +1,4 @@
-import { Tabs, TabList, Tab, TabPanel, Typography } from "@mui/joy";
+import { Tabs, TabList, Tab, TabPanel } from "@mui/joy";
 
 import { FaRegHeart } from "react-icons/fa";
 import { LuClock } from "react-icons/lu";

@@ -2,13 +2,12 @@
 
 import { Sheet, Tabs, TabList, Tab, TabPanel } from "@mui/joy";
 import { tabClasses } from "@mui/joy";
+
+import { useSelector } from "react-redux";
 import TabContent from "./TabContent";
 
-import MacroGoalDetails from "./MacroGoalDetails";
-import { useSelector } from "react-redux";
-
 const MacroDetailTab = ({ totalNutritionData }) => {
-  //const { calorieGoal } = useSelector((state) => state.profile.profileData);
+  const { calorieGoal } = useSelector((state) => state.profile.profileData);
   const calculateMacros = (calorie) => {
     const macroRatios = {
       lowCarb: {
@@ -46,7 +45,7 @@ const MacroDetailTab = ({ totalNutritionData }) => {
     return calculatedMacros;
   };
 
-  const calculatedMacroGoals = calculateMacros(2200);
+  const calculatedMacroGoals = calculateMacros(calorieGoal);
   return (
     <Sheet>
       <Tabs

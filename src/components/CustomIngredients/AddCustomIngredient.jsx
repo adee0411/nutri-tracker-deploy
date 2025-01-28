@@ -13,25 +13,26 @@ import {
   Sheet,
 } from "@mui/joy";
 import { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import generateUniqueId from "generate-unique-id";
 
 import { setIngredientList } from "../../store/ingredientSlice";
-import { useDispatch, useSelector } from "react-redux";
 
 const AddCustomIngredient = () => {
   const dispatch = useDispatch();
 
   const { customIngredients } = useSelector((state) => state.ingredient);
 
-  const carbRef = useRef();
-  const proteinRef = useRef();
-  const fatRef = useRef();
-  const energyRef = useRef();
-
   const [unit, setUnit] = useState("g");
   const [unitage, setUnitage] = useState(100);
   const [ingredientName, setIngredientName] = useState("");
+  const [macroValue, setMacroValue] = useState({
+    carb: "",
+    protein: "",
+    fat: "",
+    energy: "",
+  });
 
   const handleUnitChange = (e, newValue) => {
     setUnit(newValue);
@@ -41,6 +42,19 @@ const AddCustomIngredient = () => {
 
   const handleUnitageChange = (e) => {
     setUnitage(e.target.value);
+  };
+
+  const handleMacroChange = (e) => {
+    const macroName = e.target.name;
+    const macroValue = e.target.value;
+
+    if (+macroValue < 0) {
+      return;
+    } else {
+      setMacroValue((prevState) => {
+        return { ...prevState, [macroName]: macroValue };
+      });
+    }
   };
 
   const handleAddCustomIngredient = (e) => {
@@ -55,10 +69,10 @@ const AddCustomIngredient = () => {
       unit: unit,
       amount: +unitage,
       nutritionData: {
-        carb: +carbRef.current.value,
-        protein: +proteinRef.current.value,
-        fat: +fatRef.current.value,
-        energy: +energyRef.current.value,
+        carb: +macroValue.carb,
+        protein: +macroValue.protein,
+        fat: +macroValue.fat,
+        energy: +macroValue.energy,
       },
     };
 
@@ -76,8 +90,6 @@ const AddCustomIngredient = () => {
         })
       );
     })();
-
-    //dispatch(addCustomIngredient(newCustomIngredient));
   };
   return (
     <Sheet
@@ -130,10 +142,13 @@ const AddCustomIngredient = () => {
               <Input
                 type="number"
                 slotProps={{
-                  input: { style: { width: "100%" }, ref: carbRef },
+                  input: { style: { width: "100%" } },
                 }}
                 endDecorator="g"
                 placeholder="0"
+                name="carb"
+                onChange={handleMacroChange}
+                value={macroValue.carb}
               />
             </FormControl>
             <FormControl sx={{ flex: 1 }}>
@@ -141,19 +156,25 @@ const AddCustomIngredient = () => {
               <Input
                 type="number"
                 slotProps={{
-                  input: { style: { width: "100%" }, ref: proteinRef },
+                  input: { style: { width: "100%" } },
                 }}
                 endDecorator="g"
                 placeholder="0"
+                name="protein"
+                onChange={handleMacroChange}
+                value={macroValue.protein}
               />
             </FormControl>
             <FormControl sx={{ flex: 1 }}>
               <FormLabel>Zsír</FormLabel>
               <Input
                 type="number"
-                slotProps={{ input: { style: { width: "100%" }, ref: fatRef } }}
+                slotProps={{ input: { style: { width: "100%" } } }}
                 endDecorator="g"
                 placeholder="0"
+                name="fat"
+                onChange={handleMacroChange}
+                value={macroValue.fat}
               />
             </FormControl>
             <FormControl sx={{ flex: 1 }}>
@@ -161,10 +182,13 @@ const AddCustomIngredient = () => {
               <Input
                 type="number"
                 slotProps={{
-                  input: { style: { width: "100%" }, ref: energyRef },
+                  input: { style: { width: "100%" } },
                 }}
                 endDecorator="kcal"
                 placeholder="0"
+                name="energy"
+                onChange={handleMacroChange}
+                value={macroValue.energy}
               />
             </FormControl>
           </Stack>

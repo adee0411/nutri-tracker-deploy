@@ -1,6 +1,4 @@
-import { Sheet, Typography, Stack } from "@mui/joy";
-
-import NoImage from "../../img/no_image.png";
+import { Typography, Stack } from "@mui/joy";
 
 const NutritionDetailCard = ({
   title,

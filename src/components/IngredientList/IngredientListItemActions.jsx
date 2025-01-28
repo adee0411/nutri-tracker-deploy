@@ -5,9 +5,6 @@ import { Button, Dropdown, MenuButton, Menu, MenuItem, Stack } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 
-import { useState } from "react";
-
-import EditIngredientModal from "./EditIngredientModal";
 import QuickAddBtn from "./QuickAddBtn";
 
 import { CiEdit } from "react-icons/ci";
@@ -17,12 +14,8 @@ import { CiHeart } from "react-icons/ci";
 import { MdOutlineDelete } from "react-icons/md";
 
 import {
-  addIngredient,
   setIsEditIngredientModalOpen,
-  addFavoriteIngredient,
   setIngredientActionFeedback,
-  removeIngredient,
-  setRecentIngredients,
   setLastRemoved,
   setEditableIngredient,
   setEditableIngredientInput,

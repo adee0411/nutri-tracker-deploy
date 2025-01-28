@@ -4,7 +4,6 @@ import IngredientList from "../IngredientList/IngredientList";
 import EmptyListPlaceholder from "../IngredientList/EmptyListPlaceholder";
 
 import IngredientListHeader from "../IngredientList/IngredientListHeader";
-import { Typography } from "@mui/joy";
 
 const FavoriteIngredients = () => {
   const { favoriteIngredients } = useSelector((state) => state.ingredient);

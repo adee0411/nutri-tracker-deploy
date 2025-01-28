@@ -5,6 +5,7 @@ import { Stack, Button, Typography } from "@mui/joy";
 
 import { useParams, useNavigate, useLoaderData } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 import ContentWrapper from "../UI/ContentWrapper";
 import AddedIngredients from "../components/IngredientList/AddedIngredients";
@@ -15,7 +16,6 @@ import EditIngredientModal from "../components/IngredientList/EditIngredientModa
 import BreakfastImg from "../img/breakfast.png";
 import LunchImg from "../img/lunch.png";
 import SnackImg from "../img/snack.png";
-import { useEffect } from "react";
 
 import {
   setIsEditIngredientModalOpen,

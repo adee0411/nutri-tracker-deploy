@@ -24,7 +24,7 @@ const AddedIngredients = ({ ingredientList }) => {
 
   const actionList = ["update", "addToFavorites", "remove"];
 
-  const addedListActions = ["add", "empty", "backup"];
+  const addedListActions = ["empty", "backup"];
 
   return (
     <>

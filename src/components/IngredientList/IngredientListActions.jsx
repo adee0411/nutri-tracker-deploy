@@ -1,10 +1,10 @@
-import { ButtonGroup, IconButton } from "@mui/joy";
+import { ButtonGroup, IconButton, Stack } from "@mui/joy";
 
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { CiTrash } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";
 import { CiViewList } from "react-icons/ci";
-import { useNavigate, useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -18,14 +18,9 @@ import {
 } from "../../store/ingredientSlice";
 
 const IngredientListActions = ({ listName, listActions }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const mealName = useParams().mealTitle;
   const { lastRemoved } = useSelector((state) => state.ingredient);
-
-  const handleAddIngredient = () => {
-    navigate("add-food");
-  };
 
   const handleEmptyList = () => {
     //dispatch(emptyList({ listName: listName, mealName: mealName }));
@@ -62,16 +57,7 @@ const IngredientListActions = ({ listName, listActions }) => {
     dispatch(toggleView());
   };
 
-  const handleNewCustomIngredient = () => {
-    navigate("/custom-ingredients");
-  };
-
   const listActionsObj = {
-    add: {
-      icon: <IoIosAddCircleOutline />,
-      title: "Alapanyag hozzáadása",
-      handler: handleAddIngredient,
-    },
     empty: {
       icon: <CiTrash />,
       title: "Lista ürítése",
@@ -87,33 +73,59 @@ const IngredientListActions = ({ listName, listActions }) => {
       title: "Nézet",
       handler: handleToggleView,
     },
-    new: {
-      icon: <IoIosAddCircleOutline />,
-      title: "Saját alapanyag hozzáadása",
-      handler: handleNewCustomIngredient,
-    },
   };
   return (
-    <ButtonGroup size="lg">
-      {listActions.map((action) => {
-        return (
-          <IconButton
-            title={listActionsObj[action].title}
-            sx={{ fontSize: 22 }}
-            variant={action === "add" || action === "new" ? "solid" : ""}
-            color={action === "add" || action === "new" ? "primary" : ""}
-            onClick={listActionsObj[action].handler}
-            key={action}
-            disabled={
-              (!lastRemoved || lastRemoved.listName !== listName) &&
-              action === "backup"
+    <Stack direction="row" gap={4}>
+      {listName === "addedIngredients" || listName === "customIngredients" ? (
+        <IconButton color="primary" variant="solid">
+          <Link
+            to={
+              listName === "addedIngredients"
+                ? "add-food"
+                : "/custom-ingredients"
             }
+            style={{
+              all: "unset",
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "2px 8px",
+            }}
+            title={
+              listName === "addedIngredients"
+                ? "Alapanyag hozzáadása"
+                : "Saját alapanyag hozzáadása"
+            }
+            viewTransition
           >
-            {listActionsObj[action].icon}
-          </IconButton>
-        );
-      })}
-    </ButtonGroup>
+            <IoIosAddCircleOutline fontSize={22} />
+          </Link>
+        </IconButton>
+      ) : (
+        ""
+      )}
+
+      <ButtonGroup size="lg">
+        {listActions.map((action) => {
+          return (
+            <IconButton
+              title={listActionsObj[action].title}
+              sx={{ fontSize: 22 }}
+              onClick={listActionsObj[action].handler}
+              key={action}
+              disabled={
+                (!lastRemoved || lastRemoved.listName !== listName) &&
+                action === "backup"
+              }
+            >
+              {listActionsObj[action].icon}
+            </IconButton>
+          );
+        })}
+      </ButtonGroup>
+    </Stack>
   );
 };
 

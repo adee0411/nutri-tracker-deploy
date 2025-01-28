@@ -1,10 +1,8 @@
-import { FormControl, Input, Sheet, Stack, Typography } from "@mui/joy";
+import { FormControl, Input, Stack, Typography } from "@mui/joy";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import ResultList from "./ResultList";
-
-//import queryList from "../../data/FoodDB";
 
 import {
   setSelectedIngredient,
@@ -21,8 +19,13 @@ const SearchForm = () => {
   );
 
   const handleQueryInputChange = (e) => {
-    dispatch(setSearchQueryInput(e.target.value));
-    if (e.target.value === "") setSelectedIngredient("");
+    const alphabetRegex = /^[A-Za-z]+$/;
+    if (!e.target.value.match(alphabetRegex) && e.target.value !== "") {
+      return;
+    } else {
+      dispatch(setSearchQueryInput(e.target.value));
+      if (e.target.value === "") setSelectedIngredient("");
+    }
   };
 
   useEffect(() => {
@@ -42,7 +45,12 @@ const SearchForm = () => {
 
   return (
     <Stack gap={2} mb={2}>
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          return;
+        }}
+      >
         <Typography level="title-md">Alapanyag keresése:</Typography>{" "}
         <Stack direction="row" my={1}>
           <FormControl sx={{ flex: 1 }}>

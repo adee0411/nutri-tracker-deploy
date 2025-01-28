@@ -3,17 +3,17 @@ import { getDocs, collection } from "firebase/firestore";
 
 import { Stack } from "@mui/joy";
 
+import { useDispatch, useSelector } from "react-redux";
+import { useLoaderData } from "react-router";
+import { setIngredientList } from "../store/ingredientSlice";
+import { useEffect } from "react";
+
 import IngredientListHeader from "../components/IngredientList/IngredientListHeader";
 import IngredientList from "../components/IngredientList/IngredientList";
-import { useDispatch, useSelector } from "react-redux";
-
 import AddCustomIngredient from "../components/CustomIngredients/AddCustomIngredient";
 import EditCustomIngredientModal from "../components/CustomIngredients/EditCustomIngredientModal";
 import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
 import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
-import { useLoaderData } from "react-router";
-import { setIngredientList } from "../store/ingredientSlice";
-import { useEffect } from "react";
 
 const CustomIngredientsRoute = () => {
   const dispatch = useDispatch();

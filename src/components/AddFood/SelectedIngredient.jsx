@@ -1,7 +1,7 @@
 import db from "../../firebase/firestore_config";
 import { doc, setDoc } from "firebase/firestore";
 
-import { Sheet, Stack, FormControl, Input, Button, IconButton } from "@mui/joy";
+import { Stack, FormControl, Input, Button } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
@@ -9,15 +9,15 @@ import { useParams } from "react-router";
 import NutritionDetailCard from "../MealEditor/NutritionDetailCard";
 
 import {
-  setEditableIngredient,
   setIngredientActionFeedback,
   setMealIngredients,
   setNewIngredientInput,
   setSearchQueryInput,
   setSearchResultList,
+  setIngredientList,
 } from "../../store/ingredientSlice";
 
-import { transformNutritionData } from "../../data/TESTDATA";
+import { transformNutritionData } from "../../utils";
 
 import CardWrapper from "../../UI/CardWrapper";
 
@@ -33,6 +33,8 @@ const SelectedIngredient = ({ selectedIngredient }) => {
   const dispatch = useDispatch();
 
   const { mealTitle } = useParams();
+
+  const { recentIngredients } = useSelector((state) => state.ingredient);
 
   const { newIngredientInput } = useSelector((state) => state.ingredient.UI);
   let ingredients = useSelector(
@@ -50,19 +52,26 @@ const SelectedIngredient = ({ selectedIngredient }) => {
 
   const handleNewIngredientAmountChange = (e) => {
     const amount = e.target.value;
-    dispatch(setNewIngredientInput(amount));
+    if (amount < 0) {
+      return;
+    } else {
+      dispatch(setNewIngredientInput(amount));
+    }
   };
 
   const handleAddIngredient = () => {
     // 1) Check if selectedIngredient exists in state list
     let ingredientsCopy = [...ingredients];
+    let recentIngredientsCopy = [...recentIngredients];
+    let newIngredient;
+
     const existingIngredientIndex = ingredientsCopy.findIndex((ingredient) => {
       return ingredient.id === selectedIngredient.id;
     });
 
     // No matching ingredient based on ID
     if (existingIngredientIndex === -1) {
-      const newIngredient = {
+      newIngredient = {
         ...selectedIngredient,
         nutritionData: transformedNutritionData,
         amount: +newIngredientInput,
@@ -83,7 +92,7 @@ const SelectedIngredient = ({ selectedIngredient }) => {
       )) {
         newNutritionData[key] += value;
       }
-      const newIngredient = {
+      newIngredient = {
         ...selectedIngredient,
         nutritionData: newNutritionData,
         amount: newAmount,
@@ -93,12 +102,54 @@ const SelectedIngredient = ({ selectedIngredient }) => {
       ingredientsCopy[existingIngredientIndex] = newIngredient;
     }
 
+    /********* ADD INGREDIENT TO RECENT LIST *********/
+
+    /* Have to check if ingredient and amount exists in list!!! If yes, replace this ingredient with new amount */
+    const existingRecentIngredientIndex = recentIngredientsCopy.findIndex(
+      (ing) => {
+        return ing.id === selectedIngredient.id;
+      }
+    );
+
+    let newRecentIngredient = {
+      ...selectedIngredient,
+      nutritionData: transformedNutritionData,
+      amount: +newIngredientInput,
+      nutritionDataPerUnit: selectedIngredient.nutritionData,
+    };
+
+    if (existingRecentIngredientIndex !== -1) {
+      recentIngredientsCopy[existingRecentIngredientIndex] =
+        newRecentIngredient;
+    } else {
+      if (recentIngredientsCopy.length > 2) {
+        recentIngredientsCopy.splice(-1, 1);
+      }
+      recentIngredientsCopy.unshift(newRecentIngredient);
+    }
+
+    /********************************************************* */
+
     const newIngredientList = {
       ingredients: [...ingredientsCopy],
     };
 
+    const newRecentIngredientsList = {
+      ingredients: [...recentIngredientsCopy],
+    };
+
     (async function (mealTitle) {
       await setDoc(doc(db, "addedIngredients", mealTitle), newIngredientList);
+      await setDoc(
+        doc(db, "recentIngredients", "data"),
+        newRecentIngredientsList
+      );
+      dispatch(
+        setIngredientList({
+          ingredientList: newRecentIngredientsList.ingredients,
+          listName: "recentIngredients",
+        })
+      );
       dispatch(
         setMealIngredients({
           mealName: mealTitle,

@@ -1,4 +1,4 @@
-import { ListItem, Stack, ListDivider } from "@mui/joy";
+import { ListItem, Stack } from "@mui/joy";
 import { useParams } from "react-router";
 
 import IngredientListItemContent from "./IngredientListItemContent";

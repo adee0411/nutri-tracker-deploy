@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/joy";
+import { Stack } from "@mui/joy";
 
 import { useSelector } from "react-redux";
 

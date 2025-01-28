@@ -1,6 +1,6 @@
 import { Button, Stack } from "@mui/joy";
 
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import MealButtonLabel from "./MealButtonLabel";
 import NutritionDetails from "../NutritionDetails";
@@ -17,6 +17,7 @@ const MealButton = ({ title, ingredientData }) => {
           height: "100%",
           padding: "12px",
         }}
+        viewTransition
       >
         <Stack
           direction="row"

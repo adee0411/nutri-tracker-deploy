@@ -6,7 +6,6 @@ import { IconButton } from "@mui/joy";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addIngredient,
   setIngredientActionFeedback,
   setIngredientList,
   setMealIngredients,
@@ -86,7 +85,12 @@ const QuickAddBtn = ({ mealName, ingredient }) => {
     };
 
     (async function (mealName) {
-      await setDoc(doc(db, "addedIngredients", mealName), newIngredientList);
+      try {
+        await setDoc(doc(db, "addedIngredients", mealName), newIngredientList);
+      } catch (e) {
+        console.log(e);
+      }
+
       await setDoc(
         doc(db, "recentIngredients", "data"),
         newRecentIngredientsList

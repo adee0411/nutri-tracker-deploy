@@ -25,7 +25,7 @@ import {
   setIngredientList,
   setIngredientActionFeedback,
 } from "../../store/ingredientSlice";
-import { transformNutritionData } from "../../data/TESTDATA";
+import { transformNutritionData } from "../../utils";
 
 const mealTexts = {
   breakfast: "a reggelihez",
@@ -41,16 +41,18 @@ const EditIngredientModal = ({
   ingredientAction,
   listName,
 }) => {
+  const dispatch = useDispatch();
+  const { mealTitle } = useParams();
   const { ingredientName, unit, unitage, nutritionDataPerUnit } = ingredient;
   const { editableIngredientInput } = useSelector(
     (state) => state.ingredient.UI
   );
-  const dispatch = useDispatch();
-  const { mealTitle } = useParams();
   const ingredients = useSelector((state) => state.ingredient[listName]);
   const mealIngredients = useSelector(
     (state) => state.ingredient.addedIngredients[mealTitle]
   );
+  const { recentIngredients } = useSelector((state) => state.ingredient);
+
   const formattedIngredientName =
     ingredientName[0].toUpperCase() + ingredientName.slice(1);
 
@@ -69,7 +71,12 @@ const EditIngredientModal = ({
   };
 
   const handleInputChange = (e) => {
-    dispatch(setEditableIngredientInput(e.target.value));
+    const newAmount = e.target.value;
+    if (newAmount < 0) {
+      return;
+    } else {
+      dispatch(setEditableIngredientInput(newAmount));
+    }
   };
 
   // UPDATE ingredient in list
@@ -128,6 +135,9 @@ const EditIngredientModal = ({
   const handleLogIngredient = (e) => {
     e.preventDefault();
     let ingredientsCopy = [...mealIngredients];
+    let recentIngredientsCopy = [...recentIngredients];
+    let newIngredient;
+
     const existingIngredientIndex = ingredientsCopy.findIndex((ing) => {
       return ing.id === ingredient.id;
     });
@@ -156,12 +166,54 @@ const EditIngredientModal = ({
       ingredientsCopy[existingIngredientIndex] = newIngredient;
     }
 
+    /********* ADD INGREDIENT TO RECENT LIST *********/
+
+    /* Have to check if ingredient and amount exists in list!!! If yes, replace this ingredient with new amount */
+    const existingRecentIngredientIndex = recentIngredientsCopy.findIndex(
+      (ing) => {
+        return ing.id === ingredient.id;
+      }
+    );
+
+    let newRecentIngredient = {
+      ...ingredient,
+      nutritionData: transformedNutritionData,
+      amount: +editableIngredientInput,
+      nutritionDataPerUnit: ingredient.nutritionData,
+    };
+
+    if (existingRecentIngredientIndex !== -1) {
+      recentIngredientsCopy[existingRecentIngredientIndex] =
+        newRecentIngredient;
+    } else {
+      if (recentIngredientsCopy.length > 2) {
+        recentIngredientsCopy.splice(-1, 1);
+      }
+      recentIngredientsCopy.unshift(newRecentIngredient);
+    }
+
+    /********************************************************* */
+
     const newIngredientList = {
       ingredients: [...ingredientsCopy],
     };
 
+    const newRecentIngredientsList = {
+      ingredients: [...recentIngredientsCopy],
+    };
+
     (async function (mealName) {
       await setDoc(doc(db, "addedIngredients", mealName), newIngredientList);
+      await setDoc(
+        doc(db, "recentIngredients", "data"),
+        newRecentIngredientsList
+      );
+      dispatch(
+        setIngredientList({
+          ingredientList: newRecentIngredientsList.ingredients,
+          listName: "recentIngredients",
+        })
+      );
       dispatch(
         setMealIngredients({
           mealName: mealName,

@@ -1,8 +1,4 @@
-import { Alert, Stack, Typography, List, ListItem, Sheet } from "@mui/joy";
-
-import { IoFootsteps } from "react-icons/io5";
-import { GrRun } from "react-icons/gr";
-import { IoBicycleSharp } from "react-icons/io5";
+import { Alert, Typography } from "@mui/joy";
 
 const AlertBox = ({ calorieDifference }) => {
   return (

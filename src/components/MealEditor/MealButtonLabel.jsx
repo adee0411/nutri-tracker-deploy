@@ -1,4 +1,4 @@
-import { Stack, Typography } from "@mui/joy";
+import { Stack } from "@mui/joy";
 
 import BreakFastIcon from "../../icons/breakfast.svg";
 import LunchIcon from "../../icons/lunch.svg";

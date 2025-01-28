@@ -1,7 +1,7 @@
 /** Import Style */
 import "./App.css";
 
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router";
 import { Provider } from "react-redux";
 
 import store from "./store/store";
@@ -20,35 +20,43 @@ import CustomIngredientsRoute, {
 import { ingredientLoader } from "./routes/AddFood";
 import { rootDataLoader } from "./UI/RootLayout";
 
-const router = createBrowserRouter([
-  {
-    element: <RootLayout />,
-    path: "/",
-    loader: rootDataLoader,
+const router = createBrowserRouter(
+  [
+    {
+      element: <RootLayout />,
+      path: "/",
+      loader: rootDataLoader,
 
-    children: [
-      {
-        path: "/",
-        element: <DailyOverview />,
-      },
-      {
-        path: ":mealTitle",
-        element: <MealDetails />,
-        loader: mealDataLoader,
-      },
-      {
-        path: ":mealTitle/add-food",
-        element: <AddFood />,
-        loader: ingredientLoader,
-      },
-      {
-        path: "/custom-ingredients",
-        element: <CustomIngredientsRoute />,
-        loader: customIngredientsListLoader,
-      },
-    ],
-  },
-]);
+      children: [
+        {
+          path: "/",
+          element: <DailyOverview />,
+        },
+        {
+          path: ":mealTitle",
+          element: <MealDetails />,
+          loader: mealDataLoader,
+        },
+        {
+          path: ":mealTitle/add-food",
+          element: <AddFood />,
+          loader: ingredientLoader,
+        },
+        {
+          path: "/custom-ingredients",
+          element: <CustomIngredientsRoute />,
+          loader: customIngredientsListLoader,
+        },
+      ],
+    },
+  ],
+  {
+    future: {
+      v7_relativeSplatPath: true,
+      v7_partialHydration: true,
+    },
+  }
+);
 
 function App() {
   return (
