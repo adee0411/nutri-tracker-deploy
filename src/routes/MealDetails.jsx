@@ -3,7 +3,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 import { Stack, Button, Typography } from "@mui/joy";
 
-import { useParams, useNavigate, useLoaderData } from "react-router";
+import { useParams, useLoaderData, Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
@@ -32,7 +32,6 @@ const mealImages = {
 };
 
 const MealDetails = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { editableIngredient } = useSelector((state) => state.ingredient);
@@ -72,11 +71,6 @@ const MealDetails = () => {
     }
   });
 
-  // Handle Add Ingredient
-  const handleAddIngredient = () => {
-    navigate("add-food");
-  };
-
   const currentDate = new Date().toLocaleDateString();
 
   const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
@@ -108,16 +102,13 @@ const MealDetails = () => {
       </Stack>
 
       <MealNutritionSummary />
-      <Stack>
+      <Stack alignItems="center">
         {mealIngredients.length === 0 ? (
           <>
             <EmptyListPlaceholder text="A lista üres. Adj hozzá alapanyagokat!" />
-            <Button
-              onClick={handleAddIngredient}
-              sx={{ width: "50%", m: "0 auto" }}
-            >
-              Hozzáadás
-            </Button>
+            <Link to="add-food" viewTransition style={{ width: "fit-content" }}>
+              <Button>Hozzáadás</Button>
+            </Link>
           </>
         ) : (
           <AddedIngredients ingredientList={mealIngredients} />

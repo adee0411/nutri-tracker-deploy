@@ -2,6 +2,7 @@ import { Alert, Sheet, Stack, Typography } from "@mui/joy";
 
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import CountUp from "react-countup";
 
 import DailyGoalProgress from "./DailyGoalProgress";
 import MealNutritionSummaryMacro from "./MealNutritionSummaryMacro";
@@ -12,6 +13,7 @@ import FatIcon from "../icons/pizza-slice.png";
 import CalorieIcon from "../icons/calories.png";
 
 import { CiWarning } from "react-icons/ci";
+import { useEffect, useRef } from "react";
 
 const macroIcons = {
   carb: CarbIcon,
@@ -84,9 +86,16 @@ const MealNutritionSummary = () => {
   const totalNutritionData = reduceTotalNutritionData(
     mealTotalNutritionCollection
   );
+
+  const totalEnergyRef = useRef(totalNutritionData.energy);
+
   const { calorieGoal } = useSelector((state) => state.profile.profileData);
 
   const isCalorieSufficit = totalNutritionData.energy > calorieGoal;
+
+  useEffect(() => {
+    totalEnergyRef.current = totalNutritionData.energy;
+  }, [totalNutritionData.energy]);
 
   return (
     <Sheet
@@ -112,9 +121,22 @@ const MealNutritionSummary = () => {
         <Stack gap={2}>
           <Typography textAlign="center">
             A mai napon eddig bevitt kalória:{" "}
-            <Typography level="body-lg" fontWeight={600}>
-              {totalNutritionData.energy} kcal
-            </Typography>
+            <CountUp
+              start={totalEnergyRef.current}
+              end={totalNutritionData.energy}
+              delay={0}
+              duration={1}
+              suffix=" kcal"
+            >
+              {({ countUpRef }) => (
+                <Typography
+                  level="body-lg"
+                  component="span"
+                  fontWeight={600}
+                  slotProps={{ root: { ref: countUpRef } }}
+                ></Typography>
+              )}
+            </CountUp>
           </Typography>
           <DailyGoalProgress
             current={totalNutritionData.energy}

@@ -177,7 +177,7 @@ const IngredientListItemActions = ({
   return (
     <>
       <Stack direction="row">
-        {!location.pathname.includes("custom-ingredients") ? (
+        {!(listName === "custom-ingredients") ? (
           <QuickAddBtn mealName={mealName} ingredient={ingredient} />
         ) : (
           ""

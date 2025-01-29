@@ -39,7 +39,8 @@ const EditProfileModal = ({ profileData, isProfileModalOpen }) => {
 
   const [avatarRadio, setAvatarRadio] = useState(avatar);
   const nameRef = useRef();
-  const calorieGoalRef = useRef();
+
+  const [newCalorieGoal, setNewCalorieGoal] = useState(calorieGoal);
 
   const handleShowModal = () => {
     dispatch(toggleProfileModal());
@@ -50,15 +51,24 @@ const EditProfileModal = ({ profileData, isProfileModalOpen }) => {
     setAvatarRadio(avatarValue);
   };
 
+  const handleNewCalorieGoalChange = (e) => {
+    const value = e.target.value;
+
+    if (value < 0) {
+      return;
+    } else {
+      setNewCalorieGoal(value);
+    }
+  };
+
   const submitProfileUpdate = (e) => {
     e.preventDefault();
     const name = nameRef.current.value;
-    const calorieGoal = calorieGoalRef.current.value;
 
     (async function () {
       const newProfileData = {
         name,
-        calorieGoal,
+        calorieGoal: +newCalorieGoal,
         avatar: avatarRadio,
       };
 
@@ -135,14 +145,10 @@ const EditProfileModal = ({ profileData, isProfileModalOpen }) => {
               <Input
                 type="number"
                 sx={{ width: "100%" }}
-                defaultValue={calorieGoal}
                 endDecorator="kcal"
                 name="calorieGoal"
-                slotProps={{
-                  input: {
-                    ref: calorieGoalRef,
-                  },
-                }}
+                value={newCalorieGoal}
+                onChange={handleNewCalorieGoalChange}
               />
             </FormControl>
             <FormControl>

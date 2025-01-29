@@ -12,7 +12,8 @@ const EmptyListPlaceholder = ({ text }) => {
         justifyContent: "center",
         alignItems: "center",
         gap: 4,
-        my: 10,
+        mt: 10,
+        mb: 5,
       }}
     >
       <img width="50%" src={EmptyListImg} alt="no-data-img" />

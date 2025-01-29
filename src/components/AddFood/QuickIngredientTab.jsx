@@ -41,26 +41,27 @@ const QuickIngredientTab = () => {
         }}
       >
         <Tab disableIndicator variant="soft">
+          <LuClock />
+        </Tab>
+        <Tab disableIndicator variant="soft">
           <FaRegHeart />
         </Tab>
         <Tab disableIndicator variant="soft">
           <IoRepeat />
         </Tab>
-        <Tab disableIndicator variant="soft">
-          <LuClock />
-        </Tab>
+
         <Tab disableIndicator variant="soft">
           <FaRegUser />
         </Tab>
       </TabList>
       <TabPanel value={0}>
-        <FavoriteIngredients />
+        <RecentIngredients />
       </TabPanel>
       <TabPanel value={1}>
-        <FrequentIngredients />
+        <FavoriteIngredients />
       </TabPanel>
       <TabPanel value={2}>
-        <RecentIngredients />
+        <FrequentIngredients />
       </TabPanel>
       <TabPanel value={3}>
         <CustomIngredients />

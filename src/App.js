@@ -10,6 +10,7 @@ import store from "./store/store";
 import RootLayout from "./UI/RootLayout";
 
 /** Import Routes */
+import Welcome from "./routes/Welcome";
 import DailyOverview from "./routes/DailyOverview";
 import MealDetails, { mealDataLoader } from "./routes/MealDetails";
 import AddFood from "./routes/AddFood";

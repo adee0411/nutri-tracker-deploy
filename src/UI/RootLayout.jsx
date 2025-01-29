@@ -3,11 +3,12 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
 import { useDispatch } from "react-redux";
 import { useLoaderData } from "react-router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { Outlet } from "react-router";
 
 import Header from "../components/Header/Header";
+import Welcome from "../routes/Welcome";
 
 import {
   setAddedIngredients,
@@ -19,6 +20,8 @@ const RootLayout = () => {
   const dispatch = useDispatch();
 
   const { addedIngredients, favoriteIngredients, profile } = useLoaderData();
+
+  const [isFirstVisit, setIsFirstVisit] = useState(true);
 
   useEffect(() => {
     dispatch(setAddedIngredients(addedIngredients));
@@ -32,10 +35,16 @@ const RootLayout = () => {
   }, []);
   return (
     <>
-      <Header></Header>
-      <main>
-        <Outlet></Outlet>
-      </main>
+      {isFirstVisit ? (
+        <Welcome onCloseWelcome={() => setIsFirstVisit(false)} />
+      ) : (
+        <>
+          <Header></Header>
+          <main>
+            <Outlet></Outlet>
+          </main>
+        </>
+      )}
     </>
   );
 };
