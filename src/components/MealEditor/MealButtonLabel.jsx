@@ -13,11 +13,7 @@ const mealIcons = {
 const MealButtonLabel = ({ title }) => {
   const isMeal = title.includes("meal"); // Check if meal's title is Meal (number)
   const mealIcon = isMeal ? "meal" : title;
-  const formattedMealTitle = isMeal
-    ? `${title.at(-1)}. étkezés`
-    : title === "breakfast"
-    ? "Reggeli"
-    : "Snack";
+
   return (
     <Stack direction="row" gap={1} alignItems="center">
       <img src={mealIcons[mealIcon]} alt="breakfast-icon" width={32} />

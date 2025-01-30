@@ -3,6 +3,7 @@ import { CircularProgress, LinearProgress, Typography } from "@mui/joy";
 import { useCountUp } from "use-count-up";
 
 import BurnIcon from "../icons/burn.svg";
+import { useEffect, useRef } from "react";
 
 const DailyGoalProgress = ({ current, goal, size, type }) => {
   const ProgressSizes = {
@@ -22,6 +23,7 @@ const DailyGoalProgress = ({ current, goal, size, type }) => {
     end: ratioInPercentage,
     easing: "easeOutCubic",
   });
+
   return (
     <>
       {type === "circular" ? (

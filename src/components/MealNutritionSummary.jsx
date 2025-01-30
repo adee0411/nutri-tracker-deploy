@@ -14,6 +14,7 @@ import CalorieIcon from "../icons/calories.png";
 
 import { CiWarning } from "react-icons/ci";
 import { useEffect, useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 const macroIcons = {
   carb: CarbIcon,
@@ -93,6 +94,13 @@ const MealNutritionSummary = () => {
 
   const isCalorieSufficit = totalNutritionData.energy > calorieGoal;
 
+  const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
+  const formattedMealTitle = isMeal
+    ? `${mealTitle.at(-1)}. étkezés`
+    : mealTitle === "breakfast"
+    ? "Reggeli"
+    : "Snack";
+
   useEffect(() => {
     totalEnergyRef.current = totalNutritionData.energy;
   }, [totalNutritionData.energy]);
@@ -103,7 +111,10 @@ const MealNutritionSummary = () => {
       color="primary"
       variant="soft"
     >
-      <Stack mt={2} gap={4}>
+      <Typography textAlign="center" level="h3">
+        {formattedMealTitle}
+      </Typography>
+      <Stack mt={4} gap={4}>
         <Stack direction="row" gap={2} justifyContent="space-between" flex={1}>
           {Object.entries(mealNutritionData).map((macro) => {
             const macroName = macro[0];
@@ -147,7 +158,10 @@ const MealNutritionSummary = () => {
           {isCalorieSufficit ? (
             <Alert
               size="sm"
-              sx={{ backgroundColor: "transparent", justifyContent: "center" }}
+              sx={{
+                backgroundColor: "transparent",
+                justifyContent: "center",
+              }}
             >
               <Typography
                 color="danger"

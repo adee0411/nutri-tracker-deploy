@@ -93,11 +93,8 @@ const MealDetails = () => {
   return (
     <ContentWrapper>
       <Stack mb={4}>
-        <Typography textAlign="center" level="h1" fontWeight={300} mb={2}>
+        <Typography textAlign="center" level="h1" fontWeight={300}>
           {currentDate}
-        </Typography>
-        <Typography textAlign="center" level="title-lg">
-          {formattedMealTitle}
         </Typography>
       </Stack>
 

@@ -20,6 +20,7 @@
     "firebase": "^11.2.0",
     "framer-motion": "^12.0.6",
     "generate-unique-id": "^2.0.3",
+    "motion": "^12.0.6",
     "react": "^17.0.0 || ^18.0.0",
     "react-animated-heart": "^0.0.8",
     "react-countup": "^6.5.3",

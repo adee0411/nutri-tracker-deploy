@@ -87,11 +87,8 @@ const AddFood = () => {
         <Stack gap={4}>
           {/*********** Title ***********/}
           <Stack>
-            <Typography textAlign="center" level="h1" fontWeight={300} mb={2}>
+            <Typography textAlign="center" level="h1" fontWeight={300}>
               {currentDate}
-            </Typography>
-            <Typography textAlign="center" level="title-lg">
-              Alapanyag hozzáadása {mealTexts[mealTitle]}
             </Typography>
           </Stack>
           {/********** Meal Nutritions ***********/}

@@ -1,37 +1,50 @@
 import { Button, Sheet, Typography, Stack, IconButton } from "@mui/joy";
 
+import { motion, AnimatePresence } from "framer-motion";
+
 import Logo from "../icons/logo.svg";
-import AthleteImg from "../img/undraw_athletes-training_koqa.svg";
-import MealImg from "../img/undraw_breakfast_rgx5.svg";
-import DietImg from "../img/undraw_diet_zdwe.svg";
-import TrackerImg from "../img/undraw_fitness-tracker_y5q5.svg";
-import NoteListImg from "../img/undraw_note-list_47ij.svg";
 
 import { FiChevronLeft } from "react-icons/fi";
 import { FiChevronRight } from "react-icons/fi";
 import { useState } from "react";
 
-const AppInfo = [
-  {
-    text: "Placeholder text 1",
-    image: MealImg,
+const slideVariants = {
+  hiddenRight: {
+    x: "20%",
+    opacity: 0,
   },
-  {
-    text: "Placeholder text 2",
-    image: DietImg,
+  hiddenLeft: {
+    x: "-20%",
+    opacity: 0,
   },
-  {
-    text: "Placeholder text 3",
-    image: TrackerImg,
+  visible: {
+    x: "0",
+    opacity: 1,
+    transition: {
+      duration: 1,
+    },
   },
-  {
-    text: "Placeholder text 4",
-    image: NoteListImg,
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.5,
+    },
   },
-];
+};
 
-const Welcome = ({ onCloseWelcome }) => {
+const Welcome = ({ onCloseWelcome, appInfo }) => {
   const [currentInfo, setCurrentInfo] = useState(0);
+  const [direction, setDirection] = useState(null);
+
+  const handleNext = () => {
+    setDirection("right");
+    setCurrentInfo(currentInfo + 1);
+  };
+
+  const handlePrevious = () => {
+    setDirection("left");
+    setCurrentInfo(currentInfo - 1);
+  };
   return (
     <Sheet
       sx={{
@@ -39,66 +52,85 @@ const Welcome = ({ onCloseWelcome }) => {
         p: 8,
         boxSizing: "border-box",
         overflow: "hidden",
-        background: "#2948ff" /* fallback for old browsers */,
-        background:
-          "-webkit-linear-gradient(135deg, #396afc, #2948ff)" /* Chrome 10-25, Safari 5.1-6 */,
-        background:
-          "linear-gradient(135deg, #396afc, #2948ff)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */,
+        /*background: "#2948ff" /* fallback for old browsers */
+        /*background:
+          "-webkit-linear-gradient(135deg, #396afc, #2948ff)" /* Chrome 10-25, Safari 5.1-6 */
+        /*background:
+          "linear-gradient(135deg, #396afc, #2948ff)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }}
-      color="primary"
-      variant="solid"
-      invertedColors
+      color="neutral"
+      variant="soft"
     >
-      <Stack
-        direction="column"
-        width="100%"
-        justifyContent="center"
-        alignItems="center"
-        mt={4}
-        mb={12}
+      <motion.div
+        initial={{ opacity: 0, scale: 0 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{
+          duration: 1,
+          scale: { type: "spring", visualDuration: 1, bounce: 0.5 },
+        }}
       >
-        {" "}
-        <img src={Logo} width={100} />
-        <Typography textAlign="center" fontWeight={700} fontSize={42}>
-          NutriTracker
-        </Typography>
-        <Typography fontSize={28} textAlign="center" fontWeight={300} my={2}>
-          Minden falat számít - tartsd kézben a kalóriákat!
-        </Typography>
-      </Stack>
+        <Stack
+          direction="column"
+          width="100%"
+          justifyContent="center"
+          alignItems="center"
+          mt={4}
+          mb={12}
+        >
+          {" "}
+          <img src={Logo} width={100} />
+          <Typography textAlign="center" fontWeight={700} fontSize={42}>
+            NutriTracker
+          </Typography>
+          <Typography fontSize={28} textAlign="center" fontWeight={300} my={2}>
+            Minden falat számít - tartsd kézben a kalóriákat!
+          </Typography>
+        </Stack>
+      </motion.div>
+
       <Stack
-        direction="row"
         my={8}
         gap={4}
         alignItems="center"
-        minHeight={300}
         justifyContent="center"
+        position="relative"
+        height={300}
       >
-        <IconButton
-          sx={{ height: 30 }}
-          onClick={() => setCurrentInfo(currentInfo - 1)}
-          disabled={currentInfo === 0}
-        >
-          <FiChevronLeft />
-        </IconButton>
-        <Stack alignItems="center" gap={4} maxHeight={300}>
-          <img src={AppInfo[currentInfo].image} width="100%" />
-          <Typography
-            textAlign="center"
-            fontWeight={300}
-            fontSize={20}
-            width="80%"
+        <AnimatePresence>
+          <Stack
+            alignItems="center"
+            gap={4}
+            component={motion.div}
+            key={currentInfo}
+            variants={slideVariants}
+            initial={direction === "right" ? "hiddenRight" : "hiddenLeft"}
+            animate="visible"
+            exit="exit"
+            position="absolute"
           >
-            {AppInfo[currentInfo].text}
-          </Typography>
+            <img src={appInfo[currentInfo].image} width="200px" />
+            <Typography
+              textAlign="center"
+              fontWeight={300}
+              fontSize={20}
+              width="80%"
+            >
+              {appInfo[currentInfo].text}
+            </Typography>
+          </Stack>
+        </AnimatePresence>
+        <Stack direction="row" width="100%" justifyContent="space-between">
+          <IconButton onClick={handlePrevious} disabled={currentInfo === 0}>
+            <FiChevronLeft style={{ fontSize: 32 }} />
+          </IconButton>
+
+          <IconButton
+            onClick={handleNext}
+            disabled={currentInfo === appInfo.length - 1}
+          >
+            <FiChevronRight style={{ fontSize: 32 }} />
+          </IconButton>
         </Stack>
-        <IconButton
-          sx={{ height: 30 }}
-          onClick={() => setCurrentInfo(currentInfo + 1)}
-          disabled={currentInfo === AppInfo.length - 1}
-        >
-          <FiChevronRight />
-        </IconButton>
       </Stack>
       <Stack>
         <Button size="lg" sx={{ borderRadius: 24 }} onClick={onCloseWelcome}>

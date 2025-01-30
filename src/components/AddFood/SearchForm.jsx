@@ -52,7 +52,7 @@ const SearchForm = () => {
         }}
       >
         <Typography level="title-md">Alapanyag keresése:</Typography>{" "}
-        <Stack direction="row" my={1}>
+        <Stack direction="row" my={2}>
           <FormControl sx={{ flex: 1 }}>
             <Input
               type="search"
@@ -60,6 +60,7 @@ const SearchForm = () => {
               value={searchQueryInput}
               onChange={handleQueryInputChange}
               placeholder="Keresés..."
+              size="lg"
             ></Input>
           </FormControl>
         </Stack>

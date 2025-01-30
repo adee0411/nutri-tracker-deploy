@@ -1,3 +1,6 @@
+import db from "../../firebase/firestore_config";
+import { doc, setDoc } from "firebase/firestore";
+
 import { ButtonGroup, IconButton, Stack } from "@mui/joy";
 
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -21,6 +24,9 @@ const IngredientListActions = ({ listName, listActions }) => {
   const dispatch = useDispatch();
   const mealName = useParams().mealTitle;
   const { lastRemoved } = useSelector((state) => state.ingredient);
+  const mealIngredients = useSelector(
+    (state) => state.ingredient.addedIngredients[mealName]
+  );
 
   const handleEmptyList = () => {
     //dispatch(emptyList({ listName: listName, mealName: mealName }));
@@ -29,14 +35,28 @@ const IngredientListActions = ({ listName, listActions }) => {
   };
 
   const handleBackupIngredient = () => {
+    let ingredientList;
     switch (lastRemoved.listName) {
       case "addedIngredients":
-        dispatch(
-          addIngredient({
-            mealName: mealName,
-            ingredient: lastRemoved.ingredient,
-          })
-        );
+        ingredientList = [...mealIngredients];
+        ingredientList.push(lastRemoved.ingredient);
+        const restoredList = {
+          ingredients: ingredientList,
+        };
+        (async function (mealName) {
+          try {
+            await setDoc(doc(db, "addedIngredients", mealName), restoredList);
+          } catch (e) {
+            console.log(e);
+          }
+          dispatch(
+            addIngredient({
+              mealName: mealName,
+              ingredient: lastRemoved.ingredient,
+            })
+          );
+        })();
+
         break;
 
       case "favoriteIngredients":

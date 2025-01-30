@@ -10,6 +10,11 @@ import { Outlet } from "react-router";
 import Header from "../components/Header/Header";
 import Welcome from "../routes/Welcome";
 
+import AthleteImg from "../img/undraw_athletes-training_koqa.svg";
+import MealImg from "../img/undraw_breakfast_rgx5 (1).svg";
+import TrackerImg from "../img/undraw_fitness-tracker_y5q5 (3).svg";
+import NoteListImg from "../img/undraw_note-list_47ij (1).svg";
+
 import {
   setAddedIngredients,
   setIngredientList,
@@ -22,6 +27,21 @@ const RootLayout = () => {
   const { addedIngredients, favoriteIngredients, profile } = useLoaderData();
 
   const [isFirstVisit, setIsFirstVisit] = useState(true);
+
+  const AppInfo = [
+    {
+      text: "Tervezd meg napi tápanyag-beviteled!",
+      image: MealImg,
+    },
+    {
+      text: "Naplózd az étkezéseid vagy ments el saját mintaétrendeket!",
+      image: TrackerImg,
+    },
+    {
+      text: "Tölts fel saját alapanyagokat és tápanyag-táblázatokat!",
+      image: NoteListImg,
+    },
+  ];
 
   useEffect(() => {
     dispatch(setAddedIngredients(addedIngredients));
@@ -36,7 +56,10 @@ const RootLayout = () => {
   return (
     <>
       {isFirstVisit ? (
-        <Welcome onCloseWelcome={() => setIsFirstVisit(false)} />
+        <Welcome
+          onCloseWelcome={() => setIsFirstVisit(false)}
+          appInfo={AppInfo}
+        />
       ) : (
         <>
           <Header></Header>
