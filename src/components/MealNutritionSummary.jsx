@@ -101,20 +101,33 @@ const MealNutritionSummary = () => {
     ? "Reggeli"
     : "Snack";
 
+  const currentDate = new Date().toLocaleDateString();
+
   useEffect(() => {
     totalEnergyRef.current = totalNutritionData.energy;
   }, [totalNutritionData.energy]);
 
   return (
     <Sheet
-      sx={{ p: 4, borderRadius: "md", boxShadow: "md" }}
+      sx={{
+        px: 2,
+        py: 4,
+        borderRadius: "md",
+        boxShadow: "md",
+        background: "#56ccf2" /* fallback for old browsers */,
+        background:
+          "-webkit-linear-gradient(1355deg, #1488CC, #2B32B2)" /* Chrome 10-25, Safari 5.1-6 */,
+        background:
+          "linear-gradient(225deg,  #1488CC, #2B32B2)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */,
+      }}
       color="primary"
-      variant="soft"
+      variant="solid"
+      invertedColors
     >
       <Typography textAlign="center" level="h3">
-        {formattedMealTitle}
+        {`${currentDate} - ${formattedMealTitle}`}
       </Typography>
-      <Stack mt={4} gap={4}>
+      <Stack mt={3} gap={2}>
         <Stack direction="row" gap={2} justifyContent="space-between" flex={1}>
           {Object.entries(mealNutritionData).map((macro) => {
             const macroName = macro[0];
@@ -129,7 +142,7 @@ const MealNutritionSummary = () => {
             );
           })}
         </Stack>
-        <Stack gap={2}>
+        <Stack gap={2} width="80%" margin="0 auto">
           <Typography textAlign="center">
             A mai napon eddig bevitt kalória:{" "}
             <CountUp

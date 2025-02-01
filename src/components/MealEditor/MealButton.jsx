@@ -7,7 +7,7 @@ import NutritionDetails from "../NutritionDetails";
 
 const MealButton = ({ title, ingredientData }) => {
   return (
-    <Button variant="soft" color="neutral" sx={{ p: 0 }}>
+    <Button variant="soft" color="primary" sx={{ p: 0 }}>
       <Link
         to={title}
         style={{

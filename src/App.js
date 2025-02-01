@@ -20,6 +20,7 @@ import CustomIngredientsRoute, {
 
 import { ingredientLoader } from "./routes/AddFood";
 import { rootDataLoader } from "./UI/RootLayout";
+import ErrorPage from "./UI/ErrorPage";
 
 const router = createBrowserRouter(
   [
@@ -27,6 +28,7 @@ const router = createBrowserRouter(
       element: <RootLayout />,
       path: "/",
       loader: rootDataLoader,
+      errorElement: <ErrorPage />,
 
       children: [
         {

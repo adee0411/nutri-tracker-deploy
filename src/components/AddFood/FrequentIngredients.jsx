@@ -1,3 +1,4 @@
+import { Stack } from "@mui/joy";
 import { useSelector } from "react-redux";
 import IngredientList from "../IngredientList/IngredientList";
 
@@ -16,7 +17,7 @@ const FrequentIngredients = () => {
       {frequentIngredients.length === 0 ? (
         <EmptyListPlaceholder text="Még nincsenek gyakoriak." />
       ) : (
-        <>
+        <Stack my={4} gap={2}>
           <IngredientListHeader
             listTitle="Gyakoriak"
             listName="frequentIngredients"
@@ -27,7 +28,7 @@ const FrequentIngredients = () => {
             actionList={frequentIngredientsActions}
             listName="frequentIngredients"
           />
-        </>
+        </Stack>
       )}
     </>
   );

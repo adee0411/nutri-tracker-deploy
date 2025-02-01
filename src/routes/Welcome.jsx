@@ -52,11 +52,6 @@ const Welcome = ({ onCloseWelcome, appInfo }) => {
         p: 8,
         boxSizing: "border-box",
         overflow: "hidden",
-        /*background: "#2948ff" /* fallback for old browsers */
-        /*background:
-          "-webkit-linear-gradient(135deg, #396afc, #2948ff)" /* Chrome 10-25, Safari 5.1-6 */
-        /*background:
-          "linear-gradient(135deg, #396afc, #2948ff)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }}
       color="neutral"
       variant="soft"
@@ -66,7 +61,7 @@ const Welcome = ({ onCloseWelcome, appInfo }) => {
         animate={{ opacity: 1, scale: 1 }}
         transition={{
           duration: 1,
-          scale: { type: "spring", visualDuration: 1, bounce: 0.5 },
+          scale: { type: "spring", visualDuration: 1, bounce: 0.4 },
         }}
       >
         <Stack
@@ -120,16 +115,28 @@ const Welcome = ({ onCloseWelcome, appInfo }) => {
           </Stack>
         </AnimatePresence>
         <Stack direction="row" width="100%" justifyContent="space-between">
-          <IconButton onClick={handlePrevious} disabled={currentInfo === 0}>
-            <FiChevronLeft style={{ fontSize: 32 }} />
-          </IconButton>
+          <Stack justifyContent="center" alignItems="center" width={100}>
+            {currentInfo > 0 ? (
+              <IconButton onClick={handlePrevious}>
+                <FiChevronLeft style={{ fontSize: 32 }} />
+              </IconButton>
+            ) : (
+              ""
+            )}
+          </Stack>
 
-          <IconButton
-            onClick={handleNext}
-            disabled={currentInfo === appInfo.length - 1}
-          >
-            <FiChevronRight style={{ fontSize: 32 }} />
-          </IconButton>
+          <Stack justifyContent="center" alignItems="center" width={100}>
+            {currentInfo !== appInfo.length - 1 ? (
+              <IconButton
+                onClick={handleNext}
+                disabled={currentInfo === appInfo.length - 1}
+              >
+                <FiChevronRight style={{ fontSize: 32 }} />
+              </IconButton>
+            ) : (
+              ""
+            )}
+          </Stack>
         </Stack>
       </Stack>
       <Stack>

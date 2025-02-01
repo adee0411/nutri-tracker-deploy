@@ -4,6 +4,7 @@ import IngredientList from "../IngredientList/IngredientList";
 import EmptyListPlaceholder from "../IngredientList/EmptyListPlaceholder";
 
 import IngredientListHeader from "../IngredientList/IngredientListHeader";
+import { Stack } from "@mui/joy";
 
 const RecentIngredients = () => {
   const { recentIngredients } = useSelector((state) => state.ingredient);
@@ -16,7 +17,7 @@ const RecentIngredients = () => {
       {recentIngredients.length === 0 ? (
         <EmptyListPlaceholder text="Még nincsenek legutóbbiak." />
       ) : (
-        <>
+        <Stack my={4} gap={2}>
           <IngredientListHeader
             listTitle="Legutóbbiak"
             listName="recentIngredients"
@@ -27,7 +28,7 @@ const RecentIngredients = () => {
             actionList={recentIngredientsActions}
             listName="recentIngredients"
           />
-        </>
+        </Stack>
       )}
     </>
   );

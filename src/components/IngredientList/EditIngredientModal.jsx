@@ -26,6 +26,7 @@ import {
   setIngredientActionFeedback,
 } from "../../store/ingredientSlice";
 import { transformNutritionData } from "../../utils";
+import { AnimatePresence, motion } from "framer-motion";
 
 const mealTexts = {
   breakfast: "a reggelihez",
@@ -235,44 +236,54 @@ const EditIngredientModal = ({
 
   return (
     <Modal open={isModalOpen} onClose={handleCloseModal}>
-      <ModalDialog>
-        <ModalClose />
-        <Stack direction="row" gap={2} alignItems="center">
-          <CiEdit />
-          <Typography level="title-lg">Alapanyag szerkesztése</Typography>
-        </Stack>
-
-        <Typography
-          level="title-md"
-          color="primary"
-        >{`${formattedIngredientName}, ${+editableIngredientInput} ${unit}`}</Typography>
-        <NutritionDetails nutritionData={transformedNutritionData} />
-        <form
-          onSubmit={
-            ingredientAction === "update"
-              ? handleUpdateIngredient
-              : handleLogIngredient
-          }
+      <AnimatePresence>
+        <ModalDialog
+          component={motion.div}
+          initial={{ opacity: 0.2, top: "45%" }}
+          animate={{ opacity: 1, top: "50%" }}
+          transition={{
+            duration: 1,
+            top: { type: "spring", visualDuration: 0.3, bounce: 0.4 },
+          }}
         >
-          <Stack direction="row" gap={2}>
-            <FormControl>
-              <Input
-                type="number"
-                onChange={handleInputChange}
-                value={editableIngredientInput}
-                endDecorator={ingredient.unit}
-              />
-            </FormControl>
-            <FormControl>
-              {ingredientAction === "update" ? (
-                <Button type="submit">Módosít</Button>
-              ) : (
-                <Button type="submit">Naplóz</Button>
-              )}
-            </FormControl>
+          <ModalClose />
+          <Stack direction="row" gap={2} alignItems="center">
+            <CiEdit />
+            <Typography level="title-lg">Alapanyag szerkesztése</Typography>
           </Stack>
-        </form>
-      </ModalDialog>
+
+          <Typography
+            level="title-md"
+            color="primary"
+          >{`${formattedIngredientName}, ${+editableIngredientInput} ${unit}`}</Typography>
+          <NutritionDetails nutritionData={transformedNutritionData} />
+          <form
+            onSubmit={
+              ingredientAction === "update"
+                ? handleUpdateIngredient
+                : handleLogIngredient
+            }
+          >
+            <Stack direction="row" gap={2}>
+              <FormControl>
+                <Input
+                  type="number"
+                  onChange={handleInputChange}
+                  value={editableIngredientInput}
+                  endDecorator={ingredient.unit}
+                />
+              </FormControl>
+              <FormControl>
+                {ingredientAction === "update" ? (
+                  <Button type="submit">Módosít</Button>
+                ) : (
+                  <Button type="submit">Naplóz</Button>
+                )}
+              </FormControl>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </AnimatePresence>
     </Modal>
   );
 };

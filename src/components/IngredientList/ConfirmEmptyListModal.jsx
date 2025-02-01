@@ -22,6 +22,7 @@ import {
   setMealIngredients,
   setIngredientList,
 } from "../../store/ingredientSlice";
+import { AnimatePresence, motion } from "framer-motion";
 
 const ConfirmEmptyListModal = ({ mealName, listName }) => {
   const dispatch = useDispatch();
@@ -59,25 +60,40 @@ const ConfirmEmptyListModal = ({ mealName, listName }) => {
   };
   return (
     <Modal open={isModalOpen} onClose={handleCloseModal}>
-      <ModalDialog>
-        <ModalClose />
-        <form onSubmit={submitEmptyList}>
-          <Typography>Biztosan kiüríted a listát?</Typography>
-          <Stack direction="row" justifyContent="space-between" gap={4} mt={4}>
-            <Button type="submit" color="primary" variant="solid" fullWidth>
-              Megerősít
-            </Button>
-            <Button
-              color="primary"
-              variant="outlined"
-              fullWidth
-              onClick={() => dispatch(toggleIsConfirmEmptyListModalOpen())}
+      <AnimatePresence>
+        <ModalDialog
+          component={motion.div}
+          initial={{ opacity: 0.2, top: "45%" }}
+          animate={{ opacity: 1, top: "50%" }}
+          transition={{
+            duration: 1,
+            top: { type: "spring", visualDuration: 0.3, bounce: 0.4 },
+          }}
+        >
+          <ModalClose />
+          <form onSubmit={submitEmptyList}>
+            <Typography>Biztosan kiüríted a listát?</Typography>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              gap={4}
+              mt={4}
             >
-              Mégse
-            </Button>
-          </Stack>
-        </form>
-      </ModalDialog>
+              <Button type="submit" color="primary" variant="solid" fullWidth>
+                Megerősít
+              </Button>
+              <Button
+                color="primary"
+                variant="outlined"
+                fullWidth
+                onClick={() => dispatch(toggleIsConfirmEmptyListModalOpen())}
+              >
+                Mégse
+              </Button>
+            </Stack>
+          </form>
+        </ModalDialog>
+      </AnimatePresence>
     </Modal>
   );
 };

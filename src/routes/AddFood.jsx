@@ -22,6 +22,9 @@ import {
   setCustomIngredients,
   setIsEditIngredientModalOpen,
   setIngredientActionFeedback,
+  setSelectedIngredient,
+  setSearchResultList,
+  setSearchQueryInput,
 } from "../store/ingredientSlice";
 
 import { VscError } from "react-icons/vsc";
@@ -67,6 +70,12 @@ const AddFood = () => {
 
   const mergedQueryList = queryList.concat(customIngredients);
 
+  const resetSearchForm = () => {
+    dispatch(setIsEditIngredientModalOpen(false));
+    dispatch(setSelectedIngredient(null));
+    dispatch(setSearchQueryInput(""));
+  };
+
   // Avoid parallel component rendering
   useEffect(() => {
     dispatch(setQueryList(mergedQueryList));
@@ -74,23 +83,16 @@ const AddFood = () => {
     dispatch(setRecentIngredients(recentIngredients));
     dispatch(setFrequentIngredients(frequentIngredients));
     dispatch(setCustomIngredients(customIngredients));
-    dispatch(setIsEditIngredientModalOpen(false));
+    // Reset Form on Route load
+    resetSearchForm();
   }, []);
 
   const { selectedIngredient } = useSelector((state) => state.ingredient);
-
-  const currentDate = new Date().toLocaleDateString();
 
   return (
     <>
       <ContentWrapper>
         <Stack gap={4}>
-          {/*********** Title ***********/}
-          <Stack>
-            <Typography textAlign="center" level="h1" fontWeight={300}>
-              {currentDate}
-            </Typography>
-          </Stack>
           {/********** Meal Nutritions ***********/}
           <MealNutritionSummary />
           {/********** Ingredient Search ***********/}

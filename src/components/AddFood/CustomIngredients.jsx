@@ -10,7 +10,7 @@ import IngredientListHeader from "../IngredientList/IngredientListHeader";
 const CustomIngredients = () => {
   const { customIngredients } = useSelector((state) => state.ingredient);
 
-  const customListActions = ["empty", "backup"];
+  const customListActions = ["empty"];
   const customIngredientsActions = ["log", "update", "remove"];
 
   return (
@@ -27,7 +27,7 @@ const CustomIngredients = () => {
           </Link>
         </Stack>
       ) : (
-        <>
+        <Stack my={4} gap={2}>
           <IngredientListHeader
             listTitle="Saját alapanyagok"
             listName="customIngredients"
@@ -38,7 +38,7 @@ const CustomIngredients = () => {
             actionList={customIngredientsActions}
             listName="customIngredients"
           />
-        </>
+        </Stack>
       )}
     </>
   );

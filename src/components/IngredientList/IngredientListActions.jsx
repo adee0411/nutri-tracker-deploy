@@ -1,27 +1,26 @@
 import db from "../../firebase/firestore_config";
 import { doc, setDoc } from "firebase/firestore";
 
-import { ButtonGroup, IconButton, Stack } from "@mui/joy";
+import { ButtonGroup, IconButton, Stack, Typography } from "@mui/joy";
 
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { CiTrash } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";
 import { CiViewList } from "react-icons/ci";
-import { Link, useParams } from "react-router";
+import { Link, useLocation, useParams } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  addIngredient,
-  addFavoriteIngredient,
-  addCustomIngredient,
-  setLastRemoved,
   toggleView,
   toggleIsConfirmEmptyListModalOpen,
   setEmptyListName,
+  setMealIngredients,
+  setLastRemoved,
 } from "../../store/ingredientSlice";
 
 const IngredientListActions = ({ listName, listActions }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const mealName = useParams().mealTitle;
   const { lastRemoved } = useSelector((state) => state.ingredient);
   const mealIngredients = useSelector(
@@ -35,42 +34,30 @@ const IngredientListActions = ({ listName, listActions }) => {
   };
 
   const handleBackupIngredient = () => {
-    let ingredientList;
-    switch (lastRemoved.listName) {
-      case "addedIngredients":
-        ingredientList = [...mealIngredients];
-        ingredientList.push(lastRemoved.ingredient);
-        const restoredList = {
-          ingredients: ingredientList,
-        };
-        (async function (mealName) {
-          try {
-            await setDoc(doc(db, "addedIngredients", mealName), restoredList);
-          } catch (e) {
-            console.log(e);
-          }
-          dispatch(
-            addIngredient({
-              mealName: mealName,
-              ingredient: lastRemoved.ingredient,
-            })
-          );
-        })();
+    let ingredientList, restoredList;
+    ingredientList = [...mealIngredients];
+    ingredientList.push(lastRemoved.ingredient);
 
-        break;
+    restoredList = {
+      ingredients: [...ingredientList],
+    };
 
-      case "favoriteIngredients":
-        dispatch(addFavoriteIngredient(lastRemoved.ingredient));
-        break;
+    (async function (mealName) {
+      try {
+        await setDoc(doc(db, "addedIngredients", mealName), restoredList);
+      } catch (e) {
+        console.log(e);
+      }
 
-      case "customIngredients":
-        dispatch(addCustomIngredient(lastRemoved.ingredient));
-        break;
+      dispatch(
+        setMealIngredients({
+          mealName: mealName,
+          ingredientList: restoredList.ingredients,
+        })
+      );
 
-      default:
-        return;
-    }
-    dispatch(setLastRemoved(null));
+      dispatch(setLastRemoved(null));
+    })(mealName);
   };
 
   const handleToggleView = () => {
@@ -96,7 +83,9 @@ const IngredientListActions = ({ listName, listActions }) => {
   };
   return (
     <Stack direction="row" gap={4}>
-      {listName === "addedIngredients" || listName === "customIngredients" ? (
+      {listName === "addedIngredients" ||
+      (listName === "customIngredients" &&
+        !location.pathname.includes("custom-ingredients")) ? (
         <IconButton color="primary" variant="solid">
           <Link
             to={
@@ -112,6 +101,7 @@ const IngredientListActions = ({ listName, listActions }) => {
               alignItems: "center",
               gap: 8,
               padding: "2px 8px",
+              fontSize: 14,
             }}
             title={
               listName === "addedIngredients"
@@ -120,14 +110,15 @@ const IngredientListActions = ({ listName, listActions }) => {
             }
             viewTransition
           >
-            <IoIosAddCircleOutline fontSize={22} />
+            <IoIosAddCircleOutline fontSize={20} />
+            Hozzáad
           </Link>
         </IconButton>
       ) : (
         ""
       )}
 
-      <ButtonGroup size="lg">
+      <ButtonGroup size="md">
         {listActions.map((action) => {
           return (
             <IconButton

@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { useLoaderData } from "react-router";
 import { useEffect, useState } from "react";
 
+import { AnimatePresence, motion } from "framer-motion";
+
 import { Outlet } from "react-router";
 
 import Header from "../components/Header/Header";
@@ -26,7 +28,7 @@ const RootLayout = () => {
 
   const { addedIngredients, favoriteIngredients, profile } = useLoaderData();
 
-  const [isFirstVisit, setIsFirstVisit] = useState(true);
+  const [isVisited, setIsVisited] = useState(null);
 
   const AppInfo = [
     {
@@ -43,6 +45,11 @@ const RootLayout = () => {
     },
   ];
 
+  const handleSetVisited = () => {
+    //window.localStorage.setItem("isVisited", true);
+    setIsVisited(true);
+  };
+
   useEffect(() => {
     dispatch(setAddedIngredients(addedIngredients));
     dispatch(
@@ -55,11 +62,18 @@ const RootLayout = () => {
   }, []);
   return (
     <>
-      {isFirstVisit ? (
-        <Welcome
-          onCloseWelcome={() => setIsFirstVisit(false)}
-          appInfo={AppInfo}
-        />
+      {!isVisited ? (
+        <AnimatePresence mode="wait">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { duration: 2 } }}
+            exit={{ opacity: 0, transition: { duration: 5 } }}
+            key="firstVisit"
+            layout
+          >
+            <Welcome appInfo={AppInfo} onCloseWelcome={handleSetVisited} />
+          </motion.div>
+        </AnimatePresence>
       ) : (
         <>
           <Header></Header>

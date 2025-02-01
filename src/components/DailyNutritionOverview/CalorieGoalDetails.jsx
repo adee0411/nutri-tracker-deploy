@@ -22,7 +22,7 @@ const CalorieGoalDetails = ({ current, goal }) => {
         width="100%"
         textAlign="center"
       >
-        <Stack flex={1}>
+        <Stack flex={1} sx={{ position: "relative", top: -30 }}>
           <Typography level="title-sm">Bevitt</Typography>
           <Typography level="body-lg" fontWeight={800}>
             {current} kcal
@@ -34,7 +34,7 @@ const CalorieGoalDetails = ({ current, goal }) => {
             {goal} kcal
           </Typography>
         </Stack>
-        <Stack flex={1}>
+        <Stack flex={1} sx={{ position: "relative", top: -30 }}>
           <Typography level="title-sm">Maradt</Typography>
           <Typography
             level="body-lg"

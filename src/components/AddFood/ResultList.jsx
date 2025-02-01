@@ -39,6 +39,7 @@ const ResultList = ({ resultList }) => {
           borderRadius: "md",
           p: 0,
           overflow: "hidden",
+          my: 2,
         }}
       >
         {resultList.map((result) => {

@@ -175,45 +175,43 @@ const IngredientListItemActions = ({
   };
 
   return (
-    <>
-      <Stack direction="row">
-        {!(listName === "custom-ingredients") ? (
-          <QuickAddBtn mealName={mealName} ingredient={ingredient} />
-        ) : (
-          ""
-        )}
+    <Stack direction="row">
+      {!(listName === "custom-ingredients") ? (
+        <QuickAddBtn mealName={mealName} ingredient={ingredient} />
+      ) : (
+        ""
+      )}
 
-        <Dropdown>
-          <MenuButton
-            slots={{ root: Button }}
-            slotProps={{ root: { variant: "plain", color: "neutral" } }}
-            size="sm"
-          >
-            <HiOutlineDotsVertical style={{ fontSize: 22 }} />
-          </MenuButton>
-          <Menu
-            placement="bottom-start"
-            size="lg"
-            sx={{ minWidth: "120px", py: 0 }}
-            color="primary"
-            variant="soft"
-          >
-            {actionList.map((action) => {
-              return (
-                <MenuItem key={action}>
-                  <IngredientListItemActionBtn
-                    ingredient={ingredient}
-                    icon={ingredientListActions[action].icon}
-                    title={ingredientListActions[action].title}
-                    handler={ingredientListActions[action].handler}
-                  />
-                </MenuItem>
-              );
-            })}
-          </Menu>
-        </Dropdown>
-      </Stack>
-    </>
+      <Dropdown>
+        <MenuButton
+          slots={{ root: Button }}
+          slotProps={{ root: { variant: "plain", color: "neutral" } }}
+          size="sm"
+        >
+          <HiOutlineDotsVertical style={{ fontSize: 22 }} />
+        </MenuButton>
+        <Menu
+          placement="bottom-start"
+          size="lg"
+          sx={{ minWidth: "120px", py: 0 }}
+          color="primary"
+          variant="soft"
+        >
+          {actionList.map((action) => {
+            return (
+              <MenuItem key={action}>
+                <IngredientListItemActionBtn
+                  ingredient={ingredient}
+                  icon={ingredientListActions[action].icon}
+                  title={ingredientListActions[action].title}
+                  handler={ingredientListActions[action].handler}
+                />
+              </MenuItem>
+            );
+          })}
+        </Menu>
+      </Dropdown>
+    </Stack>
   );
 };
 

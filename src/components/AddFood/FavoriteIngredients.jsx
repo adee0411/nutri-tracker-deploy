@@ -1,3 +1,5 @@
+import { Stack } from "@mui/joy";
+
 import { useSelector } from "react-redux";
 import IngredientList from "../IngredientList/IngredientList";
 
@@ -9,14 +11,14 @@ const FavoriteIngredients = () => {
   const { favoriteIngredients } = useSelector((state) => state.ingredient);
 
   const favoriteIngredientsActions = ["log", "update", "remove"];
-  const favoriteListActions = ["empty", "backup"];
+  const favoriteListActions = ["empty"];
 
   return (
     <>
       {favoriteIngredients.length === 0 ? (
         <EmptyListPlaceholder text="Még nincsenek kedvencek." />
       ) : (
-        <>
+        <Stack my={4} gap={2}>
           <IngredientListHeader
             listTitle="Kedvencek"
             listName="favoriteIngredients"
@@ -27,7 +29,7 @@ const FavoriteIngredients = () => {
             actionList={favoriteIngredientsActions}
             listName="favoriteIngredients"
           />
-        </>
+        </Stack>
       )}
     </>
   );

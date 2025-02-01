@@ -19,6 +19,7 @@ import SnackImg from "../img/snack.png";
 
 import {
   setIsEditIngredientModalOpen,
+  setLastRemoved,
   setMealIngredients,
 } from "../store/ingredientSlice";
 import MealNutritionSummary from "../components/MealNutritionSummary";
@@ -71,8 +72,6 @@ const MealDetails = () => {
     }
   });
 
-  const currentDate = new Date().toLocaleDateString();
-
   const isMeal = mealTitle.includes("meal"); // Check if meal's title is Meal (number)
   const mealImage = isMeal ? "meal" : mealTitle;
   const formattedMealTitle = isMeal
@@ -85,6 +84,7 @@ const MealDetails = () => {
     dispatch(
       setMealIngredients({ mealName: mealTitle, ingredientList: mealData })
     );
+    dispatch(setLastRemoved(null));
 
     // Reset edit ingredient modal on first render
     dispatch(setIsEditIngredientModalOpen(false));
@@ -92,21 +92,15 @@ const MealDetails = () => {
 
   return (
     <ContentWrapper>
-      <Stack mb={4}>
-        <Typography textAlign="center" level="h1" fontWeight={300}>
-          {currentDate}
-        </Typography>
-      </Stack>
-
       <MealNutritionSummary />
-      <Stack alignItems="center">
+      <Stack>
         {mealIngredients.length === 0 ? (
-          <>
+          <Stack alignItems="center">
             <EmptyListPlaceholder text="A lista üres. Adj hozzá alapanyagokat!" />
             <Link to="add-food" viewTransition style={{ width: "fit-content" }}>
               <Button>Hozzáadás</Button>
             </Link>
-          </>
+          </Stack>
         ) : (
           <AddedIngredients ingredientList={mealIngredients} />
         )}
