@@ -16,7 +16,7 @@ const MealButtonLabel = ({ title }) => {
 
   return (
     <Stack direction="row" gap={1} alignItems="center">
-      <img src={mealIcons[mealIcon]} alt="breakfast-icon" width={32} />
+      <img src={mealIcons[mealIcon]} alt="breakfast-icon" width={24} />
     </Stack>
   );
 };

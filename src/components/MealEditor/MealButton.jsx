@@ -15,19 +15,19 @@ const MealButton = ({ title, ingredientData }) => {
           display: "block",
           width: "100%",
           height: "100%",
-          padding: "12px",
+          padding: "10px",
         }}
         viewTransition
       >
         <Stack
           direction="row"
           flex={1}
-          gap={3}
+          gap={2}
           justifyContent="space-between"
           alignItems="center"
         >
           <MealButtonLabel title={title} />
-          <NutritionDetails nutritionData={ingredientData} fontSize={12} />
+          <NutritionDetails nutritionData={ingredientData} fontSize={10} />
         </Stack>
       </Link>
     </Button>

@@ -167,8 +167,10 @@ const SelectedIngredient = ({ selectedIngredient }) => {
       dispatch(setSearchResultList([]));
     })(mealTitle);
   };
+
+  const handleAddToCollection = () => {};
   return (
-    <CardWrapper color="primary" variant="solid">
+    <CardWrapper color="primary" variant="outlined">
       <NutritionDetailCard
         title={selectedIngredient.ingredientName}
         imageURL={selectedIngredient.imageURL}
@@ -177,21 +179,27 @@ const SelectedIngredient = ({ selectedIngredient }) => {
         unit={selectedIngredient.unit}
       />
 
-      <Stack direction="row" gap={2} p={2}>
-        <FormControl sx={{ flex: 1 }}>
-          <Input
-            type="number"
-            endDecorator={selectedIngredient.unit}
-            value={newIngredientInput}
-            onChange={handleNewIngredientAmountChange}
-          />
-        </FormControl>
-        <FormControl sx={{ flex: 1 }}>
-          <Button type="submit" onClick={handleAddIngredient}>
-            Hozzáad
-          </Button>
-        </FormControl>
-      </Stack>
+      <form>
+        <Stack direction="row" gap={2} my={2} width="100%">
+          <FormControl sx={{ flex: 1 }}>
+            <Input
+              type="number"
+              endDecorator={selectedIngredient.unit}
+              value={newIngredientInput}
+              onChange={handleNewIngredientAmountChange}
+              slotProps={{ input: { style: { width: "90%" } } }}
+            />
+          </FormControl>
+          <FormControl sx={{ flex: 1 }}>
+            <Button onClick={handleAddIngredient}>Hozzáad</Button>
+          </FormControl>
+          <FormControl sx={{ flex: 1 }}>
+            <Button variant="outlined" onClick={handleAddToCollection}>
+              Csoportosít
+            </Button>
+          </FormControl>
+        </Stack>
+      </form>
     </CardWrapper>
   );
 };

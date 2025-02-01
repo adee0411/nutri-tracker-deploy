@@ -58,6 +58,7 @@ const DailyGoalProgress = ({ current, goal, size, type }) => {
           value={Number(value) >= 100 ? 100 : Number(value)}
           color={progressColor}
           key="calorieRatio"
+          size={size}
         ></LinearProgress>
       )}
     </>

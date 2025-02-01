@@ -65,7 +65,6 @@ const DailyOverview = () => {
 
   return (
     <ContentWrapper>
-      <Typography level="title-lg">Üdv, {name}!</Typography>
       <DailyNutritionDetails totalNutritionData={totalNutritionData} />
     </ContentWrapper>
   );

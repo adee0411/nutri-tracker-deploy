@@ -47,102 +47,63 @@ const Welcome = ({ onCloseWelcome, appInfo }) => {
   };
   return (
     <Sheet
-      sx={{
-        height: "100vh",
-        p: 8,
-        boxSizing: "border-box",
-        overflow: "hidden",
-      }}
       color="neutral"
       variant="soft"
+      sx={{ height: "100vh", overflow: "hidden", p: 4 }}
     >
-      <motion.div
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{
-          duration: 1,
-          scale: { type: "spring", visualDuration: 1, bounce: 0.4 },
-        }}
-      >
-        <Stack
-          direction="column"
-          width="100%"
-          justifyContent="center"
-          alignItems="center"
-          mt={4}
-          mb={12}
-        >
-          {" "}
-          <img src={Logo} width={100} />
-          <Typography textAlign="center" fontWeight={700} fontSize={42}>
+      <Stack>
+        {/******* LOGO *******/}
+        <Stack alignItems="center" gap={2}>
+          <img src={Logo} width="100px" />
+          <Typography textAlign="center" fontSize={28} level="h3">
             NutriTracker
           </Typography>
-          <Typography fontSize={28} textAlign="center" fontWeight={300} my={2}>
+          <Typography textAlign="center" level="body-lg" color="neutral">
             Minden falat számít - tartsd kézben a kalóriákat!
           </Typography>
         </Stack>
-      </motion.div>
 
-      <Stack
-        my={8}
-        gap={4}
-        alignItems="center"
-        justifyContent="center"
-        position="relative"
-        height={300}
-      >
-        <AnimatePresence>
-          <Stack
-            alignItems="center"
-            gap={4}
-            component={motion.div}
-            key={currentInfo}
-            variants={slideVariants}
-            initial={direction === "right" ? "hiddenRight" : "hiddenLeft"}
-            animate="visible"
-            exit="exit"
-            position="absolute"
-          >
-            <img src={appInfo[currentInfo].image} width="200px" />
-            <Typography
-              textAlign="center"
-              fontWeight={300}
-              fontSize={20}
-              width="80%"
-            >
-              {appInfo[currentInfo].text}
-            </Typography>
-          </Stack>
-        </AnimatePresence>
-        <Stack direction="row" width="100%" justifyContent="space-between">
-          <Stack justifyContent="center" alignItems="center" width={100}>
+        {/****** CAROUSEL ******/}
+        <Stack direction="row">
+          <Stack width="20%" alignItems="center" justifyContent="center">
+            {" "}
             {currentInfo > 0 ? (
               <IconButton onClick={handlePrevious}>
-                <FiChevronLeft style={{ fontSize: 32 }} />
+                <FiChevronLeft />
               </IconButton>
             ) : (
               ""
             )}
           </Stack>
-
-          <Stack justifyContent="center" alignItems="center" width={100}>
+          {/****** CONTAINER ******/}
+          <Stack height={300} flex={1}>
+            <Stack
+              height="100%"
+              justifyContent="center"
+              alignItems="center"
+              gap={2}
+            >
+              <img src={appInfo[currentInfo].image} width="100%" />
+              <Typography textAlign="center" level="body-sm">
+                {appInfo[currentInfo].text}
+              </Typography>
+            </Stack>
+          </Stack>
+          <Stack width="20%" alignItems="center" justifyContent="center">
             {currentInfo !== appInfo.length - 1 ? (
               <IconButton
                 onClick={handleNext}
                 disabled={currentInfo === appInfo.length - 1}
               >
-                <FiChevronRight style={{ fontSize: 32 }} />
+                <FiChevronRight />
               </IconButton>
             ) : (
               ""
             )}
           </Stack>
         </Stack>
-      </Stack>
-      <Stack>
-        <Button size="lg" sx={{ borderRadius: 24 }} onClick={onCloseWelcome}>
-          Kezdjük!
-        </Button>
+
+        <Button onClick={onCloseWelcome}>Kezdjük!</Button>
       </Stack>
     </Sheet>
   );

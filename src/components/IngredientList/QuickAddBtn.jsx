@@ -68,7 +68,7 @@ const QuickAddBtn = ({ mealName, ingredient }) => {
     if (existingRecentIngredientIndex !== -1) {
       recentIngredientsCopy[existingRecentIngredientIndex] = ingredient;
     } else {
-      if (recentIngredientsCopy.length > 2) {
+      if (recentIngredientsCopy.length > 10) {
         recentIngredientsCopy.splice(-1, 1);
       }
       recentIngredientsCopy.unshift(ingredient);

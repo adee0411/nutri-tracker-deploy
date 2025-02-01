@@ -187,6 +187,7 @@ const IngredientListItemActions = ({
           slots={{ root: Button }}
           slotProps={{ root: { variant: "plain", color: "neutral" } }}
           size="sm"
+          sx={{ p: 0 }}
         >
           <HiOutlineDotsVertical style={{ fontSize: 22 }} />
         </MenuButton>

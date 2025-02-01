@@ -12,11 +12,11 @@ const NutritionDetailCard = ({
   return (
     <Stack gap={3} sx={{ zIndex: 1 }}>
       <Stack>
-        <Typography level="h4" fontWeight={700} textAlign="center">
+        <Typography level="h3" fontWeight={700} textAlign="center">
           {formattedTitle}
         </Typography>
         <Typography textAlign="center" level="h5" fontWeight={300}>
-          {`Tápanyag tartalom ${amount} ${unit}-${
+          {`Tápanyagtartalom ${amount} ${unit}-${
             unit === "ml" ? "ben" : "ban"
           }`}
         </Typography>

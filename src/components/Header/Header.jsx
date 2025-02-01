@@ -35,23 +35,28 @@ const Header = () => {
   return (
     <>
       <header style={{ padding: "24px" }}>
-        <Stack direction="row">
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
           {" "}
-          <Link to="/" style={{ width: "20%" }} viewTransition>
-            <Stack
-              direction="row"
-              justifyContent="flex-start"
-              alignItems="center"
-            >
-              <img src={Logo} alt="logo" width="48px" />
+          <Link to="/" viewTransition>
+            <Stack direction="row" justifyContent="center" alignItems="center">
+              <img src={Logo} alt="logo" width="32px" />
             </Stack>
           </Link>
-          <Typography level="h1" textAlign="center" flex={1} flexGrow={1}>
+          <Typography level="h2" textAlign="center" flex={1} flexGrow={1}>
             NutriTracker
           </Typography>
-          <Stack direction="row" width="20%" justifyContent="flex-end">
-            <Button size="sm" variant="plain" onClick={handleShowModal}>
-              <Avatar size="lg" src={AVATARS[avatar]}></Avatar>
+          <Stack direction="row" justifyContent="flex-end">
+            <Button
+              size="sm"
+              sx={{ width: "fit-content", p: 0 }}
+              variant="plain"
+              onClick={handleShowModal}
+            >
+              <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
             </Button>
           </Stack>
         </Stack>

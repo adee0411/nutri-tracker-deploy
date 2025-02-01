@@ -11,37 +11,35 @@ const IngredientListItem = ({ ingredient, actionList, listName }) => {
   const { detailedView } = useSelector((state) => state.ingredient.UI);
 
   return (
-    <>
-      <ListItem
-        sx={{ borderRadius: "md", p: 0 }}
-        component={motion.li}
-        initial={{ opacity: 1, x: 0 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -50 }}
+    <ListItem
+      sx={{ borderRadius: "md", p: 0 }}
+      component={motion.li}
+      initial={{ opacity: 1, x: 0 }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: -50 }}
+    >
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        flex={1}
+        gap={2}
       >
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          flex={1}
-          gap={3}
-        >
-          <IngredientListItemContent
-            ingredientName={ingredientName}
-            amount={amount}
-            unit={unit}
-            nutritionData={nutritionData}
-            isDetailed={detailedView}
-          />
-          <IngredientListItemActions
-            mealName={mealTitle}
-            ingredient={ingredient}
-            actionList={actionList}
-            listName={listName}
-          />
-        </Stack>
-      </ListItem>
-    </>
+        <IngredientListItemContent
+          ingredientName={ingredientName}
+          amount={amount}
+          unit={unit}
+          nutritionData={nutritionData}
+          isDetailed={detailedView}
+        />
+        <IngredientListItemActions
+          mealName={mealTitle}
+          ingredient={ingredient}
+          actionList={actionList}
+          listName={listName}
+        />
+      </Stack>
+    </ListItem>
   );
 };
 

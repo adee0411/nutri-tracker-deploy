@@ -187,7 +187,7 @@ const EditIngredientModal = ({
       recentIngredientsCopy[existingRecentIngredientIndex] =
         newRecentIngredient;
     } else {
-      if (recentIngredientsCopy.length > 2) {
+      if (recentIngredientsCopy.length > 10) {
         recentIngredientsCopy.splice(-1, 1);
       }
       recentIngredientsCopy.unshift(newRecentIngredient);

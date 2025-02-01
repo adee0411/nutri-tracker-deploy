@@ -47,63 +47,61 @@ const MacroDetailTab = ({ totalNutritionData }) => {
 
   const calculatedMacroGoals = calculateMacros(calorieGoal);
   return (
-    <Sheet>
-      <Tabs
-        aria-label="Carb quantity tab"
-        defaultValue={0}
-        variant="outlined"
+    <Tabs
+      aria-label="Carb quantity tab"
+      defaultValue={0}
+      variant="outlined"
+      sx={{
+        borderRadius: "lg",
+        boxShadow: "md",
+        overflow: "auto",
+      }}
+    >
+      <TabList
+        size="sm"
+        tabFlex={1}
+        disableUnderline
         sx={{
-          borderRadius: "lg",
-          boxShadow: "md",
-          overflow: "auto",
+          "--Tab-indicatorThickness": 0,
+          [`& .${tabClasses.root}`]: {
+            fontSize: "12px",
+            fontWeight: "lg",
+            [`&[aria-selected="true"]`]: {
+              color: "primary.500",
+              bgcolor: "background.surface",
+            },
+          },
         }}
       >
-        <TabList
-          size="sm"
-          tabFlex={1}
-          disableUnderline
-          sx={{
-            "--Tab-indicatorThickness": 0,
-            [`& .${tabClasses.root}`]: {
-              fontSize: "sm",
-              fontWeight: "lg",
-              [`&[aria-selected="true"]`]: {
-                color: "primary.500",
-                bgcolor: "background.surface",
-              },
-            },
-          }}
-        >
-          <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
-            Alacsony szénhidrát
-          </Tab>
-          <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
-            Kiegyensúlyozott
-          </Tab>
-          <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
-            Magas szénhidrát
-          </Tab>
-        </TabList>
-        <TabPanel value={0}>
-          <TabContent
-            macroGoal={calculatedMacroGoals.lowCarb}
-            currentMacro={totalNutritionData}
-          />
-        </TabPanel>
-        <TabPanel value={1}>
-          <TabContent
-            macroGoal={calculatedMacroGoals.balanced}
-            currentMacro={totalNutritionData}
-          />
-        </TabPanel>
-        <TabPanel value={2}>
-          <TabContent
-            macroGoal={calculatedMacroGoals.highCarb}
-            currentMacro={totalNutritionData}
-          />
-        </TabPanel>
-      </Tabs>
-    </Sheet>
+        <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
+          Alacsony szénhidrát
+        </Tab>
+        <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
+          Kiegyensúlyozott
+        </Tab>
+        <Tab disableIndicator variant="soft" sx={{ textAlign: "center" }}>
+          Magas szénhidrát
+        </Tab>
+      </TabList>
+      <TabPanel value={0}>
+        <TabContent
+          macroGoal={calculatedMacroGoals.lowCarb}
+          currentMacro={totalNutritionData}
+        />
+      </TabPanel>
+      <TabPanel value={1}>
+        <TabContent
+          macroGoal={calculatedMacroGoals.balanced}
+          currentMacro={totalNutritionData}
+        />
+      </TabPanel>
+      <TabPanel value={2}>
+        <TabContent
+          macroGoal={calculatedMacroGoals.highCarb}
+          currentMacro={totalNutritionData}
+        />
+      </TabPanel>
+    </Tabs>
   );
 };
 

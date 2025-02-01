@@ -94,7 +94,7 @@ const MealDetails = () => {
     <ContentWrapper>
       <MealNutritionSummary />
       <Stack>
-        {mealIngredients.length === 0 ? (
+        {mealIngredients.length === 0 || mealIngredients === null ? (
           <Stack alignItems="center">
             <EmptyListPlaceholder text="A lista üres. Adj hozzá alapanyagokat!" />
             <Link to="add-food" viewTransition style={{ width: "fit-content" }}>

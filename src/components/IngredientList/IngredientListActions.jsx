@@ -82,11 +82,11 @@ const IngredientListActions = ({ listName, listActions }) => {
     },
   };
   return (
-    <Stack direction="row" gap={4}>
+    <Stack direction="row" gap={2}>
       {listName === "addedIngredients" ||
       (listName === "customIngredients" &&
         !location.pathname.includes("custom-ingredients")) ? (
-        <IconButton color="primary" variant="solid">
+        <IconButton color="primary" variant="solid" size="sm">
           <Link
             to={
               listName === "addedIngredients"
@@ -101,7 +101,7 @@ const IngredientListActions = ({ listName, listActions }) => {
               alignItems: "center",
               gap: 8,
               padding: "2px 8px",
-              fontSize: 14,
+              fontSize: 10,
             }}
             title={
               listName === "addedIngredients"
@@ -110,7 +110,7 @@ const IngredientListActions = ({ listName, listActions }) => {
             }
             viewTransition
           >
-            <IoIosAddCircleOutline fontSize={20} />
+            <IoIosAddCircleOutline fontSize={16} />
             Hozzáad
           </Link>
         </IconButton>
@@ -118,12 +118,12 @@ const IngredientListActions = ({ listName, listActions }) => {
         ""
       )}
 
-      <ButtonGroup size="md">
+      <ButtonGroup size="sm">
         {listActions.map((action) => {
           return (
             <IconButton
               title={listActionsObj[action].title}
-              sx={{ fontSize: 22 }}
+              sx={{ fontSize: 16 }}
               onClick={listActionsObj[action].handler}
               key={action}
               disabled={

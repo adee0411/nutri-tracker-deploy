@@ -111,7 +111,7 @@ const MealNutritionSummary = () => {
     <Sheet
       sx={{
         px: 2,
-        py: 4,
+        py: 3,
         borderRadius: "md",
         boxShadow: "md",
         background: "#56ccf2" /* fallback for old browsers */,
@@ -124,10 +124,10 @@ const MealNutritionSummary = () => {
       variant="solid"
       invertedColors
     >
-      <Typography textAlign="center" level="h3">
+      <Typography textAlign="center" level="h5">
         {`${currentDate} - ${formattedMealTitle}`}
       </Typography>
-      <Stack mt={3} gap={2}>
+      <Stack mt={2} gap={2}>
         <Stack direction="row" gap={2} justifyContent="space-between" flex={1}>
           {Object.entries(mealNutritionData).map((macro) => {
             const macroName = macro[0];
@@ -142,8 +142,8 @@ const MealNutritionSummary = () => {
             );
           })}
         </Stack>
-        <Stack gap={2} width="80%" margin="0 auto">
-          <Typography textAlign="center">
+        <Stack gap={2}>
+          <Typography textAlign="center" fontSize={12}>
             A mai napon eddig bevitt kalória:{" "}
             <CountUp
               start={totalEnergyRef.current}

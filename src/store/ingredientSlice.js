@@ -11,6 +11,7 @@ const ingredientSlice = createSlice({
       meal4: [],
       snack: [],
     },
+    ingredientCollection: [],
     favoriteIngredients: [],
     recentIngredients: [],
     frequentIngredients: [],

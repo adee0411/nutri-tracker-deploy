@@ -17,8 +17,8 @@ const MacroGoalDetails = ({ macroType, goal, current, color }) => {
   });
 
   return (
-    <Stack gap={2} sx={{ flex: 1 }}>
-      <Typography textAlign="center" level="title-sm">
+    <Stack gap={1} sx={{ flex: 1 }}>
+      <Typography textAlign="center" level="body-sm" fontSize={12}>
         {macroType}
       </Typography>
       <LinearProgress
@@ -27,12 +27,13 @@ const MacroGoalDetails = ({ macroType, goal, current, color }) => {
         sx={{ width: "80%", alignSelf: "center" }}
         color={color}
         variant="solid"
+        thickness={3}
       ></LinearProgress>
       <Stack>
-        <Typography level="body-sm" textAlign="center">
+        <Typography level="body-sm" fontSize={12} textAlign="center">
           {current} g / {goal} g
         </Typography>
-        <Typography level="body-sm" textAlign="center">
+        <Typography level="body-sm" fontSize={12} textAlign="center">
           ({ratioInPercent}%)
         </Typography>
       </Stack>

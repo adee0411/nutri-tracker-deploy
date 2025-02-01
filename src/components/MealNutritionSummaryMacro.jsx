@@ -20,7 +20,11 @@ const MealNutritionSummaryMacro = ({ macroName, icon, value }) => {
   return (
     <Stack alignItems="center" flex={1}>
       <img src={icon} width="24px" />
-      <Typography fontWeight={macroName === "energy" ? 800 : ""}>
+      <Typography
+        level="body-sm"
+        fontSize={12}
+        fontWeight={macroName === "energy" ? 800 : ""}
+      >
         {macroNames[macroName]}:
       </Typography>
       <CountUp
@@ -34,6 +38,7 @@ const MealNutritionSummaryMacro = ({ macroName, icon, value }) => {
           <Typography
             fontWeight={macroName === "energy" ? 800 : ""}
             component="span"
+            fontSize={12}
             slotProps={{ root: { ref: countUpRef } }}
           ></Typography>
         )}

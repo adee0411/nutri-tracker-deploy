@@ -12,7 +12,6 @@ import { Outlet } from "react-router";
 import Header from "../components/Header/Header";
 import Welcome from "../routes/Welcome";
 
-import AthleteImg from "../img/undraw_athletes-training_koqa.svg";
 import MealImg from "../img/undraw_breakfast_rgx5 (1).svg";
 import TrackerImg from "../img/undraw_fitness-tracker_y5q5 (3).svg";
 import NoteListImg from "../img/undraw_note-list_47ij (1).svg";
@@ -76,7 +75,7 @@ const RootLayout = () => {
         </AnimatePresence>
       ) : (
         <>
-          <Header></Header>
+          <Header />
           <main>
             <Outlet></Outlet>
           </main>
