@@ -17,6 +17,8 @@ import {
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { CiEdit } from "react-icons/ci";
+
 import {
   toggleIsEditCustomIngredientModalOpen,
   setIngredientList,
@@ -101,7 +103,12 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
           }}
         >
           <ModalClose />
-          <Typography level="title-lg">Saját alapanyag szerkesztése</Typography>
+          <Stack direction="row" gap={2} alignItems="center">
+            <CiEdit />
+            <Typography level="title-sm">
+              Saját alapanyag szerkesztése
+            </Typography>
+          </Stack>
           <form onSubmit={handleUpdateCustomIngredient}>
             <Stack gap={2} my={4}>
               <FormControl>
@@ -115,6 +122,8 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                   }}
                   defaultValue={ingredient.ingredientName}
                   required
+                  name="ingredientName"
+                  size="sm"
                 />
               </FormControl>
               <FormControl>
@@ -125,6 +134,8 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                   slotProps={{
                     input: { ref: unitageRef, style: { width: "100%" } },
                   }}
+                  name="unitage"
+                  size="sm"
                 />
               </FormControl>
               <FormControl>
@@ -133,6 +144,8 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                   value={unit}
                   onChange={handleUnitChange}
                   sx={{ width: "100%" }}
+                  size="sm"
+                  name="unit"
                 >
                   <Option value="g" ref={unitRef}>
                     g
@@ -156,6 +169,8 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                   endDecorator="g"
                   placeholder="0"
                   defaultValue={ingredient.nutritionData.carb}
+                  name="carb"
+                  size="sm"
                 />
               </FormControl>
               <FormControl sx={{ flex: 1 }}>
@@ -168,6 +183,8 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                   endDecorator="g"
                   placeholder="0"
                   defaultValue={ingredient.nutritionData.protein}
+                  name="protein"
+                  size="sm"
                 />
               </FormControl>
               <FormControl sx={{ flex: 1 }}>
@@ -180,6 +197,8 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                   endDecorator="g"
                   placeholder="0"
                   defaultValue={ingredient.nutritionData.fat}
+                  name="fat"
+                  size="sm"
                 />
               </FormControl>
               <FormControl sx={{ flex: 1 }}>
@@ -192,10 +211,14 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
                   endDecorator="kcal"
                   placeholder="0"
                   defaultValue={ingredient.nutritionData.energy}
+                  name="energy"
+                  size="sm"
                 />
               </FormControl>
 
-              <Button type="submit">Módosít</Button>
+              <Button type="submit" size="sm">
+                Módosít
+              </Button>
             </Stack>
           </form>
         </ModalDialog>

@@ -31,7 +31,7 @@ const ResultList = ({ resultList }) => {
   };
   return (
     <Stack>
-      <Typography level="title-md">Találatok:</Typography>
+      <Typography level="title-sm">Találatok:</Typography>
       <List
         variant="plain"
         color="primary"
@@ -39,7 +39,7 @@ const ResultList = ({ resultList }) => {
           borderRadius: "md",
           p: 0,
           overflow: "hidden",
-          my: 2,
+          my: 1,
         }}
       >
         {resultList.map((result) => {
@@ -56,15 +56,15 @@ const ResultList = ({ resultList }) => {
                 id={result.id}
                 onClick={handleSelectedIngredient}
               >
-                <Stack direction="row" alignItems="center" gap={2}>
+                <Stack direction="row" alignItems="center">
                   {result.id === selectedIngredient?.id ? (
                     <ListItemDecorator>
-                      <FaCheck />
+                      <FaCheck fontSize={10} />
                     </ListItemDecorator>
                   ) : (
                     ""
                   )}
-                  <Typography level="body-sm" component="span">
+                  <Typography level="body-sm" component="span" fontSize={12}>
                     {ingredientName}
                   </Typography>
                   <ListItemDecorator>

@@ -17,7 +17,7 @@ const FrequentIngredients = () => {
       {frequentIngredients.length === 0 ? (
         <EmptyListPlaceholder text="Még nincsenek gyakoriak." />
       ) : (
-        <Stack my={4} gap={2}>
+        <Stack>
           <IngredientListHeader
             listTitle="Gyakoriak"
             listName="frequentIngredients"

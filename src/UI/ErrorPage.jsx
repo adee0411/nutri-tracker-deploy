@@ -3,6 +3,8 @@ import { Typography, Sheet } from "@mui/joy";
 import PlaceholderImg from "../img/undraw_page-not-found_6wni.svg";
 import { Link } from "react-router";
 
+import Logo from "../icons/logo.svg";
+
 const ErrorPage = () => {
   return (
     <Sheet
@@ -17,7 +19,8 @@ const ErrorPage = () => {
         gap: 8,
       }}
     >
-      <Typography level="title-lg" fontSize={28}>
+      <img src={Logo} alt="logo" width={64} style={{ margin: "0 auto" }} />
+      <Typography level="title-lg" textAlign="center" fontSize={28}>
         A keresett oldal nem található!
       </Typography>
       <Typography color="primary">

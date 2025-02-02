@@ -92,7 +92,7 @@ const AddFood = () => {
   return (
     <>
       <ContentWrapper>
-        <Stack gap={4}>
+        <Stack gap={3}>
           {/********** Meal Nutritions ***********/}
           <MealNutritionSummary />
           {/********** Ingredient Search ***********/}
@@ -140,7 +140,7 @@ const AddFood = () => {
           ingredientActionFeedback.state === "error" ? "danger" : "success"
         }
         variant="soft"
-        size="lg"
+        size="sm"
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         autoHideDuration={4000}
         onClose={() =>
@@ -154,6 +154,7 @@ const AddFood = () => {
         invertedColors
         startDecorator={SnackBarIcons[ingredientActionFeedback.state]}
         sx={{ textAlign: "center" }}
+        slotProps={{ startDecorator: { style: { fontSize: 24 } } }}
       >
         <Typography
           color={

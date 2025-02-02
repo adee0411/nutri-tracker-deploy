@@ -6,7 +6,7 @@ import { AnimatePresence } from "framer-motion";
 
 const IngredientList = ({ ingredientList, actionList, listName }) => {
   return (
-    <List color="primary" variant="plain" sx={{ "--ListDivider-gap": "12px" }}>
+    <List color="primary" variant="plain" sx={{ "--ListDivider-gap": "8px" }}>
       <AnimatePresence>
         {ingredientList.map((ingredient, index) => {
           return (

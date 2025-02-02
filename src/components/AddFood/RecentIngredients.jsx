@@ -17,7 +17,7 @@ const RecentIngredients = () => {
       {recentIngredients.length === 0 ? (
         <EmptyListPlaceholder text="Még nincsenek legutóbbiak." />
       ) : (
-        <Stack my={4} gap={2}>
+        <Stack>
           <IngredientListHeader
             listTitle="Legutóbbiak"
             listName="recentIngredients"

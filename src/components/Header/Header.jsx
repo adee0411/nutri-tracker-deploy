@@ -34,7 +34,7 @@ const Header = () => {
 
   return (
     <>
-      <header style={{ padding: "24px" }}>
+      <header style={{ padding: "16px" }}>
         <Stack
           direction="row"
           justifyContent="space-between"

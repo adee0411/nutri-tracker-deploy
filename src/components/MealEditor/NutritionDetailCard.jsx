@@ -10,12 +10,12 @@ const NutritionDetailCard = ({
   const { carb, protein, fat, energy } = nutritionData;
   const formattedTitle = title[0].toUpperCase() + title.slice(1);
   return (
-    <Stack gap={3} sx={{ zIndex: 1 }}>
+    <Stack gap={2} sx={{ zIndex: 1 }}>
       <Stack>
-        <Typography level="h3" fontWeight={700} textAlign="center">
+        <Typography level="title-md" fontWeight={700} textAlign="center">
           {formattedTitle}
         </Typography>
-        <Typography textAlign="center" level="h5" fontWeight={300}>
+        <Typography textAlign="center" level="title-sm" fontWeight={300}>
           {`Tápanyagtartalom ${amount} ${unit}-${
             unit === "ml" ? "ben" : "ban"
           }`}
@@ -27,14 +27,14 @@ const NutritionDetailCard = ({
         justifyContent="space-between"
         alignItems="center"
         textAlign="center"
-        width="80%"
-        m="0 auto"
       >
         <Stack>
-          <Typography level="title-sm">Szénhidrát</Typography>
+          <Typography level="title-sm" fontSize={12}>
+            Szénhidrát
+          </Typography>
           <Typography
-            level="body-lg"
-            fontSize={20}
+            level="body-sm"
+            fontSize={14}
             fontWeight={300}
             color="neutral"
           >
@@ -42,10 +42,12 @@ const NutritionDetailCard = ({
           </Typography>
         </Stack>
         <Stack>
-          <Typography level="title-sm">Fehérje</Typography>
+          <Typography level="title-sm" fontSize={12}>
+            Fehérje
+          </Typography>
           <Typography
-            level="body-lg"
-            fontSize={20}
+            level="body-sm"
+            fontSize={14}
             fontWeight={300}
             color="neutral"
           >
@@ -53,10 +55,12 @@ const NutritionDetailCard = ({
           </Typography>
         </Stack>
         <Stack>
-          <Typography level="title-sm">Zsír</Typography>
+          <Typography level="title-sm" fontSize={12}>
+            Zsír
+          </Typography>
           <Typography
-            level="body-lg"
-            fontSize={20}
+            level="body-sm"
+            fontSize={14}
             fontWeight={300}
             color="neutral"
           >
@@ -64,10 +68,12 @@ const NutritionDetailCard = ({
           </Typography>
         </Stack>
         <Stack>
-          <Typography level="title-sm">Energia</Typography>
+          <Typography level="title-sm" fontSize={12}>
+            Energia
+          </Typography>
           <Typography
-            level="body-lg"
-            fontSize={20}
+            level="body-sm"
+            fontSize={14}
             fontWeight={800}
             color="neutral"
           >

@@ -180,7 +180,7 @@ const SelectedIngredient = ({ selectedIngredient }) => {
       />
 
       <form>
-        <Stack direction="row" gap={2} my={2} width="100%">
+        <Stack direction="row" gap={2} my={1} width="100%">
           <FormControl sx={{ flex: 1 }}>
             <Input
               type="number"
@@ -188,13 +188,21 @@ const SelectedIngredient = ({ selectedIngredient }) => {
               value={newIngredientInput}
               onChange={handleNewIngredientAmountChange}
               slotProps={{ input: { style: { width: "90%" } } }}
+              size="sm"
             />
           </FormControl>
           <FormControl sx={{ flex: 1 }}>
-            <Button onClick={handleAddIngredient}>Hozzáad</Button>
+            <Button size="sm" onClick={handleAddIngredient}>
+              Hozzáad
+            </Button>
           </FormControl>
           <FormControl sx={{ flex: 1 }}>
-            <Button variant="outlined" onClick={handleAddToCollection}>
+            <Button
+              size="sm"
+              variant="outlined"
+              onClick={handleAddToCollection}
+              disabled
+            >
               Csoportosít
             </Button>
           </FormControl>

@@ -122,9 +122,9 @@ const QuickAddBtn = ({ mealName, ingredient }) => {
       color="primary"
       variant="plain"
       onClick={handleAddIngredient}
-      size="lg"
+      size="sm"
     >
-      <IoIosAddCircleOutline fontSize={22} />
+      <IoIosAddCircleOutline fontSize={18} />
     </IconButton>
   );
 };

@@ -46,7 +46,7 @@ const AddedIngredients = ({ ingredientList }) => {
           ingredientActionFeedback.state === "error" ? "danger" : "success"
         }
         variant="soft"
-        size="lg"
+        size="sm"
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         autoHideDuration={4000}
         onClose={() =>
@@ -59,12 +59,14 @@ const AddedIngredients = ({ ingredientList }) => {
         }
         invertedColors
         startDecorator={SnackBarIcons[ingredientActionFeedback.state]}
+        slotProps={{ startDecorator: { style: { fontSize: 24 } } }}
       >
         <Typography
           color={
             ingredientActionFeedback.state === "error" ? "danger" : "success"
           }
           level="body-sm"
+          textAlign="center"
         >
           {ingredientActionFeedback.message}
         </Typography>

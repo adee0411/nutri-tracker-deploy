@@ -26,6 +26,8 @@ import { doc, setDoc } from "firebase/firestore";
 import db from "../../firebase/firestore_config";
 import { AnimatePresence, motion } from "framer-motion";
 
+import { CiEdit } from "react-icons/ci";
+
 const AVATARS = {
   man: AvatarMan,
   lady: AvatarLady,
@@ -92,15 +94,14 @@ const EditProfileModal = ({ profileData, isProfileModalOpen }) => {
           }}
         >
           <ModalClose></ModalClose>
-          <Typography level="title-lg" my={2}>
-            Profil szerkesztése
-          </Typography>
+          <Stack direction="row" gap={2} alignItems="center">
+            <CiEdit />
+            <Typography level="title-sm">Profil szerkesztése</Typography>
+          </Stack>
           <form style={{ padding: "24px 0" }} onSubmit={submitProfileUpdate}>
             <Stack gap={3}>
-              <FormControl sx={{ width: "100%" }}>
-                <FormLabel sx={{ gap: 1 }}>
-                  <Typography color="neutral">Név</Typography>
-                </FormLabel>
+              <FormControl sx={{ width: "100%" }} size="sm">
+                <FormLabel sx={{ gap: 1 }}>Név</FormLabel>
                 <Input
                   sx={{ width: "100%" }}
                   defaultValue={name}
@@ -112,10 +113,8 @@ const EditProfileModal = ({ profileData, isProfileModalOpen }) => {
                   }}
                 />
               </FormControl>
-              <FormControl sx={{ width: "100%" }}>
-                <FormLabel sx={{ gap: 1 }}>
-                  <Typography color="neutral">Avatar</Typography>
-                </FormLabel>
+              <FormControl sx={{ width: "100%" }} size="sm">
+                <FormLabel sx={{ gap: 1 }}>Avatar</FormLabel>
                 <RadioGroup
                   orientation="horizontal"
                   sx={{ justifyContent: "space-between" }}
@@ -148,10 +147,8 @@ const EditProfileModal = ({ profileData, isProfileModalOpen }) => {
                   })}
                 </RadioGroup>
               </FormControl>
-              <FormControl sx={{ width: "100%" }}>
-                <FormLabel sx={{ gap: 1 }}>
-                  <Typography color="neutral">Napi kalóriacél</Typography>
-                </FormLabel>
+              <FormControl sx={{ width: "100%" }} size="sm">
+                <FormLabel sx={{ gap: 1 }}>Napi kalóriacél</FormLabel>
                 <Input
                   type="number"
                   sx={{ width: "100%" }}
@@ -161,9 +158,9 @@ const EditProfileModal = ({ profileData, isProfileModalOpen }) => {
                   onChange={handleNewCalorieGoalChange}
                 />
               </FormControl>
-              <FormControl>
-                <Button type="submit">Módosít</Button>
-              </FormControl>
+              <Button size="sm" type="submit">
+                Módosít
+              </Button>
             </Stack>
           </form>
         </ModalDialog>

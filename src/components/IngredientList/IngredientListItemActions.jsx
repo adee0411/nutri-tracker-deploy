@@ -193,7 +193,7 @@ const IngredientListItemActions = ({
         </MenuButton>
         <Menu
           placement="bottom-start"
-          size="lg"
+          size="sm"
           sx={{ minWidth: "120px", py: 0 }}
           color="primary"
           variant="soft"

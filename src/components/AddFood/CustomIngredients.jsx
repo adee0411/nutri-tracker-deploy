@@ -27,7 +27,7 @@ const CustomIngredients = () => {
           </Link>
         </Stack>
       ) : (
-        <Stack my={4} gap={2}>
+        <Stack>
           <IngredientListHeader
             listTitle="Saját alapanyagok"
             listName="customIngredients"

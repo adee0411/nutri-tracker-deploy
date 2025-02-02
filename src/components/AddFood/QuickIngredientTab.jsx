@@ -25,13 +25,13 @@ const QuickIngredientTab = () => {
       }}
     >
       <TabList
-        size="lg"
+        size="sm"
         tabFlex={1}
         disableUnderline
         sx={{
           "--Tab-indicatorThickness": 0,
           [`& .${tabClasses.root}`]: {
-            fontSize: "lg",
+            fontSize: "sm",
             fontWeight: "lg",
             [`&[aria-selected="true"]`]: {
               color: "primary.500",

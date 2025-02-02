@@ -249,14 +249,17 @@ const EditIngredientModal = ({
           <ModalClose />
           <Stack direction="row" gap={2} alignItems="center">
             <CiEdit />
-            <Typography level="title-lg">Alapanyag szerkesztése</Typography>
+            <Typography level="title-sm">Alapanyag szerkesztése</Typography>
           </Stack>
 
           <Typography
             level="title-md"
             color="primary"
           >{`${formattedIngredientName}, ${+editableIngredientInput} ${unit}`}</Typography>
-          <NutritionDetails nutritionData={transformedNutritionData} />
+          <NutritionDetails
+            nutritionData={transformedNutritionData}
+            fontSize={12}
+          />
           <form
             onSubmit={
               ingredientAction === "update"
@@ -265,7 +268,7 @@ const EditIngredientModal = ({
             }
           >
             <Stack direction="row" gap={2}>
-              <FormControl>
+              <FormControl size="sm">
                 <Input
                   type="number"
                   onChange={handleInputChange}
@@ -275,9 +278,13 @@ const EditIngredientModal = ({
               </FormControl>
               <FormControl>
                 {ingredientAction === "update" ? (
-                  <Button type="submit">Módosít</Button>
+                  <Button size="sm" type="submit">
+                    Módosít
+                  </Button>
                 ) : (
-                  <Button type="submit">Naplóz</Button>
+                  <Button size="sm" type="submit">
+                    Naplóz
+                  </Button>
                 )}
               </FormControl>
             </Stack>

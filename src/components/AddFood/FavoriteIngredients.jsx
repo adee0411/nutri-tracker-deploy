@@ -18,7 +18,7 @@ const FavoriteIngredients = () => {
       {favoriteIngredients.length === 0 ? (
         <EmptyListPlaceholder text="Még nincsenek kedvencek." />
       ) : (
-        <Stack my={4} gap={2}>
+        <Stack>
           <IngredientListHeader
             listTitle="Kedvencek"
             listName="favoriteIngredients"

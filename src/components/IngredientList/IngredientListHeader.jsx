@@ -6,7 +6,7 @@ const IngredientListHeader = ({ listTitle, listName, listActions }) => {
   return (
     <Stack direction="row" justifyContent="space-between" alignItems="center">
       {" "}
-      <Typography level="h4">{listTitle}</Typography>
+      <Typography level="title-lg">{listTitle}</Typography>
       <IngredientListActions listName={listName} listActions={listActions} />
     </Stack>
   );

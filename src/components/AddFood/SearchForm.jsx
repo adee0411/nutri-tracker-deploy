@@ -44,15 +44,15 @@ const SearchForm = () => {
   }, [searchQueryInput, dispatch, ingredientList]);
 
   return (
-    <Stack gap={2} mb={2}>
+    <Stack gap={2}>
       <form
         onSubmit={(e) => {
           e.preventDefault();
           return;
         }}
       >
-        <Typography level="title-md">Alapanyag keresése:</Typography>{" "}
-        <Stack direction="row" my={2}>
+        <Typography level="title-sm">Alapanyag keresése:</Typography>{" "}
+        <Stack direction="row" my={1}>
           <FormControl sx={{ flex: 1 }}>
             <Input
               type="search"
@@ -60,7 +60,7 @@ const SearchForm = () => {
               value={searchQueryInput}
               onChange={handleQueryInputChange}
               placeholder="Keresés..."
-              size="lg"
+              size="sm"
             ></Input>
           </FormControl>
         </Stack>

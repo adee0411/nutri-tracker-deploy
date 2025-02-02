@@ -98,10 +98,10 @@ const AddCustomIngredient = () => {
       sx={{ p: 2, borderRadius: "md", boxShadow: "md" }}
     >
       <form onSubmit={handleAddCustomIngredient}>
-        <Typography level="title-lg">Új alapanyag hozzáadása</Typography>
-        <Stack gap={4} my={4}>
+        <Typography level="title-md">Új alapanyag hozzáadása</Typography>
+        <Stack gap={2} my={2}>
           <Stack direction="row" gap={2}>
-            <FormControl>
+            <FormControl size="sm">
               <FormLabel>Alapanyag neve</FormLabel>
               <Input
                 slotProps={{
@@ -109,9 +109,10 @@ const AddCustomIngredient = () => {
                 }}
                 value={ingredientName}
                 onChange={(e) => setIngredientName(e.target.value)}
+                name="ingredientName"
               />
             </FormControl>
-            <FormControl>
+            <FormControl size="sm">
               <FormLabel>Mennyiségi egység</FormLabel>
               <Input
                 value={unitage}
@@ -120,14 +121,16 @@ const AddCustomIngredient = () => {
                   input: { style: { width: "100%" } },
                 }}
                 onChange={handleUnitageChange}
+                name="unitage"
               />
             </FormControl>
-            <FormControl>
+            <FormControl size="sm">
               <FormLabel>Mértékegység</FormLabel>
               <Select
                 value={unit}
                 onChange={handleUnitChange}
                 sx={{ width: "100%" }}
+                name="unit"
               >
                 <Option value="g">g</Option>
                 <Option value="ml">ml</Option>
@@ -137,7 +140,7 @@ const AddCustomIngredient = () => {
           </Stack>
 
           <Stack direction="row" width="100%" gap={2}>
-            <FormControl sx={{ flex: 1 }}>
+            <FormControl size="sm" sx={{ flex: 1 }}>
               <FormLabel>Szénhidrát</FormLabel>
               <Input
                 type="number"
@@ -151,7 +154,7 @@ const AddCustomIngredient = () => {
                 value={macroValue.carb}
               />
             </FormControl>
-            <FormControl sx={{ flex: 1 }}>
+            <FormControl size="sm" sx={{ flex: 1 }}>
               <FormLabel>Fehérje</FormLabel>
               <Input
                 type="number"
@@ -165,7 +168,7 @@ const AddCustomIngredient = () => {
                 value={macroValue.protein}
               />
             </FormControl>
-            <FormControl sx={{ flex: 1 }}>
+            <FormControl size="sm" sx={{ flex: 1 }}>
               <FormLabel>Zsír</FormLabel>
               <Input
                 type="number"
@@ -177,7 +180,7 @@ const AddCustomIngredient = () => {
                 value={macroValue.fat}
               />
             </FormControl>
-            <FormControl sx={{ flex: 1 }}>
+            <FormControl size="sm" sx={{ flex: 1 }}>
               <FormLabel>Energia</FormLabel>
               <Input
                 type="number"
@@ -192,7 +195,11 @@ const AddCustomIngredient = () => {
               />
             </FormControl>
           </Stack>
-          <Button type="submit" disabled={ingredientName.length === 0}>
+          <Button
+            size="sm"
+            type="submit"
+            disabled={ingredientName.length === 0}
+          >
             Hozzáad
           </Button>
         </Stack>
