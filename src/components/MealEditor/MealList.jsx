@@ -3,6 +3,7 @@ import { Stack } from "@mui/joy";
 import { useSelector } from "react-redux";
 
 import MealButton from "./MealButton";
+import MealAccordion from "./MealAccordion";
 
 const MealList = () => {
   // Fetch Ingredient list from store
@@ -29,9 +30,10 @@ const MealList = () => {
         });
 
         return (
-          <MealButton
+          <MealAccordion
             title={mealName}
             ingredientData={totalNutritionData}
+            list={addedIngredients[mealName]}
             key={mealName}
           />
         );
