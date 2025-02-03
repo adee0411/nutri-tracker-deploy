@@ -11,13 +11,21 @@ import {
   Option,
   Button,
   Sheet,
+  AccordionGroup,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
 } from "@mui/joy";
+import { accordionClasses } from "@mui/joy/Accordion";
+import { accordionSummaryClasses } from "@mui/joy";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import generateUniqueId from "generate-unique-id";
 
 import { setIngredientList } from "../../store/ingredientSlice";
+
+import { IoAdd } from "react-icons/io5";
 
 const AddCustomIngredient = () => {
   const dispatch = useDispatch();
@@ -92,119 +100,147 @@ const AddCustomIngredient = () => {
     })();
   };
   return (
-    <Sheet
-      color="primary"
-      variant="soft"
-      sx={{ p: 2, borderRadius: "md", boxShadow: "md" }}
+    <AccordionGroup
+      variant="outlined"
+      size="md"
+      sx={(theme) => ({
+        maxWidth: 400,
+        borderRadius: "md",
+        boxShadow: "md",
+        p: 1,
+        [`& .${accordionClasses.root}`]: {
+          transition: "0.2s ease",
+          "& button:hover": {
+            background: "transparent",
+          },
+          "& button:active": {
+            background: "transparent",
+          },
+        },
+        [`& .${accordionSummaryClasses.indicator}`]: {
+          transition: "0.2s",
+        },
+      })}
     >
-      <form onSubmit={handleAddCustomIngredient}>
-        <Typography level="title-md">Új alapanyag hozzáadása</Typography>
-        <Stack gap={2} my={2}>
-          <Stack direction="row" gap={2}>
-            <FormControl size="sm">
-              <FormLabel>Alapanyag neve</FormLabel>
-              <Input
-                slotProps={{
-                  input: { style: { width: "100%" } },
-                }}
-                value={ingredientName}
-                onChange={(e) => setIngredientName(e.target.value)}
-                name="ingredientName"
-              />
-            </FormControl>
-            <FormControl size="sm">
-              <FormLabel>Mennyiségi egység</FormLabel>
-              <Input
-                value={unitage}
-                type="number"
-                slotProps={{
-                  input: { style: { width: "100%" } },
-                }}
-                onChange={handleUnitageChange}
-                name="unitage"
-              />
-            </FormControl>
-            <FormControl size="sm">
-              <FormLabel>Mértékegység</FormLabel>
-              <Select
-                value={unit}
-                onChange={handleUnitChange}
-                sx={{ width: "100%" }}
-                name="unit"
-              >
-                <Option value="g">g</Option>
-                <Option value="ml">ml</Option>
-                <Option value="db">db</Option>
-              </Select>
-            </FormControl>
-          </Stack>
-
-          <Stack direction="row" width="100%" gap={2}>
-            <FormControl size="sm" sx={{ flex: 1 }}>
-              <FormLabel>Szénhidrát</FormLabel>
-              <Input
-                type="number"
-                slotProps={{
-                  input: { style: { width: "100%" } },
-                }}
-                endDecorator="g"
-                placeholder="0"
-                name="carb"
-                onChange={handleMacroChange}
-                value={macroValue.carb}
-              />
-            </FormControl>
-            <FormControl size="sm" sx={{ flex: 1 }}>
-              <FormLabel>Fehérje</FormLabel>
-              <Input
-                type="number"
-                slotProps={{
-                  input: { style: { width: "100%" } },
-                }}
-                endDecorator="g"
-                placeholder="0"
-                name="protein"
-                onChange={handleMacroChange}
-                value={macroValue.protein}
-              />
-            </FormControl>
-            <FormControl size="sm" sx={{ flex: 1 }}>
-              <FormLabel>Zsír</FormLabel>
-              <Input
-                type="number"
-                slotProps={{ input: { style: { width: "100%" } } }}
-                endDecorator="g"
-                placeholder="0"
-                name="fat"
-                onChange={handleMacroChange}
-                value={macroValue.fat}
-              />
-            </FormControl>
-            <FormControl size="sm" sx={{ flex: 1 }}>
-              <FormLabel>Energia</FormLabel>
-              <Input
-                type="number"
-                slotProps={{
-                  input: { style: { width: "100%" } },
-                }}
-                endDecorator="kcal"
-                placeholder="0"
-                name="energy"
-                onChange={handleMacroChange}
-                value={macroValue.energy}
-              />
-            </FormControl>
-          </Stack>
-          <Button
-            size="sm"
-            type="submit"
-            disabled={ingredientName.length === 0}
+      <Accordion>
+        <AccordionSummary>
+          <Typography
+            component="span"
+            display="flex"
+            gap={1}
+            alignItems="center"
           >
-            Hozzáad
-          </Button>
-        </Stack>
-      </form>
-    </Sheet>
+            <IoAdd />
+            Saját alapanyag hozzáadása
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <form onSubmit={handleAddCustomIngredient}>
+            <Stack direction="column" gap={2}>
+              <FormControl size="sm">
+                <FormLabel>Alapanyag neve</FormLabel>
+                <Input
+                  slotProps={{
+                    input: { style: { width: "100%" } },
+                  }}
+                  value={ingredientName}
+                  onChange={(e) => setIngredientName(e.target.value)}
+                  name="ingredientName"
+                />
+              </FormControl>
+              <Stack direction="row" gap={2}>
+                <FormControl size="sm" sx={{ flex: 1 }}>
+                  <FormLabel>Mennyiségi egység</FormLabel>
+                  <Input
+                    value={unitage}
+                    type="number"
+                    slotProps={{
+                      input: { style: { width: "100%" } },
+                    }}
+                    onChange={handleUnitageChange}
+                    name="unitage"
+                  />
+                </FormControl>
+                <FormControl size="sm">
+                  <FormLabel>Mértékegység</FormLabel>
+                  <Select
+                    value={unit}
+                    onChange={handleUnitChange}
+                    sx={{ width: "100%" }}
+                    name="unit"
+                  >
+                    <Option value="g">g</Option>
+                    <Option value="ml">ml</Option>
+                    <Option value="db">db</Option>
+                  </Select>
+                </FormControl>
+              </Stack>
+              <FormControl size="sm" sx={{ flex: 1 }}>
+                <FormLabel>Szénhidrát</FormLabel>
+                <Input
+                  type="number"
+                  slotProps={{
+                    input: { style: { width: "100%" } },
+                  }}
+                  endDecorator="g"
+                  placeholder="0"
+                  name="carb"
+                  onChange={handleMacroChange}
+                  value={macroValue.carb}
+                />
+              </FormControl>
+              <FormControl size="sm" sx={{ flex: 1 }}>
+                <FormLabel>Fehérje</FormLabel>
+                <Input
+                  type="number"
+                  slotProps={{
+                    input: { style: { width: "100%" } },
+                  }}
+                  endDecorator="g"
+                  placeholder="0"
+                  name="protein"
+                  onChange={handleMacroChange}
+                  value={macroValue.protein}
+                />
+              </FormControl>
+              <FormControl size="sm" sx={{ flex: 1 }}>
+                <FormLabel>Zsír</FormLabel>
+                <Input
+                  type="number"
+                  slotProps={{ input: { style: { width: "100%" } } }}
+                  endDecorator="g"
+                  placeholder="0"
+                  name="fat"
+                  onChange={handleMacroChange}
+                  value={macroValue.fat}
+                />
+              </FormControl>
+              <FormControl size="sm" sx={{ flex: 1 }}>
+                <FormLabel>Energia</FormLabel>
+                <Input
+                  type="number"
+                  slotProps={{
+                    input: { style: { width: "100%" } },
+                  }}
+                  endDecorator="kcal"
+                  placeholder="0"
+                  name="energy"
+                  onChange={handleMacroChange}
+                  value={macroValue.energy}
+                />
+              </FormControl>
+              <Button
+                size="sm"
+                type="submit"
+                disabled={ingredientName.length === 0}
+              >
+                Hozzáad
+              </Button>
+            </Stack>
+          </form>
+        </AccordionDetails>
+      </Accordion>
+    </AccordionGroup>
   );
 };
 

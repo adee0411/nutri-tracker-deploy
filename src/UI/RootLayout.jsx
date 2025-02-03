@@ -21,8 +21,11 @@ import {
   setIngredientList,
 } from "../store/ingredientSlice";
 import { setProfile } from "../store/profileSlice";
+import { useColorScheme } from "@mui/joy";
 
 const RootLayout = () => {
+  const { mode, systemMode } = useColorScheme();
+  console.log(mode, systemMode);
   const dispatch = useDispatch();
 
   const { addedIngredients, favoriteIngredients, profile } = useLoaderData();

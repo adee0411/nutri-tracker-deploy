@@ -1,6 +1,8 @@
 /** Import Style */
 import "./App.css";
 
+import { CssVarsProvider, extendTheme } from "@mui/joy";
+
 import { RouterProvider, createBrowserRouter } from "react-router";
 import { Provider } from "react-redux";
 
@@ -61,11 +63,17 @@ const router = createBrowserRouter(
   }
 );
 
+const theme = extendTheme({
+  colorSchemeSelector: "media",
+});
+
 function App() {
   return (
-    <Provider store={store}>
-      <RouterProvider router={router}></RouterProvider>
-    </Provider>
+    <CssVarsProvider theme={theme}>
+      <Provider store={store}>
+        <RouterProvider router={router}></RouterProvider>
+      </Provider>
+    </CssVarsProvider>
   );
 }
 
