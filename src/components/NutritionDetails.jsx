@@ -5,18 +5,33 @@ const NutritionDetails = ({ nutritionData, fontSize }) => {
   const { carb, protein, fat, energy } = nutritionData;
   return (
     <Stack direction="row" gap={1} justifyContent="space-between" flex={1}>
-      <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
-        Szénhidrát: {carb} g
-      </Typography>
-      <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
-        Fehérje: {protein} g
-      </Typography>
-      <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
-        Zsír: {fat} g
-      </Typography>
-      <Typography level="body-sm" fontSize={fontSize} fontWeight={600}>
-        Energia: {energy} kcal
-      </Typography>
+      <Stack>
+        {" "}
+        <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
+          Szénhidrát:
+        </Typography>
+        <Typography fontSize={fontSize * 1.25}>{carb} g</Typography>
+      </Stack>
+      <Stack>
+        {" "}
+        <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
+          Fehérje:
+        </Typography>
+        <Typography fontSize={fontSize * 1.25}>{protein} g</Typography>
+      </Stack>
+      <Stack>
+        {" "}
+        <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
+          Zsír:
+        </Typography>
+        <Typography fontSize={fontSize * 1.25}>{fat} g</Typography>
+      </Stack>
+      <Stack>
+        <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
+          Energia:
+        </Typography>
+        <Typography fontSize={fontSize * 1.25}>{energy} kcal</Typography>
+      </Stack>
     </Stack>
   );
 };

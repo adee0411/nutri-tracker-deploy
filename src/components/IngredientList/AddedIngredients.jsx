@@ -1,77 +1,35 @@
-import { Stack, Snackbar, Typography } from "@mui/joy";
-
-import { useDispatch, useSelector } from "react-redux";
+import { Stack } from "@mui/joy";
 
 import IngredientListHeader from "./IngredientListHeader";
 import IngredientList from "./IngredientList";
 
-import { CiCircleCheck } from "react-icons/ci";
-import { VscError } from "react-icons/vsc";
+import { useParams } from "react-router";
+import { useSelector } from "react-redux";
 
-import { setIngredientActionFeedback } from "../../store/ingredientSlice";
+const AddedIngredients = () => {
+  const { mealTitle } = useParams();
 
-const SnackBarIcons = {
-  error: <VscError />,
-  success: <CiCircleCheck />,
-};
-
-const AddedIngredients = ({ ingredientList }) => {
-  const dispatch = useDispatch();
-
-  const { ingredientActionFeedback } = useSelector(
-    (state) => state.ingredient.UI
+  const ingredientList = useSelector(
+    (state) => state.ingredient.addedIngredients[mealTitle]
   );
 
-  const actionList = ["update", "addToFavorites", "remove"];
-
   const addedListActions = ["empty", "backup"];
+  const ingredientActions = ["update", "addToFavorites", "remove"];
 
   return (
-    <>
-      <Stack my={4} gap={2}>
-        <IngredientListHeader
-          listTitle="Alapanyagok"
-          listName="addedIngredients"
-          listActions={addedListActions}
-        />
-        <IngredientList
-          ingredientList={ingredientList}
-          actionList={actionList}
-          listName="addedIngredients"
-        />
-      </Stack>
-      <Snackbar
-        open={ingredientActionFeedback.isShown}
-        color={
-          ingredientActionFeedback.state === "error" ? "danger" : "success"
-        }
-        variant="soft"
-        size="sm"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        autoHideDuration={4000}
-        onClose={() =>
-          dispatch(
-            setIngredientActionFeedback({
-              ...ingredientActionFeedback,
-              isShown: false,
-            })
-          )
-        }
-        invertedColors
-        startDecorator={SnackBarIcons[ingredientActionFeedback.state]}
-        slotProps={{ startDecorator: { style: { fontSize: 24 } } }}
-      >
-        <Typography
-          color={
-            ingredientActionFeedback.state === "error" ? "danger" : "success"
-          }
-          level="body-sm"
-          textAlign="center"
-        >
-          {ingredientActionFeedback.message}
-        </Typography>
-      </Snackbar>
-    </>
+    <Stack my={4} gap={2}>
+      <IngredientListHeader
+        listTitle="Alapanyagok"
+        listName="addedIngredients"
+        listActions={addedListActions}
+      />
+      <IngredientList
+        listName="addedIngredients"
+        mealName={mealTitle}
+        ingredientList={ingredientList}
+        actions={ingredientActions}
+      />
+    </Stack>
   );
 };
 

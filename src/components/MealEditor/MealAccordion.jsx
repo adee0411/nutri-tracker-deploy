@@ -3,16 +3,14 @@ import {
   AccordionDetails,
   AccordionGroup,
   AccordionSummary,
-  Button,
   Stack,
   Typography,
 } from "@mui/joy";
+
 import { accordionClasses } from "@mui/joy/Accordion";
 import { accordionSummaryClasses } from "@mui/joy";
 
-import AddedIngredients from "../IngredientList/AddedIngredients";
 import IngredientList from "../IngredientList/IngredientList";
-import { useSelector } from "react-redux";
 
 import BreakfastImg from "../../img/breakfast.png";
 import MealImg from "../../img/lunch.png";
@@ -27,26 +25,21 @@ const AccordionImages = {
   snack: SnackImg,
 };
 
-const actionList = ["update", "addToFavorites", "remove"];
-
-const MealAccordion = ({ title, ingredientData, list }) => {
-  const ingredientList = useSelector(
-    (state) => state.ingredient.addedIngredients.breakfast
-  );
-
-  const isMeal = title.includes("meal"); // Check if meal's title is Meal (number)
+const MealAccordion = ({ mealName, mealIngredientData, ingredientList }) => {
+  const isMeal = mealName.includes("meal"); // Check if meal's title is Meal (number)
   const formattedMealTitle = isMeal
-    ? `${title.at(-1)}. étkezés`
-    : title === "breakfast"
+    ? `${mealName.at(-1)}. étkezés`
+    : mealName === "breakfast"
     ? "Reggeli"
-    : "Snack";
+    : "Nasi";
+
+  const ingredientActions = ["update", "addToFavorites", "remove"];
   return (
     <AccordionGroup
       size="sm"
       variant="plain"
       color="primary"
       sx={(theme) => ({
-        maxWidth: 400,
         borderRadius: "md",
         boxShadow: "md",
 
@@ -68,7 +61,7 @@ const MealAccordion = ({ title, ingredientData, list }) => {
       <Accordion>
         <Stack direction="row" justifyContent="space-between" gap={4}>
           <Link
-            to={title}
+            to={mealName}
             style={{
               all: "unset",
               display: "inline-block",
@@ -76,6 +69,7 @@ const MealAccordion = ({ title, ingredientData, list }) => {
               cursor: "pointer",
               WebkitTapHighlightColor: "transparent",
             }}
+            viewTransition
           >
             <Typography
               component="span"
@@ -84,23 +78,34 @@ const MealAccordion = ({ title, ingredientData, list }) => {
                 display: "flex",
                 gap: 3,
                 alignItems: "center",
-                justifyContent: "space-between",
               }}
             >
               <Typography
-                width={44}
-                height={44}
                 display="flex"
-                justifyContent="center"
+                justifyContent="flex-start"
                 alignItems="center"
+                component="span"
+                gap={2}
               >
-                <img src={AccordionImages[title]} alt="meal-img" width="100%" />
-              </Typography>
+                <Typography
+                  component="span"
+                  width={44}
+                  height={44}
+                  display="flex"
+                  justifyContent="cener"
+                  alignItems="center"
+                >
+                  <img
+                    src={AccordionImages[mealName]}
+                    alt="meal-img"
+                    width="100%"
+                  />
+                </Typography>
 
-              <Typography>{formattedMealTitle}</Typography>
-
-              <Typography color="primary" fontWeight={400} fontSize={14}>
-                {ingredientData.energy} kcal
+                <Typography>{formattedMealTitle}</Typography>
+                <Typography color="primary" fontWeight={300} fontSize={12}>
+                  {mealIngredientData.energy} kcal
+                </Typography>
               </Typography>
             </Typography>
           </Link>
@@ -108,24 +113,16 @@ const MealAccordion = ({ title, ingredientData, list }) => {
         </Stack>
 
         <AccordionDetails sx={{ px: 1 }}>
-          {list.length === 0 ? (
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography level="body-sm">Nincs még alapanyag</Typography>
-              <Link to={title} viewTransition>
-                <Button size="sm" variant="plain">
-                  Hozzáadás
-                </Button>
-              </Link>
-            </Stack>
+          {ingredientList.length === 0 ? (
+            <Typography level="body-sm" textAlign="center">
+              Nincs még alapanyag
+            </Typography>
           ) : (
             <IngredientList
-              ingredientList={list}
-              actionList={actionList}
               listName="addedIngredients"
+              mealName={mealName}
+              ingredientList={ingredientList}
+              actions={ingredientActions}
             />
           )}
         </AccordionDetails>
@@ -135,3 +132,5 @@ const MealAccordion = ({ title, ingredientData, list }) => {
 };
 
 export default MealAccordion;
+
+/************ MODAL ON DAILY OVERVIEW PAGE!!!! **********************/

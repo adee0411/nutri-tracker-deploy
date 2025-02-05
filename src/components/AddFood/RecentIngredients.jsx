@@ -5,12 +5,14 @@ import EmptyListPlaceholder from "../IngredientList/EmptyListPlaceholder";
 
 import IngredientListHeader from "../IngredientList/IngredientListHeader";
 import { Stack } from "@mui/joy";
+import { useParams } from "react-router";
 
 const RecentIngredients = () => {
   const { recentIngredients } = useSelector((state) => state.ingredient);
+  const { mealTitle } = useParams();
 
-  const recentIngredientsActions = ["log"];
-  const recentListActions = [];
+  const listActions = [];
+  const ingredientActions = ["log", "addToFavorites"];
 
   return (
     <>
@@ -21,12 +23,13 @@ const RecentIngredients = () => {
           <IngredientListHeader
             listTitle="Legutóbbiak"
             listName="recentIngredients"
-            listActions={recentListActions}
+            listActions={listActions}
           />
           <IngredientList
-            ingredientList={recentIngredients}
-            actionList={recentIngredientsActions}
             listName="recentIngredients"
+            ingredientList={recentIngredients}
+            actions={ingredientActions}
+            mealName={mealTitle}
           />
         </Stack>
       )}

@@ -24,7 +24,11 @@ const ErrorPage = () => {
         A keresett oldal nem található!
       </Typography>
       <Typography color="primary">
-        <Link style={{ textDecoration: "none", color: "inherit" }} to="/">
+        <Link
+          style={{ textDecoration: "none", color: "inherit" }}
+          to="/"
+          viewTransition
+        >
           Vissza a főoldalra
         </Link>
       </Typography>

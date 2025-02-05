@@ -49,7 +49,7 @@ const CustomIngredientsRoute = () => {
             />
             <IngredientList
               listName="customIngredients"
-              actionList={["update", "remove"]}
+              actions={["update", "remove"]}
               ingredientList={customIngredients}
             />
             {isEditCustomIngredientModalOpen ? (

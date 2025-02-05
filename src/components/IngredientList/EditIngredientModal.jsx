@@ -236,61 +236,59 @@ const EditIngredientModal = ({
 
   return (
     <Modal open={isModalOpen} onClose={handleCloseModal}>
-      <AnimatePresence>
-        <ModalDialog
-          component={motion.div}
-          initial={{ opacity: 0.2, top: "45%" }}
-          animate={{ opacity: 1, top: "50%" }}
-          transition={{
-            duration: 1,
-            top: { type: "spring", visualDuration: 0.3, bounce: 0.4 },
-          }}
-        >
-          <ModalClose />
-          <Stack direction="row" gap={2} alignItems="center">
-            <CiEdit />
-            <Typography level="title-sm">Alapanyag szerkesztése</Typography>
-          </Stack>
+      <ModalDialog
+        component={motion.div}
+        initial={{ opacity: 0.2, top: "45%" }}
+        animate={{ opacity: 1, top: "50%" }}
+        transition={{
+          duration: 1,
+          top: { type: "spring", visualDuration: 0.3, bounce: 0.4 },
+        }}
+      >
+        <ModalClose />
+        <Stack direction="row" gap={2} alignItems="center">
+          <CiEdit />
+          <Typography level="title-sm">Alapanyag szerkesztése</Typography>
+        </Stack>
 
-          <Typography
-            level="title-md"
-            color="primary"
-          >{`${formattedIngredientName}, ${+editableIngredientInput} ${unit}`}</Typography>
-          <NutritionDetails
-            nutritionData={transformedNutritionData}
-            fontSize={12}
-          />
-          <form
-            onSubmit={
-              ingredientAction === "update"
-                ? handleUpdateIngredient
-                : handleLogIngredient
-            }
-          >
-            <Stack direction="row" gap={2}>
-              <FormControl size="sm">
-                <Input
-                  type="number"
-                  onChange={handleInputChange}
-                  value={editableIngredientInput}
-                  endDecorator={ingredient.unit}
-                />
-              </FormControl>
-              <FormControl>
-                {ingredientAction === "update" ? (
-                  <Button size="sm" type="submit">
-                    Módosít
-                  </Button>
-                ) : (
-                  <Button size="sm" type="submit">
-                    Naplóz
-                  </Button>
-                )}
-              </FormControl>
-            </Stack>
-          </form>
-        </ModalDialog>
-      </AnimatePresence>
+        <Typography
+          level="title-md"
+          color="primary"
+        >{`${formattedIngredientName}, ${+editableIngredientInput} ${unit}`}</Typography>
+        <NutritionDetails
+          nutritionData={transformedNutritionData}
+          fontSize={12}
+        />
+        <form
+          onSubmit={
+            ingredientAction === "update"
+              ? handleUpdateIngredient
+              : handleLogIngredient
+          }
+        >
+          <Stack direction="row" gap={2}>
+            <FormControl size="sm">
+              <Input
+                type="number"
+                onChange={handleInputChange}
+                value={editableIngredientInput}
+                endDecorator={ingredient.unit}
+              />
+            </FormControl>
+            <FormControl>
+              {ingredientAction === "update" ? (
+                <Button size="sm" type="submit">
+                  Módosít
+                </Button>
+              ) : (
+                <Button size="sm" type="submit">
+                  Naplóz
+                </Button>
+              )}
+            </FormControl>
+          </Stack>
+        </form>
+      </ModalDialog>
     </Modal>
   );
 };

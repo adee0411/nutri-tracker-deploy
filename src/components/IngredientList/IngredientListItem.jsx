@@ -1,14 +1,10 @@
 import { ListItem, Stack } from "@mui/joy";
-import { useParams } from "react-router";
 
 import IngredientListItemContent from "./IngredientListItemContent";
 import IngredientListItemActions from "./IngredientListItemActions";
-import { useSelector } from "react-redux";
-import { AnimatePresence, motion } from "framer-motion";
-const IngredientListItem = ({ ingredient, actionList, listName }) => {
-  const { mealTitle } = useParams();
+import { motion } from "framer-motion";
+const IngredientListItem = ({ ingredient, listName, mealName, actions }) => {
   const { ingredientName, unit, amount, nutritionData } = ingredient;
-  const { detailedView } = useSelector((state) => state.ingredient.UI);
 
   return (
     <ListItem
@@ -30,13 +26,12 @@ const IngredientListItem = ({ ingredient, actionList, listName }) => {
           amount={amount}
           unit={unit}
           nutritionData={nutritionData}
-          isDetailed={detailedView}
         />
         <IngredientListItemActions
-          mealName={mealTitle}
+          mealName={mealName}
           ingredient={ingredient}
-          actionList={actionList}
           listName={listName}
+          actions={actions}
         />
       </Stack>
     </ListItem>

@@ -25,15 +25,13 @@ import {
   setIngredientList,
 } from "../../store/ingredientSlice";
 import IngredientListItemActionBtn from "./IngredientListItemActionBtn";
-import { useLocation } from "react-router";
 
 const IngredientListItemActions = ({
   mealName,
   ingredient,
-  actionList,
   listName,
+  actions,
 }) => {
-  const location = useLocation();
   const dispatch = useDispatch();
   const { favoriteIngredients } = useSelector((state) => state.ingredient);
 
@@ -181,37 +179,40 @@ const IngredientListItemActions = ({
       ) : (
         ""
       )}
-
-      <Dropdown>
-        <MenuButton
-          slots={{ root: Button }}
-          slotProps={{ root: { variant: "plain", color: "neutral" } }}
-          size="sm"
-          sx={{ p: 0 }}
-        >
-          <HiOutlineDotsVertical style={{ fontSize: 22 }} />
-        </MenuButton>
-        <Menu
-          placement="bottom-start"
-          size="sm"
-          sx={{ minWidth: "120px", py: 0 }}
-          color="primary"
-          variant="soft"
-        >
-          {actionList.map((action) => {
-            return (
-              <MenuItem key={action}>
-                <IngredientListItemActionBtn
-                  ingredient={ingredient}
-                  icon={ingredientListActions[action].icon}
-                  title={ingredientListActions[action].title}
-                  handler={ingredientListActions[action].handler}
-                />
-              </MenuItem>
-            );
-          })}
-        </Menu>
-      </Dropdown>
+      {actions.length === 0 ? (
+        ""
+      ) : (
+        <Dropdown>
+          <MenuButton
+            slots={{ root: Button }}
+            slotProps={{ root: { variant: "plain", color: "neutral" } }}
+            size="sm"
+            sx={{ p: 0 }}
+          >
+            <HiOutlineDotsVertical style={{ fontSize: 22 }} />
+          </MenuButton>
+          <Menu
+            placement="bottom-start"
+            size="sm"
+            sx={{ minWidth: "120px", py: 0 }}
+            color="primary"
+            variant="soft"
+          >
+            {actions.map((action) => {
+              return (
+                <MenuItem key={action}>
+                  <IngredientListItemActionBtn
+                    ingredient={ingredient}
+                    icon={ingredientListActions[action].icon}
+                    title={ingredientListActions[action].title}
+                    handler={ingredientListActions[action].handler}
+                  />
+                </MenuItem>
+              );
+            })}
+          </Menu>
+        </Dropdown>
+      )}
     </Stack>
   );
 };

@@ -1,6 +1,7 @@
 import { Stack, Button } from "@mui/joy";
 import { useSelector } from "react-redux";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router";
+
 import IngredientList from "../IngredientList/IngredientList";
 
 import EmptyListPlaceholder from "../IngredientList/EmptyListPlaceholder";
@@ -10,8 +11,10 @@ import IngredientListHeader from "../IngredientList/IngredientListHeader";
 const CustomIngredients = () => {
   const { customIngredients } = useSelector((state) => state.ingredient);
 
+  const { mealTitle } = useParams();
+
   const customListActions = ["empty"];
-  const customIngredientsActions = ["log", "update", "remove"];
+  const ingredientActions = ["log", "update", "remove"];
 
   return (
     <>
@@ -34,9 +37,10 @@ const CustomIngredients = () => {
             listActions={customListActions}
           />
           <IngredientList
-            ingredientList={customIngredients}
-            actionList={customIngredientsActions}
             listName="customIngredients"
+            ingredientList={customIngredients}
+            actions={ingredientActions}
+            mealName={mealTitle}
           />
         </Stack>
       )}

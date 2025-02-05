@@ -4,7 +4,7 @@ import { Fragment } from "react";
 import IngredientListItem from "./IngredientListItem";
 import { AnimatePresence } from "framer-motion";
 
-const IngredientList = ({ ingredientList, actionList, listName }) => {
+const IngredientList = ({ listName, mealName, ingredientList, actions }) => {
   return (
     <List color="primary" variant="plain" sx={{ "--ListDivider-gap": "8px" }}>
       <AnimatePresence>
@@ -13,8 +13,9 @@ const IngredientList = ({ ingredientList, actionList, listName }) => {
             <Fragment key={`${ingredient.id}_${ingredient.amount}`}>
               <IngredientListItem
                 ingredient={ingredient}
-                actionList={actionList}
                 listName={listName}
+                mealName={mealName}
+                actions={actions}
               />
               {index !== ingredientList.length - 1 ? <ListDivider /> : ""}
             </Fragment>

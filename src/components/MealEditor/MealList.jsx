@@ -31,9 +31,9 @@ const MealList = () => {
 
         return (
           <MealAccordion
-            title={mealName}
-            ingredientData={totalNutritionData}
-            list={addedIngredients[mealName]}
+            mealName={mealName}
+            mealIngredientData={totalNutritionData}
+            ingredientList={meal[1]}
             key={mealName}
           />
         );

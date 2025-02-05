@@ -13,6 +13,7 @@ import AvatarMan from "../../icons/avatar_man.png";
 import AvatarBoy from "../../icons/avatar_boy.png";
 import AvatarLady from "../../icons/avatar_lady.png";
 import AvatarGirl from "../../icons/avatar_girl.png";
+import Navigation from "../../UI/Navigation";
 
 const AVATARS = {
   man: AvatarMan,
@@ -49,7 +50,9 @@ const Header = () => {
           <Typography level="h2" textAlign="center" flex={1} flexGrow={1}>
             NutriTracker
           </Typography>
-          <Stack direction="row" justifyContent="flex-end">
+          <Navigation />
+          {/**
+           *           <Stack direction="row" justifyContent="flex-end">
             <Button
               size="sm"
               sx={{ width: "fit-content", p: 0 }}
@@ -59,6 +62,8 @@ const Header = () => {
               <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
             </Button>
           </Stack>
+           * 
+           */}
         </Stack>
       </header>
       {isProfileModalOpen ? (

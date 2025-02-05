@@ -1,5 +1,6 @@
 import { Stack } from "@mui/joy";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router";
 import IngredientList from "../IngredientList/IngredientList";
 
 import EmptyListPlaceholder from "../IngredientList/EmptyListPlaceholder";
@@ -8,9 +9,10 @@ import IngredientListHeader from "../IngredientList/IngredientListHeader";
 
 const FrequentIngredients = () => {
   const { frequentIngredients } = useSelector((state) => state.ingredient);
+  const { mealTitle } = useParams();
 
-  const frequentIngredientsActions = ["log"];
-  const frequentListActions = [];
+  const listActions = [];
+  const ingredientActions = ["log", "addToFavorites"];
 
   return (
     <>
@@ -21,12 +23,13 @@ const FrequentIngredients = () => {
           <IngredientListHeader
             listTitle="Gyakoriak"
             listName="frequentIngredients"
-            listActions={frequentListActions}
+            listActions={listActions}
           />
           <IngredientList
-            ingredientList={frequentIngredients}
-            actionList={frequentIngredientsActions}
             listName="frequentIngredients"
+            ingredientList={frequentIngredients}
+            actions={ingredientActions}
+            mealName={mealTitle}
           />
         </Stack>
       )}

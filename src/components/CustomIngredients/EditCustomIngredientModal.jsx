@@ -92,137 +92,133 @@ const EditCustomIngredientModal = ({ isModalOpen, ingredient }) => {
   };
   return (
     <Modal open={isModalOpen} onClose={handleShowModal}>
-      <AnimatePresence>
-        <ModalDialog
-          component={motion.div}
-          initial={{ opacity: 0.2, top: "45%" }}
-          animate={{ opacity: 1, top: "50%" }}
-          transition={{
-            duration: 1,
-            top: { type: "spring", visualDuration: 0.3, bounce: 0.4 },
-          }}
-        >
-          <ModalClose />
-          <Stack direction="row" gap={2} alignItems="center">
-            <CiEdit />
-            <Typography level="title-sm">
-              Saját alapanyag szerkesztése
-            </Typography>
+      <ModalDialog
+        component={motion.div}
+        initial={{ opacity: 0.2, top: "45%" }}
+        animate={{ opacity: 1, top: "50%" }}
+        transition={{
+          duration: 1,
+          top: { type: "spring", visualDuration: 0.3, bounce: 0.4 },
+        }}
+      >
+        <ModalClose />
+        <Stack direction="row" gap={2} alignItems="center">
+          <CiEdit />
+          <Typography level="title-sm">Saját alapanyag szerkesztése</Typography>
+        </Stack>
+        <form onSubmit={handleUpdateCustomIngredient}>
+          <Stack gap={2} my={4}>
+            <FormControl>
+              <FormLabel>Alapanyag neve</FormLabel>
+              <Input
+                slotProps={{
+                  input: {
+                    ref: ingredientNameRef,
+                    style: { width: "100%" },
+                  },
+                }}
+                defaultValue={ingredient.ingredientName}
+                required
+                name="ingredientName"
+                size="sm"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Mennyiségi egység</FormLabel>
+              <Input
+                defaultValue={ingredient.unitage}
+                type="number"
+                slotProps={{
+                  input: { ref: unitageRef, style: { width: "100%" } },
+                }}
+                name="unitage"
+                size="sm"
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel>Mértékegység</FormLabel>
+              <Select
+                value={unit}
+                onChange={handleUnitChange}
+                sx={{ width: "100%" }}
+                size="sm"
+                name="unit"
+              >
+                <Option value="g" ref={unitRef}>
+                  g
+                </Option>
+                <Option value="ml" ref={unitRef}>
+                  ml
+                </Option>
+                <Option value="db" ref={unitRef}>
+                  db
+                </Option>
+              </Select>
+            </FormControl>
+
+            <FormControl sx={{ flex: 1 }}>
+              <FormLabel>Szénhidrát</FormLabel>
+              <Input
+                type="number"
+                slotProps={{
+                  input: { style: { width: "100%" }, ref: carbRef },
+                }}
+                endDecorator="g"
+                placeholder="0"
+                defaultValue={ingredient.nutritionData.carb}
+                name="carb"
+                size="sm"
+              />
+            </FormControl>
+            <FormControl sx={{ flex: 1 }}>
+              <FormLabel>Fehérje</FormLabel>
+              <Input
+                type="number"
+                slotProps={{
+                  input: { style: { width: "100%" }, ref: proteinRef },
+                }}
+                endDecorator="g"
+                placeholder="0"
+                defaultValue={ingredient.nutritionData.protein}
+                name="protein"
+                size="sm"
+              />
+            </FormControl>
+            <FormControl sx={{ flex: 1 }}>
+              <FormLabel>Zsír</FormLabel>
+              <Input
+                type="number"
+                slotProps={{
+                  input: { style: { width: "100%" }, ref: fatRef },
+                }}
+                endDecorator="g"
+                placeholder="0"
+                defaultValue={ingredient.nutritionData.fat}
+                name="fat"
+                size="sm"
+              />
+            </FormControl>
+            <FormControl sx={{ flex: 1 }}>
+              <FormLabel>Energia</FormLabel>
+              <Input
+                type="number"
+                slotProps={{
+                  input: { style: { width: "100%" }, ref: energyRef },
+                }}
+                endDecorator="kcal"
+                placeholder="0"
+                defaultValue={ingredient.nutritionData.energy}
+                name="energy"
+                size="sm"
+              />
+            </FormControl>
+
+            <Button type="submit" size="sm">
+              Módosít
+            </Button>
           </Stack>
-          <form onSubmit={handleUpdateCustomIngredient}>
-            <Stack gap={2} my={4}>
-              <FormControl>
-                <FormLabel>Alapanyag neve</FormLabel>
-                <Input
-                  slotProps={{
-                    input: {
-                      ref: ingredientNameRef,
-                      style: { width: "100%" },
-                    },
-                  }}
-                  defaultValue={ingredient.ingredientName}
-                  required
-                  name="ingredientName"
-                  size="sm"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Mennyiségi egység</FormLabel>
-                <Input
-                  defaultValue={ingredient.unitage}
-                  type="number"
-                  slotProps={{
-                    input: { ref: unitageRef, style: { width: "100%" } },
-                  }}
-                  name="unitage"
-                  size="sm"
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Mértékegység</FormLabel>
-                <Select
-                  value={unit}
-                  onChange={handleUnitChange}
-                  sx={{ width: "100%" }}
-                  size="sm"
-                  name="unit"
-                >
-                  <Option value="g" ref={unitRef}>
-                    g
-                  </Option>
-                  <Option value="ml" ref={unitRef}>
-                    ml
-                  </Option>
-                  <Option value="db" ref={unitRef}>
-                    db
-                  </Option>
-                </Select>
-              </FormControl>
-
-              <FormControl sx={{ flex: 1 }}>
-                <FormLabel>Szénhidrát</FormLabel>
-                <Input
-                  type="number"
-                  slotProps={{
-                    input: { style: { width: "100%" }, ref: carbRef },
-                  }}
-                  endDecorator="g"
-                  placeholder="0"
-                  defaultValue={ingredient.nutritionData.carb}
-                  name="carb"
-                  size="sm"
-                />
-              </FormControl>
-              <FormControl sx={{ flex: 1 }}>
-                <FormLabel>Fehérje</FormLabel>
-                <Input
-                  type="number"
-                  slotProps={{
-                    input: { style: { width: "100%" }, ref: proteinRef },
-                  }}
-                  endDecorator="g"
-                  placeholder="0"
-                  defaultValue={ingredient.nutritionData.protein}
-                  name="protein"
-                  size="sm"
-                />
-              </FormControl>
-              <FormControl sx={{ flex: 1 }}>
-                <FormLabel>Zsír</FormLabel>
-                <Input
-                  type="number"
-                  slotProps={{
-                    input: { style: { width: "100%" }, ref: fatRef },
-                  }}
-                  endDecorator="g"
-                  placeholder="0"
-                  defaultValue={ingredient.nutritionData.fat}
-                  name="fat"
-                  size="sm"
-                />
-              </FormControl>
-              <FormControl sx={{ flex: 1 }}>
-                <FormLabel>Energia</FormLabel>
-                <Input
-                  type="number"
-                  slotProps={{
-                    input: { style: { width: "100%" }, ref: energyRef },
-                  }}
-                  endDecorator="kcal"
-                  placeholder="0"
-                  defaultValue={ingredient.nutritionData.energy}
-                  name="energy"
-                  size="sm"
-                />
-              </FormControl>
-
-              <Button type="submit" size="sm">
-                Módosít
-              </Button>
-            </Stack>
-          </form>
-        </ModalDialog>
-      </AnimatePresence>
+        </form>
+      </ModalDialog>
     </Modal>
   );
 };

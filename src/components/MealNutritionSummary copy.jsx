@@ -23,7 +23,7 @@ const macroIcons = {
   energy: CalorieIcon,
 };
 
-const MealNutritionSummary = ({ isSimple }) => {
+const MealNutritionSummary = () => {
   const { addedIngredients } = useSelector((state) => state.ingredient);
 
   const { mealTitle } = useParams();
@@ -99,7 +99,7 @@ const MealNutritionSummary = ({ isSimple }) => {
     ? `${mealTitle.at(-1)}. étkezés`
     : mealTitle === "breakfast"
     ? "Reggeli"
-    : "Nasi";
+    : "Snack";
 
   const currentDate = new Date().toLocaleDateString();
 
@@ -111,7 +111,7 @@ const MealNutritionSummary = ({ isSimple }) => {
     <Sheet
       sx={{
         px: 2,
-        py: !isSimple ? 3 : 2,
+        py: 3,
         borderRadius: "md",
         boxShadow: "md",
         background: "#56ccf2" /* fallback for old browsers */,
@@ -124,15 +124,10 @@ const MealNutritionSummary = ({ isSimple }) => {
       variant="solid"
       invertedColors
     >
-      {!isSimple ? (
-        <Typography textAlign="center" level="h5">
-          {`${currentDate} - ${formattedMealTitle}`}
-        </Typography>
-      ) : (
-        ""
-      )}
-
-      <Stack mt={0} gap={2}>
+      <Typography textAlign="center" level="h5">
+        {`${currentDate} - ${formattedMealTitle}`}
+      </Typography>
+      <Stack mt={2} gap={2}>
         <Stack direction="row" gap={2} justifyContent="space-between" flex={1}>
           {Object.entries(mealNutritionData).map((macro) => {
             const macroName = macro[0];
@@ -147,61 +142,57 @@ const MealNutritionSummary = ({ isSimple }) => {
             );
           })}
         </Stack>
-        {!isSimple ? (
-          <Stack gap={2}>
-            <Typography textAlign="center" fontSize={12}>
-              A mai napon eddig bevitt kalória:{" "}
-              <CountUp
-                start={totalEnergyRef.current}
-                end={totalNutritionData.energy}
-                delay={0}
-                duration={1}
-                suffix=" kcal"
-              >
-                {({ countUpRef }) => (
-                  <Typography
-                    level="body-lg"
-                    component="span"
-                    fontWeight={600}
-                    slotProps={{ root: { ref: countUpRef } }}
-                  ></Typography>
-                )}
-              </CountUp>
-            </Typography>
-            <DailyGoalProgress
-              current={totalNutritionData.energy}
-              goal={calorieGoal}
-              size="sm"
-              type="linear"
-            />
-            {isCalorieSufficit ? (
-              <Alert
-                size="sm"
-                sx={{
-                  backgroundColor: "transparent",
-                  justifyContent: "center",
-                }}
-              >
+        <Stack gap={2}>
+          <Typography textAlign="center" fontSize={12}>
+            A mai napon eddig bevitt kalória:{" "}
+            <CountUp
+              start={totalEnergyRef.current}
+              end={totalNutritionData.energy}
+              delay={0}
+              duration={1}
+              suffix=" kcal"
+            >
+              {({ countUpRef }) => (
                 <Typography
-                  color="danger"
-                  level="body-sm"
-                  fontWeight={300}
-                  display="flex"
-                  alignItems="center"
-                  gap={0.5}
-                >
-                  {" "}
-                  <CiWarning style={{ fontSize: 18 }} /> Túllépted a mai napra
-                  meghatározott célt!
-                </Typography>
-              </Alert>
-            ) : (
-              ""
-            )}
-          </Stack>
-        ) : (
-          ""
-        )}
+                  level="body-lg"
+                  component="span"
+                  fontWeight={600}
+                  slotProps={{ root: { ref: countUpRef } }}
+                ></Typography>
+              )}
+            </CountUp>
+          </Typography>
+          <DailyGoalProgress
+            current={totalNutritionData.energy}
+            goal={calorieGoal}
+            size="sm"
+            type="linear"
+          />
+          {isCalorieSufficit ? (
+            <Alert
+              size="sm"
+              sx={{
+                backgroundColor: "transparent",
+                justifyContent: "center",
+              }}
+            >
+              <Typography
+                color="danger"
+                level="body-sm"
+                fontWeight={300}
+                display="flex"
+                alignItems="center"
+                gap={0.5}
+              >
+                {" "}
+                <CiWarning style={{ fontSize: 18 }} /> Túllépted a mai napra
+                meghatározott célt!
+              </Typography>
+            </Alert>
+          ) : (
+            ""
+          )}
+        </Stack>
       </Stack>
     </Sheet>
   );

@@ -1,17 +1,18 @@
 import db from "../firebase/firestore_config";
 import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
-import { Snackbar, Stack, Typography } from "@mui/joy";
+import { Stack, IconButton } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
-import { useLoaderData, useParams } from "react-router";
+import { useLoaderData } from "react-router";
 import { useEffect } from "react";
+
+import { Link } from "react-router";
 
 import ContentWrapper from "../UI/ContentWrapper";
 import MealNutritionSummary from "../components/MealNutritionSummary";
 import SearchForm from "../components/AddFood/SearchForm";
 import SelectedIngredient from "../components/AddFood/SelectedIngredient";
 import QuickIngredientTab from "../components/AddFood/QuickIngredientTab";
-import EditIngredientModal from "../components/IngredientList/EditIngredientModal";
 import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
 
 import {
@@ -21,28 +22,11 @@ import {
   setFrequentIngredients,
   setCustomIngredients,
   setIsEditIngredientModalOpen,
-  setIngredientActionFeedback,
   setSelectedIngredient,
-  setSearchResultList,
   setSearchQueryInput,
 } from "../store/ingredientSlice";
 
-import { VscError } from "react-icons/vsc";
-import { CiCircleCheck } from "react-icons/ci";
-import EditCustomIngredientModal from "../components/CustomIngredients/EditCustomIngredientModal";
-
-const mealTexts = {
-  breakfast: "a reggelihez",
-  meal2: "a 2. étkezéshez",
-  meal3: "a 3. étkezéshez",
-  meal4: "a 4. étkezéshez",
-  snack: "a nasihoz",
-};
-
-const SnackBarIcons = {
-  error: <VscError />,
-  success: <CiCircleCheck />,
-};
+import { GoArrowLeft } from "react-icons/go";
 
 const AddFood = () => {
   const dispatch = useDispatch();
@@ -54,18 +38,8 @@ const AddFood = () => {
     customIngredients,
   } = useLoaderData();
 
-  const { mealTitle } = useParams();
-
-  const { editableIngredient } = useSelector((state) => state.ingredient);
-  const {
-    isEditCustomIngredientModalOpen,
-    isEditIngredientModalOpen,
-    isConfirmEmptyListModalOpen,
-    emptyListName,
-    ingredientActionFeedback,
-  } = useSelector((state) => state.ingredient.UI);
-  const { actionName, listName } = useSelector(
-    (state) => state.ingredient.UI.ingredientAction
+  const { isConfirmEmptyListModalOpen, emptyListName } = useSelector(
+    (state) => state.ingredient.UI
   );
 
   const mergedQueryList = queryList.concat(customIngredients);
@@ -94,7 +68,7 @@ const AddFood = () => {
       <ContentWrapper>
         <Stack gap={3}>
           {/********** Meal Nutritions ***********/}
-          <MealNutritionSummary />
+          <MealNutritionSummary isSimple />
           {/********** Ingredient Search ***********/}
           <Stack>
             <SearchForm />
@@ -115,57 +89,7 @@ const AddFood = () => {
         ) : (
           ""
         )}
-        {isEditIngredientModalOpen ? (
-          <EditIngredientModal
-            isModalOpen={isEditIngredientModalOpen}
-            ingredient={editableIngredient}
-            ingredientAction={actionName}
-            listName={listName}
-          />
-        ) : (
-          ""
-        )}
-        {isEditCustomIngredientModalOpen ? (
-          <EditCustomIngredientModal
-            isModalOpen={isEditCustomIngredientModalOpen}
-            ingredient={editableIngredient}
-          />
-        ) : (
-          ""
-        )}
       </ContentWrapper>
-      <Snackbar
-        open={ingredientActionFeedback.isShown}
-        color={
-          ingredientActionFeedback.state === "error" ? "danger" : "success"
-        }
-        variant="soft"
-        size="sm"
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        autoHideDuration={4000}
-        onClose={() =>
-          dispatch(
-            setIngredientActionFeedback({
-              ...ingredientActionFeedback,
-              isShown: false,
-            })
-          )
-        }
-        invertedColors
-        startDecorator={SnackBarIcons[ingredientActionFeedback.state]}
-        sx={{ textAlign: "center" }}
-        slotProps={{ startDecorator: { style: { fontSize: 24 } } }}
-      >
-        <Typography
-          color={
-            ingredientActionFeedback.state === "error" ? "danger" : "success"
-          }
-          level="body-sm"
-          textAlign="center"
-        >
-          {ingredientActionFeedback.message}
-        </Typography>
-      </Snackbar>
     </>
   );
 };
