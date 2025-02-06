@@ -7,7 +7,7 @@ const ModalWrapper = () => {
   const { editableIngredient } = useSelector((state) => state.ingredient);
   const { isEditIngredientModalOpen, isEditCustomIngredientModalOpen } =
     useSelector((state) => state.ingredient.UI);
-  const { actionName, listName } = useSelector(
+  const { actionName, listName, mealName } = useSelector(
     (state) => state.ingredient.UI.ingredientAction
   );
 
@@ -19,6 +19,7 @@ const ModalWrapper = () => {
           ingredient={editableIngredient}
           ingredientAction={actionName}
           listName={listName}
+          mealName={mealName}
         />
       ) : (
         ""

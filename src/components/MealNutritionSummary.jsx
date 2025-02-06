@@ -125,7 +125,7 @@ const MealNutritionSummary = ({ isSimple }) => {
       invertedColors
     >
       {!isSimple ? (
-        <Typography textAlign="center" level="h5">
+        <Typography textAlign="center" level="h5" mb={2}>
           {`${currentDate} - ${formattedMealTitle}`}
         </Typography>
       ) : (

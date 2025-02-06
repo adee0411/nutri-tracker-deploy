@@ -6,7 +6,7 @@ import Logo from "../icons/logo.svg";
 
 import { FiChevronLeft } from "react-icons/fi";
 import { FiChevronRight } from "react-icons/fi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const slideVariants = {
   hiddenRight: {
@@ -32,7 +32,7 @@ const slideVariants = {
   },
 };
 
-const Welcome = ({ onCloseWelcome, appInfo }) => {
+const Welcome = ({ appInfo, onSetIsVisited }) => {
   const [currentInfo, setCurrentInfo] = useState(0);
   const [direction, setDirection] = useState(null);
 
@@ -45,6 +45,7 @@ const Welcome = ({ onCloseWelcome, appInfo }) => {
     setDirection("left");
     setCurrentInfo(currentInfo - 1);
   };
+
   return (
     <Sheet
       color="neutral"
@@ -103,7 +104,7 @@ const Welcome = ({ onCloseWelcome, appInfo }) => {
           </Stack>
         </Stack>
 
-        <Button onClick={onCloseWelcome}>Kezdjük!</Button>
+        <Button onClick={onSetIsVisited}>Kezdjük!</Button>
       </Stack>
     </Sheet>
   );

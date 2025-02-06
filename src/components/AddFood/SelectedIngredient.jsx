@@ -196,16 +196,6 @@ const SelectedIngredient = ({ selectedIngredient }) => {
               Hozzáad
             </Button>
           </FormControl>
-          <FormControl sx={{ flex: 1 }}>
-            <Button
-              size="sm"
-              variant="outlined"
-              onClick={handleAddToCollection}
-              disabled
-            >
-              Csoportosít
-            </Button>
-          </FormControl>
         </Stack>
       </form>
     </CardWrapper>

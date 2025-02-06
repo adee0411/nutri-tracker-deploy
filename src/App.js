@@ -64,7 +64,8 @@ const router = createBrowserRouter(
 );
 
 const theme = extendTheme({
-  colorSchemeSelector: "media",
+  cssVarPrefix: "mode-toggle",
+  colorSchemeSelector: ".demo_mode-toggle-%s",
 });
 
 function App() {

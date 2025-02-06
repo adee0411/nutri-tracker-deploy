@@ -12,6 +12,7 @@ import { Outlet } from "react-router";
 import Header from "../components/Header/Header";
 import ModalWrapper from "../UI/ModalWrapper";
 import BottomNavigation from "./BottomNavigation";
+import Welcome from "../routes/Welcome";
 
 import {
   setAddedIngredients,
@@ -21,12 +22,33 @@ import { setProfile } from "../store/profileSlice";
 import { useColorScheme } from "@mui/joy";
 import FeedbackWrapper from "./FeedbackWrapper";
 
+import Image1 from "../img/undraw_fitness-tracker_y5q5 (3).svg";
+import Image2 from "../img/undraw_note-list_47ij (1).svg";
+import Image3 from "../img/undraw_healthy-lifestyle_8zpg.svg";
+
+const AppInfo = [
+  {
+    image: Image1,
+    text: "Text1",
+  },
+  {
+    image: Image2,
+    text: "Text1",
+  },
+  {
+    image: Image3,
+    text: "Text1",
+  },
+];
+
 const RootLayout = () => {
   const { mode, systemMode } = useColorScheme();
 
   const dispatch = useDispatch();
 
   const { addedIngredients, favoriteIngredients, profile } = useLoaderData();
+
+  const [showWelcome, setShowWelcome] = useState(true);
 
   useEffect(() => {
     dispatch(setAddedIngredients(addedIngredients));
@@ -38,17 +60,26 @@ const RootLayout = () => {
     );
     dispatch(setProfile(profile));
   }, []);
+
   return (
     <>
-      <>
-        <Header />
-        <main>
-          <FeedbackWrapper>
-            <Outlet />
-          </FeedbackWrapper>
-          <ModalWrapper />
-        </main>
-      </>
+      {!showWelcome ? (
+        <>
+          {" "}
+          <Header />
+          <main>
+            <FeedbackWrapper>
+              <Outlet />
+            </FeedbackWrapper>
+            <ModalWrapper />
+          </main>
+        </>
+      ) : (
+        <Welcome
+          appInfo={AppInfo}
+          onSetIsVisited={() => setShowWelcome(false)}
+        />
+      )}
     </>
   );
 };

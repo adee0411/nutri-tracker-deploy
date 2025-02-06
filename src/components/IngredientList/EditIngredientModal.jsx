@@ -41,16 +41,16 @@ const EditIngredientModal = ({
   ingredient,
   ingredientAction,
   listName,
+  mealName,
 }) => {
   const dispatch = useDispatch();
-  const { mealTitle } = useParams();
   const { ingredientName, unit, unitage, nutritionDataPerUnit } = ingredient;
   const { editableIngredientInput } = useSelector(
     (state) => state.ingredient.UI
   );
   const ingredients = useSelector((state) => state.ingredient[listName]);
   const mealIngredients = useSelector(
-    (state) => state.ingredient.addedIngredients[mealTitle]
+    (state) => state.ingredient.addedIngredients[mealName]
   );
   const { recentIngredients } = useSelector((state) => state.ingredient);
 
@@ -86,7 +86,7 @@ const EditIngredientModal = ({
 
     let ingredientsCopy =
       listName === "addedIngredients"
-        ? [...ingredients[mealTitle]]
+        ? [...ingredients[mealName]]
         : [...ingredients];
     const existingIngredientIndex = ingredientsCopy.findIndex((ing) => {
       return ing.id === ingredient.id;
@@ -113,7 +113,7 @@ const EditIngredientModal = ({
             ingredientList: ingredientsCopy,
           })
         );
-      })(mealTitle);
+      })(mealName);
     } else {
       (async function () {
         await setDoc(doc(db, listName, ingredient.id), updatedIngredient);
@@ -231,7 +231,7 @@ const EditIngredientModal = ({
         })
       );
       dispatch(setIsEditIngredientModalOpen(false));
-    })(mealTitle);
+    })(mealName);
   };
 
   return (

@@ -51,7 +51,13 @@ const IngredientListItemActions = ({
     dispatch(setIsEditIngredientModalOpen(true));
     dispatch(setEditableIngredient(editableIngredient));
     dispatch(setEditableIngredientInput(ingredient.amount));
-    dispatch(setIngredientAction({ actionName: "log", listName: listName }));
+    dispatch(
+      setIngredientAction({
+        actionName: "log",
+        listName: listName,
+        mealName: mealName,
+      })
+    );
   };
 
   // Update single ingredient action
@@ -65,6 +71,7 @@ const IngredientListItemActions = ({
         setIngredientAction({
           actionName: "update",
           listName: listName,
+          mealName: mealName,
         })
       );
     }

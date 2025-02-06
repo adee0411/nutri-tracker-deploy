@@ -37,6 +37,7 @@ const ingredientSlice = createSlice({
       ingredientAction: {
         actionName: null,
         listName: null,
+        mealName: null,
       },
       emptyListName: null,
     },

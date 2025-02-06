@@ -45,7 +45,7 @@ const CustomIngredientsRoute = () => {
             <IngredientListHeader
               listTitle="Saját alapanyagok"
               listName="customIngredients"
-              listActions={["empty", "backup"]}
+              listActions={["empty"]}
             />
             <IngredientList
               listName="customIngredients"
