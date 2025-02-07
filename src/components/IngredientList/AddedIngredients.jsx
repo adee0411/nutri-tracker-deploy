@@ -3,14 +3,11 @@ import { Stack } from "@mui/joy";
 import IngredientListHeader from "./IngredientListHeader";
 import IngredientList from "./IngredientList";
 
-import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
-const AddedIngredients = () => {
-  const { mealTitle } = useParams();
-
+const AddedIngredients = ({ mealName }) => {
   const ingredientList = useSelector(
-    (state) => state.ingredient.addedIngredients[mealTitle]
+    (state) => state.ingredient.addedIngredients[mealName]
   );
 
   const addedListActions = ["empty", "backup"];
@@ -22,10 +19,11 @@ const AddedIngredients = () => {
         listTitle="Alapanyagok"
         listName="addedIngredients"
         listActions={addedListActions}
+        mealName={mealName}
       />
       <IngredientList
         listName="addedIngredients"
-        mealName={mealTitle}
+        mealName={mealName}
         ingredientList={ingredientList}
         actions={ingredientActions}
       />

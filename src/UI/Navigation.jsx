@@ -48,7 +48,8 @@ const Navigation = () => {
   const { name, avatar } = useSelector((state) => state.profile.profileData);
 
   const { mode, setMode } = useColorScheme();
-  const [isDark, setIsDark] = useState(false);
+  const defaultMode = mode === "dark";
+  const [isDark, setIsDark] = useState(defaultMode);
 
   const handleShowModal = () => {
     dispatch(toggleProfileModal());

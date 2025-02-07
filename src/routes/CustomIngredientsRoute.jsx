@@ -14,7 +14,8 @@ import IngredientList from "../components/IngredientList/IngredientList";
 import AddCustomIngredient from "../components/CustomIngredients/AddCustomIngredient";
 import EditCustomIngredientModal from "../components/CustomIngredients/EditCustomIngredientModal";
 import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
-import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
+
+import PlaceholderImg from "../img/undraw_add-information_06qr.svg";
 
 const CustomIngredientsRoute = () => {
   const dispatch = useDispatch();
@@ -37,6 +38,13 @@ const CustomIngredientsRoute = () => {
   return (
     <ContentWrapper>
       <Stack gap={3}>
+        <Stack alignItems="center" justifyContent="center">
+          <img
+            src={PlaceholderImg}
+            alt="add-custom-ing-placeholder"
+            width="50%"
+          />
+        </Stack>
         <AddCustomIngredient />
 
         {customIngredients.length === 0 ? (

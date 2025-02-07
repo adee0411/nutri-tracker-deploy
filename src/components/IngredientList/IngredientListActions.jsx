@@ -6,31 +6,28 @@ import { ButtonGroup, IconButton, Stack, Typography } from "@mui/joy";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { CiTrash } from "react-icons/ci";
 import { IoIosRefresh } from "react-icons/io";
-import { CiViewList } from "react-icons/ci";
-import { Link, useLocation, useParams } from "react-router";
+import { Link, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
-  toggleView,
   toggleIsConfirmEmptyListModalOpen,
-  setEmptyListName,
+  setEmptyListAction,
   setMealIngredients,
   setLastRemoved,
 } from "../../store/ingredientSlice";
 
-const IngredientListActions = ({ listName, listActions }) => {
+const IngredientListActions = ({ listName, listActions, mealName }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const mealName = useParams().mealTitle;
   const { lastRemoved } = useSelector((state) => state.ingredient);
   const mealIngredients = useSelector(
     (state) => state.ingredient.addedIngredients[mealName]
   );
 
   const handleEmptyList = () => {
-    //dispatch(emptyList({ listName: listName, mealName: mealName }));
+    //spatch(emptyList({ listName: listName, mealName: mealName }));
     dispatch(toggleIsConfirmEmptyListModalOpen());
-    dispatch(setEmptyListName(listName));
+    dispatch(setEmptyListAction({ listName: listName, mealName: mealName }));
   };
 
   const handleBackupIngredient = () => {
@@ -60,10 +57,6 @@ const IngredientListActions = ({ listName, listActions }) => {
     })(mealName);
   };
 
-  const handleToggleView = () => {
-    dispatch(toggleView());
-  };
-
   const listActionsObj = {
     empty: {
       icon: <CiTrash />,
@@ -74,11 +67,6 @@ const IngredientListActions = ({ listName, listActions }) => {
       icon: <IoIosRefresh />,
       title: "Visszavonás",
       handler: handleBackupIngredient,
-    },
-    view: {
-      icon: <CiViewList />,
-      title: "Nézet",
-      handler: handleToggleView,
     },
   };
   return (

@@ -32,10 +32,6 @@ const MealDetails = () => {
     (state) => state.ingredient.addedIngredients[mealTitle]
   );
 
-  const { isConfirmEmptyListModalOpen } = useSelector(
-    (state) => state.ingredient.UI
-  );
-
   // Initialize total nutrition object
   let totalMealNutritionData = {
     carb: 0,
@@ -73,17 +69,9 @@ const MealDetails = () => {
             </Link>
           </Stack>
         ) : (
-          <AddedIngredients />
+          <AddedIngredients mealName={mealTitle} />
         )}
       </Stack>
-      {isConfirmEmptyListModalOpen ? (
-        <ConfirmEmptyListModal
-          mealName={mealTitle}
-          listName="addedIngredients"
-        />
-      ) : (
-        ""
-      )}
     </ContentWrapper>
   );
 };

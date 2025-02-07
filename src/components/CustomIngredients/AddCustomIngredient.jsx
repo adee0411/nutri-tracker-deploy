@@ -101,7 +101,7 @@ const AddCustomIngredient = () => {
   };
   return (
     <AccordionGroup
-      variant="outlined"
+      variant="soft"
       size="md"
       sx={(theme) => ({
         maxWidth: 400,
