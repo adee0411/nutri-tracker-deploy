@@ -63,23 +63,13 @@ const RootLayout = () => {
 
   return (
     <>
-      {!showWelcome ? (
-        <>
-          {" "}
-          <Header />
-          <main>
-            <FeedbackWrapper>
-              <Outlet />
-            </FeedbackWrapper>
-            <ModalWrapper />
-          </main>
-        </>
-      ) : (
-        <Welcome
-          appInfo={AppInfo}
-          onSetIsVisited={() => setShowWelcome(false)}
-        />
-      )}
+      <Header />
+      <main>
+        <FeedbackWrapper>
+          <Outlet />
+        </FeedbackWrapper>
+        <ModalWrapper />
+      </main>
     </>
   );
 };

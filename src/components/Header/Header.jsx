@@ -1,4 +1,4 @@
-import { Typography, Stack, Switch } from "@mui/joy";
+import { Typography, Stack, Switch, Sheet } from "@mui/joy";
 
 import { useSelector } from "react-redux";
 
@@ -15,25 +15,30 @@ const Header = () => {
 
   return (
     <>
-      <header style={{ padding: "16px" }}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          {" "}
-          <Link to="/" viewTransition>
-            <Stack direction="row" justifyContent="center" alignItems="center">
-              <img src={Logo} alt="logo" width="32px" />
+      <header>
+        <Sheet color="primary" sx={{ p: "16px" }}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            {" "}
+            <Link to="/" viewTransition>
+              <Stack
+                direction="row"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <img src={Logo} alt="logo" width="32px" />
+              </Stack>
+            </Link>
+            <Typography level="h2" textAlign="center" flex={1} flexGrow={1}>
+              NutriTracker
+            </Typography>
+            <Stack direction="row">
+              <Navigation />
             </Stack>
-          </Link>
-          <Typography level="h2" textAlign="center" flex={1} flexGrow={1}>
-            NutriTracker
-          </Typography>
-          <Stack direction="row">
-            <Navigation />
-          </Stack>
-          {/**
+            {/**
            *           <Stack direction="row" justifyContent="flex-end">
             <Button
               size="sm"
@@ -46,7 +51,8 @@ const Header = () => {
           </Stack>
            * 
            */}
-        </Stack>
+          </Stack>
+        </Sheet>
       </header>
       {isProfileModalOpen ? (
         <EditProfileModal

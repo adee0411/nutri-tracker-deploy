@@ -37,8 +37,8 @@ const MealAccordion = ({ mealName, mealIngredientData, ingredientList }) => {
   return (
     <AccordionGroup
       size="sm"
-      variant="plain"
-      color="primary"
+      variant="soft"
+      color="neutral"
       sx={(theme) => ({
         borderRadius: "md",
         boxShadow: "md",

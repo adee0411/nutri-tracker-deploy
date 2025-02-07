@@ -131,7 +131,12 @@ const IngredientListActions = ({ listName, listActions }) => {
                 action === "backup"
               }
             >
-              {listActionsObj[action].icon}
+              <Typography
+                color={action === "empty" ? "danger" : ""}
+                component="span"
+              >
+                {listActionsObj[action].icon}
+              </Typography>
             </IconButton>
           );
         })}

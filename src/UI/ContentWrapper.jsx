@@ -2,9 +2,7 @@ const { Sheet } = require("@mui/joy");
 
 const ContentWrapper = ({ children }) => {
   return (
-    <Sheet
-      sx={{ backgroundColor: "transparent", p: 2, boxSizing: "border-box" }}
-    >
+    <Sheet sx={{ p: 2, boxSizing: "border-box", minHeight: "100vh" }}>
       {children}
     </Sheet>
   );

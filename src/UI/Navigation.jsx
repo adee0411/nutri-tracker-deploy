@@ -14,12 +14,10 @@ import {
   ModalClose,
   Switch,
   useColorScheme,
-  Select,
-  Option,
 } from "@mui/joy";
 import { switchClasses } from "@mui/joy/Switch";
-import { Link, useLocation } from "react-router";
-import { useState } from "react";
+import { Link } from "react-router";
+import { useEffect, useState } from "react";
 
 import { TbMenuDeep } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,11 +48,16 @@ const Navigation = () => {
   const { name, avatar } = useSelector((state) => state.profile.profileData);
 
   const { mode, setMode } = useColorScheme();
-  //const [dark, setDark] = useState(false);
+  const [isDark, setIsDark] = useState(false);
 
   const handleShowModal = () => {
     dispatch(toggleProfileModal());
   };
+
+  useEffect(() => {
+    const newValue = isDark ? "dark" : "light";
+    setMode(newValue);
+  }, [isDark]);
   return (
     <>
       <IconButton onClick={() => setOpen(true)} size="lg">
@@ -69,18 +72,6 @@ const Navigation = () => {
             gap={2}
             mb={4}
           >
-            <Select
-              variant="soft"
-              value={mode}
-              onChange={(event, newMode) => {
-                setMode(newMode);
-              }}
-            >
-              <Option value="system">Rendszer</Option>
-              <Option value="light">Világos</Option>
-              <Option value="dark">Sötét</Option>
-            </Select>
-            {/**
             <Switch
               sx={() => {
                 return {
@@ -91,16 +82,16 @@ const Navigation = () => {
                 };
               }}
               size="sm"
-              color={mode ? "primary" : "neutral"}
+              color={isDark ? "primary" : "neutral"}
               slotProps={{
                 input: { "aria-label": "dark mode" },
               }}
               startDecorator={<IoSunnyOutline />}
               endDecorator={<GoMoon />}
-              checked={dark}
-              onChange={(event) => setDark(event.target.checked)}
-            /> */}
-            <Stack direction="row" alignItems="center">
+              checked={isDark}
+              onChange={() => setIsDark(!isDark)}
+            />
+            <Stack direction="row" alignItems="center" gap={2}>
               <Typography
                 component="label"
                 htmlFor="close-icon"

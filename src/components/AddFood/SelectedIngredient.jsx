@@ -168,9 +168,8 @@ const SelectedIngredient = ({ selectedIngredient }) => {
     })(mealTitle);
   };
 
-  const handleAddToCollection = () => {};
   return (
-    <CardWrapper color="primary" variant="outlined">
+    <CardWrapper color="primary" variant="soft">
       <NutritionDetailCard
         title={selectedIngredient.ingredientName}
         imageURL={selectedIngredient.imageURL}

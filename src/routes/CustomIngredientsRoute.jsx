@@ -1,13 +1,14 @@
 import db from "../firebase/firestore_config";
 import { getDocs, collection } from "firebase/firestore";
 
-import { Stack } from "@mui/joy";
+import { Stack, Sheet } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useLoaderData } from "react-router";
 import { setIngredientList } from "../store/ingredientSlice";
 import { useEffect } from "react";
 
+import ContentWrapper from "../UI/ContentWrapper";
 import IngredientListHeader from "../components/IngredientList/IngredientListHeader";
 import IngredientList from "../components/IngredientList/IngredientList";
 import AddCustomIngredient from "../components/CustomIngredients/AddCustomIngredient";
@@ -34,8 +35,8 @@ const CustomIngredientsRoute = () => {
   }, []);
 
   return (
-    <>
-      <Stack p={4} gap={3}>
+    <ContentWrapper>
+      <Stack gap={3}>
         <AddCustomIngredient />
 
         {customIngredients.length === 0 ? (
@@ -63,12 +64,7 @@ const CustomIngredientsRoute = () => {
           </>
         )}
       </Stack>
-      {isConfirmEmptyListModalOpen ? (
-        <ConfirmEmptyListModal listName="customIngredients" />
-      ) : (
-        ""
-      )}
-    </>
+    </ContentWrapper>
   );
 };
 

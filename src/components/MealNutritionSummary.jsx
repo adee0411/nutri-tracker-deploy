@@ -114,15 +114,9 @@ const MealNutritionSummary = ({ isSimple }) => {
         py: !isSimple ? 3 : 2,
         borderRadius: "md",
         boxShadow: "md",
-        background: "#56ccf2" /* fallback for old browsers */,
-        background:
-          "-webkit-linear-gradient(1355deg, #1488CC, #2B32B2)" /* Chrome 10-25, Safari 5.1-6 */,
-        background:
-          "linear-gradient(225deg,  #1488CC, #2B32B2)" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */,
       }}
       color="primary"
-      variant="solid"
-      invertedColors
+      variant="soft"
     >
       {!isSimple ? (
         <Typography textAlign="center" level="h5" mb={2}>

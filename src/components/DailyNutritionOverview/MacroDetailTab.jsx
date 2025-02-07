@@ -51,6 +51,7 @@ const MacroDetailTab = ({ totalNutritionData }) => {
       aria-label="Carb quantity tab"
       defaultValue={0}
       variant="outlined"
+      color="neutral"
       sx={{
         borderRadius: "lg",
         boxShadow: "md",
