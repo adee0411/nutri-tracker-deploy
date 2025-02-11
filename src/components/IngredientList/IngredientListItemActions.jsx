@@ -95,6 +95,15 @@ const IngredientListItemActions = ({
     } else {
       // Add ingredient to Firebase
       addFavoriteToFirebase(ingredient);
+      let updatedFavoriteIngredients = [...favoriteIngredients];
+      updatedFavoriteIngredients.push(ingredient);
+
+      dispatch(
+        setIngredientList({
+          listName: "favoriteIngredients",
+          ingredientList: updatedFavoriteIngredients,
+        })
+      );
       dispatch(
         setIngredientActionFeedback({
           state: "success",

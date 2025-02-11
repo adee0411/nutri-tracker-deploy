@@ -16,11 +16,21 @@ const Header = () => {
   return (
     <>
       <header>
-        <Sheet color="primary" sx={{ p: "16px" }}>
+        <Sheet
+          color="primary"
+          sx={{
+            p: "16px",
+            height: "inherit",
+            display: "flex",
+            alignItems: "center",
+            boxSizing: "border-box",
+          }}
+        >
           <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
+            width="100%"
           >
             {" "}
             <Link to="/" viewTransition>
@@ -38,19 +48,6 @@ const Header = () => {
             <Stack direction="row">
               <Navigation />
             </Stack>
-            {/**
-           *           <Stack direction="row" justifyContent="flex-end">
-            <Button
-              size="sm"
-              sx={{ width: "fit-content", p: 0 }}
-              variant="plain"
-              onClick={handleShowModal}
-            >
-              <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
-            </Button>
-          </Stack>
-           * 
-           */}
           </Stack>
         </Sheet>
       </header>

@@ -1,5 +1,19 @@
+:root {
+  --header-height: 100px;
+}
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100svh;
+}
+
+header {
+  height: var(--header-height);
+}
+
+#root,
+main {
+  height: calc(100vh - var(--header-height));
 }

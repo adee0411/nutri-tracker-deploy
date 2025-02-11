@@ -22,6 +22,8 @@ import { useEffect, useState } from "react";
 import { TbMenuDeep } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
 
+import AuthForm from "../components/Header/AuthForm";
+
 import { toggleProfileModal } from "../store/profileSlice";
 
 import AvatarMan from "../icons/avatar_man.png";
@@ -50,6 +52,7 @@ const Navigation = () => {
   const { mode, setMode } = useColorScheme();
   const defaultMode = mode === "dark";
   const [isDark, setIsDark] = useState(defaultMode);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleShowModal = () => {
     dispatch(toggleProfileModal());
@@ -104,52 +107,56 @@ const Navigation = () => {
             </Stack>
           </Stack>
 
-          <List sx={{ gap: 4 }}>
-            <ListItem>
-              <Stack
-                width="100%"
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-              >
-                <Typography level="title-lg">{name}</Typography>
-                <Button
-                  size="sm"
-                  sx={{ width: "fit-content", p: 0 }}
-                  variant="plain"
-                  onClick={handleShowModal}
+          {isLoggedIn ? (
+            <List sx={{ gap: 4 }}>
+              <ListItem>
+                <Stack
+                  width="100%"
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
                 >
-                  <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
-                </Button>
-              </Stack>
-            </ListItem>
-            <ListDivider inset="gutter" />
-            <ListItem>
-              <ListItemButton>
-                <ListItemDecorator>
-                  <FaRegUser />
-                </ListItemDecorator>
-                <Link
-                  style={{ all: "unset" }}
-                  to="/custom-ingredients"
-                  viewTransition
-                  onClick={() => setOpen(false)}
-                >
-                  Saját alapanyagok
-                </Link>
-              </ListItemButton>
-            </ListItem>
-            <ListItem>
-              <ListItemButton>
-                <ListItemDecorator>
-                  <GiForkKnifeSpoon />
-                </ListItemDecorator>
-                <Link style={{ all: "unset" }} to="/my-meals" viewTransition>
-                  Mentett étrendjeim
-                </Link>
-              </ListItemButton>
-            </ListItem>
-          </List>
+                  <Typography level="title-lg">{name}</Typography>
+                  <Button
+                    size="sm"
+                    sx={{ width: "fit-content", p: 0 }}
+                    variant="plain"
+                    onClick={handleShowModal}
+                  >
+                    <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
+                  </Button>
+                </Stack>
+              </ListItem>
+              <ListDivider inset="gutter" />
+              <ListItem>
+                <ListItemButton>
+                  <ListItemDecorator>
+                    <FaRegUser />
+                  </ListItemDecorator>
+                  <Link
+                    style={{ all: "unset" }}
+                    to="/custom-ingredients"
+                    viewTransition
+                    onClick={() => setOpen(false)}
+                  >
+                    Saját alapanyagok
+                  </Link>
+                </ListItemButton>
+              </ListItem>
+              <ListItem>
+                <ListItemButton>
+                  <ListItemDecorator>
+                    <GiForkKnifeSpoon />
+                  </ListItemDecorator>
+                  <Link style={{ all: "unset" }} to="/my-meals" viewTransition>
+                    Mentett étrendjeim
+                  </Link>
+                </ListItemButton>
+              </ListItem>
+            </List>
+          ) : (
+            <AuthForm onSetIsLoggedIn={() => setIsLoggedIn(true)} />
+          )}
         </DialogContent>
       </Drawer>
     </>

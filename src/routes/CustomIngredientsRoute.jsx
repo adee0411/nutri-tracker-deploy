@@ -20,8 +20,9 @@ import PlaceholderImg from "../img/undraw_add-information_06qr.svg";
 const CustomIngredientsRoute = () => {
   const dispatch = useDispatch();
   const { customIngredients } = useSelector((state) => state.ingredient);
-  const { isEditCustomIngredientModalOpen, isConfirmEmptyListModalOpen } =
-    useSelector((state) => state.ingredient.UI);
+  const { isEditCustomIngredientModalOpen } = useSelector(
+    (state) => state.ingredient.UI
+  );
   const { editableIngredient } = useSelector((state) => state.ingredient);
 
   const loadedData = useLoaderData();
