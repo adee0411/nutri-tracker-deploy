@@ -30,7 +30,9 @@ const NutritionDetails = ({ nutritionData, fontSize }) => {
         <Typography level="body-sm" fontSize={fontSize} fontWeight={400}>
           Energia:
         </Typography>
-        <Typography fontSize={fontSize * 1.25}>{energy} kcal</Typography>
+        <Typography color="primary" fontSize={fontSize * 1.25}>
+          {energy} kcal
+        </Typography>
       </Stack>
     </Stack>
   );

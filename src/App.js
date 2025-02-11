@@ -40,7 +40,6 @@ const router = createBrowserRouter(
         {
           path: ":mealTitle",
           element: <MealDetails />,
-          loader: mealDataLoader,
         },
         {
           path: ":mealTitle/add-food",

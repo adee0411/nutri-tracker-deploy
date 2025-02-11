@@ -82,6 +82,7 @@ const DailyOverview = () => {
     (meal) => {
       const mealName = meal[0];
       const ingredientData = meal[1];
+
       const mealTotalNutritionData = reduceMealNutritionData(ingredientData);
 
       return {

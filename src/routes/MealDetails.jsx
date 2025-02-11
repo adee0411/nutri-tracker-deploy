@@ -1,21 +1,16 @@
-import db from "../firebase/firestore_config";
-import { doc, getDoc } from "firebase/firestore";
+import { Stack, Button } from "@mui/joy";
 
-import { Stack, Button, IconButton } from "@mui/joy";
-
-import { useParams, useLoaderData, Link } from "react-router";
+import { useParams, Link } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 
 import ContentWrapper from "../UI/ContentWrapper";
 import AddedIngredients from "../components/IngredientList/AddedIngredients";
 import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
-import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
 
 import {
   setIsEditIngredientModalOpen,
   setLastRemoved,
-  setMealIngredients,
 } from "../store/ingredientSlice";
 import MealNutritionSummary from "../components/MealNutritionSummary";
 
@@ -24,8 +19,6 @@ const MealDetails = () => {
 
   // Get meal's name
   const { mealTitle } = useParams();
-
-  const mealData = useLoaderData();
 
   //fetch the selected meal's ingredientlist from store
   const mealIngredients = useSelector(
@@ -48,9 +41,6 @@ const MealDetails = () => {
   });
 
   useEffect(() => {
-    dispatch(
-      setMealIngredients({ mealName: mealTitle, ingredientList: mealData })
-    );
     dispatch(setLastRemoved(null));
 
     // Reset edit ingredient modal on first render
@@ -77,14 +67,3 @@ const MealDetails = () => {
 };
 
 export default MealDetails;
-
-export const mealDataLoader = async ({ params }) => {
-  const mealName = params.mealTitle;
-
-  const mealRef = doc(db, "addedIngredients", mealName);
-  const mealSnap = await getDoc(mealRef);
-
-  const mealIngredientList = mealSnap.data().ingredients;
-
-  return mealIngredientList;
-};

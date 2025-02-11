@@ -1,12 +1,10 @@
 import db from "../firebase/firestore_config";
 import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 
-import { Stack, IconButton } from "@mui/joy";
+import { Stack } from "@mui/joy";
 import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData } from "react-router";
 import { useEffect } from "react";
-
-import { Link } from "react-router";
 
 import ContentWrapper from "../UI/ContentWrapper";
 import MealNutritionSummary from "../components/MealNutritionSummary";
@@ -17,16 +15,11 @@ import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyList
 
 import {
   setQueryList,
-  setFavoriteIngredients,
-  setRecentIngredients,
-  setFrequentIngredients,
-  setCustomIngredients,
   setIsEditIngredientModalOpen,
   setSelectedIngredient,
   setSearchQueryInput,
+  setIngredientList,
 } from "../store/ingredientSlice";
-
-import { GoArrowLeft } from "react-icons/go";
 
 const AddFood = () => {
   const dispatch = useDispatch();
@@ -53,10 +46,30 @@ const AddFood = () => {
   // Avoid parallel component rendering
   useEffect(() => {
     dispatch(setQueryList(mergedQueryList));
-    dispatch(setFavoriteIngredients(favoriteIngredients));
-    dispatch(setRecentIngredients(recentIngredients));
-    dispatch(setFrequentIngredients(frequentIngredients));
-    dispatch(setCustomIngredients(customIngredients));
+    dispatch(
+      setIngredientList({
+        listName: "favoriteIngredients",
+        ingredientList: favoriteIngredients,
+      })
+    );
+    dispatch(
+      setIngredientList({
+        listName: "frequentIngredients",
+        ingredientList: frequentIngredients,
+      })
+    );
+    dispatch(
+      setIngredientList({
+        listName: "recentIngredients",
+        ingredientList: recentIngredients,
+      })
+    );
+    dispatch(
+      setIngredientList({
+        listName: "customIngredients",
+        ingredientList: customIngredients,
+      })
+    );
     // Reset Form on Route load
     resetSearchForm();
   }, []);

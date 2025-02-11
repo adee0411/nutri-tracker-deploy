@@ -70,18 +70,21 @@ const AddCustomIngredient = () => {
 
     const customIngredientsCopy = [...customIngredients];
 
+    const nutritionData = {
+      carb: +macroValue.carb,
+      protein: +macroValue.protein,
+      fat: +macroValue.fat,
+      energy: +macroValue.energy,
+    };
+
     const newCustomIngredient = {
       id: "custom_" + generateUniqueId(),
       ingredientName: ingredientName,
       unitage: +unitage,
       unit: unit,
       amount: +unitage,
-      nutritionData: {
-        carb: +macroValue.carb,
-        protein: +macroValue.protein,
-        fat: +macroValue.fat,
-        energy: +macroValue.energy,
-      },
+      nutritionDataPerUnit: nutritionData,
+      nutritionData: nutritionData,
     };
 
     customIngredientsCopy.push(newCustomIngredient);
@@ -103,19 +106,12 @@ const AddCustomIngredient = () => {
     <AccordionGroup
       variant="soft"
       size="md"
-      sx={(theme) => ({
-        maxWidth: 400,
+      sx={() => ({
         borderRadius: "md",
         boxShadow: "md",
         p: 1,
         [`& .${accordionClasses.root}`]: {
           transition: "0.2s ease",
-          "& button:hover": {
-            background: "transparent",
-          },
-          "& button:active": {
-            background: "transparent",
-          },
         },
         [`& .${accordionSummaryClasses.indicator}`]: {
           transition: "0.2s",

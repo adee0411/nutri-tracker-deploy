@@ -11,6 +11,8 @@ import {
   setMealIngredients,
 } from "../../store/ingredientSlice";
 
+import { logMealIngredient, logRecentIngredient } from "../../utils";
+
 const mealTexts = {
   breakfast: "a reggelihez",
   meal2: "a 2. étkezéshez",
@@ -24,88 +26,44 @@ const QuickAddBtn = ({ mealName, ingredient }) => {
   const { recentIngredients, addedIngredients } = useSelector(
     (state) => state.ingredient
   );
-  const ingredients = addedIngredients[mealName];
+  const mealIngredients = addedIngredients[mealName];
 
   const handleAddIngredient = () => {
-    let ingredientsCopy = [...ingredients];
-    let recentIngredientsCopy = [...recentIngredients];
-    const existingIngredientIndex = ingredientsCopy.findIndex((ing) => {
-      return ing.id === ingredient.id;
-    });
-    let newAmount;
-
-    if (existingIngredientIndex === -1) {
-      ingredientsCopy.push(ingredient);
-      newAmount = ingredient.amount;
-    } else {
-      let newNutritionData = {
-        ...ingredientsCopy[existingIngredientIndex].nutritionData,
-      };
-
-      newAmount =
-        ingredientsCopy[existingIngredientIndex].amount + ingredient.amount;
-      for (let [key, value] of Object.entries(ingredient.nutritionData)) {
-        newNutritionData[key] += value;
-      }
-      const newIngredient = {
-        ...ingredient,
-        nutritionData: newNutritionData,
-        amount: newAmount,
-      };
-
-      ingredientsCopy[existingIngredientIndex] = newIngredient;
-    }
-
-    /********* ADD INGREDIENT TO RECENT LIST *********/
-
-    /* Have to check if ingredient and amount exists in list!!! If yes, replace this ingredient with new amount */
-    const existingRecentIngredientIndex = recentIngredientsCopy.findIndex(
-      (ing) => {
-        return ing.id === ingredient.id;
-      }
+    const updatedMealList = logMealIngredient(
+      mealIngredients,
+      ingredient,
+      ingredient
     );
 
-    if (existingRecentIngredientIndex !== -1) {
-      recentIngredientsCopy[existingRecentIngredientIndex] = ingredient;
-    } else {
-      if (recentIngredientsCopy.length > 10) {
-        recentIngredientsCopy.splice(-1, 1);
-      }
-      recentIngredientsCopy.unshift(ingredient);
-    }
-
-    /********************************************************* */
-
-    const newIngredientList = {
-      ingredients: [...ingredientsCopy],
-    };
-
-    const newRecentIngredientsList = {
-      ingredients: [...recentIngredientsCopy],
-    };
+    const updatedRecentIngredientList = logRecentIngredient(
+      recentIngredients,
+      ingredient,
+      ingredient
+    );
 
     (async function (mealName) {
       try {
-        await setDoc(doc(db, "addedIngredients", mealName), newIngredientList);
+        await setDoc(doc(db, "addedIngredients", mealName), {
+          ingredients: updatedMealList,
+        });
       } catch (e) {
         console.log(e);
       }
 
-      await setDoc(
-        doc(db, "recentIngredients", "data"),
-        newRecentIngredientsList
-      );
+      await setDoc(doc(db, "recentIngredients", "data"), {
+        ingredients: updatedRecentIngredientList,
+      });
 
       dispatch(
         setIngredientList({
-          ingredientList: newRecentIngredientsList.ingredients,
+          ingredientList: updatedRecentIngredientList,
           listName: "recentIngredients",
         })
       );
       dispatch(
         setMealIngredients({
           mealName: mealName,
-          ingredientList: newIngredientList.ingredients,
+          ingredientList: updatedMealList,
         })
       );
       dispatch(

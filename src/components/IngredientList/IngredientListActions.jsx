@@ -99,7 +99,7 @@ const IngredientListActions = ({ listName, listActions, mealName }) => {
             viewTransition
           >
             <IoIosAddCircleOutline fontSize={16} />
-            {listName === "addedIngredients" ? "Naplóz" : "Szerkeszt"}
+            {listName === "addedIngredients" ? "Új alapanyag" : "Szerkeszt"}
           </Link>
         </IconButton>
       ) : (

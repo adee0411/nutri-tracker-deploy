@@ -83,13 +83,14 @@ export const rootDataLoader = async () => {
       favoriteIngredients: [],
       profile: {},
     };
+
     const addedIngredientsSnapshot = await getDocs(
       collection(db, "addedIngredients")
     );
-    //console.log(addedIngredientsSnapshot.get().exists);
     addedIngredientsSnapshot.forEach((meal) => {
       initialData.addedIngredients[meal.id] = meal.data().ingredients;
     });
+
     const favoriteIngredientsSnapshot = await getDocs(
       collection(db, "favoriteIngredients")
     );

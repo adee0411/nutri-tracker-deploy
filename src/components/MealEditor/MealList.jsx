@@ -2,18 +2,16 @@ import { Stack } from "@mui/joy";
 
 import { useSelector } from "react-redux";
 
-import MealButton from "./MealButton";
 import MealAccordion from "./MealAccordion";
 
 const MealList = () => {
   // Fetch Ingredient list from store
   const { addedIngredients } = useSelector((state) => state.ingredient);
 
+  const mealOrder = ["breakfast", "meal2", "meal3", "meal4", "snack"];
   return (
     <Stack gap={2}>
-      {Object.entries(addedIngredients).map((meal) => {
-        const mealName = meal[0];
-
+      {mealOrder.map((meal) => {
         // Initialize total nutrition object
         let totalNutritionData = {
           carb: 0,
@@ -23,7 +21,7 @@ const MealList = () => {
         };
 
         // Reduce all ingredient's nutrition data
-        meal[1].forEach((ingredient) => {
+        addedIngredients[meal].forEach((ingredient) => {
           for (const [key, value] of Object.entries(ingredient.nutritionData)) {
             totalNutritionData[key] += value;
           }
@@ -31,10 +29,10 @@ const MealList = () => {
 
         return (
           <MealAccordion
-            mealName={mealName}
+            mealName={meal}
             mealIngredientData={totalNutritionData}
-            ingredientList={meal[1]}
-            key={mealName}
+            ingredientList={addedIngredients[meal]}
+            key={meal}
           />
         );
       })}
