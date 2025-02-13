@@ -18,6 +18,7 @@ import {
 import { switchClasses } from "@mui/joy/Switch";
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
 
 import { TbMenuDeep } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
@@ -36,6 +37,7 @@ import { GiForkKnifeSpoon } from "react-icons/gi";
 
 import { IoSunnyOutline } from "react-icons/io5";
 import { GoMoon } from "react-icons/go";
+import { setIsLoggedIn } from "../store/authSlice";
 
 const AVATARS = {
   man: AvatarMan,
@@ -48,11 +50,11 @@ const Navigation = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
   const { name, avatar } = useSelector((state) => state.profile.profileData);
-
   const { mode, setMode } = useColorScheme();
   const defaultMode = mode === "dark";
   const [isDark, setIsDark] = useState(defaultMode);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   const handleShowModal = () => {
     dispatch(toggleProfileModal());
@@ -62,6 +64,7 @@ const Navigation = () => {
     const newValue = isDark ? "dark" : "light";
     setMode(newValue);
   }, [isDark]);
+
   return (
     <>
       <IconButton onClick={() => setOpen(true)} size="lg">
@@ -108,54 +111,61 @@ const Navigation = () => {
           </Stack>
 
           {isLoggedIn ? (
-            <List sx={{ gap: 4 }}>
-              <ListItem>
-                <Stack
-                  width="100%"
-                  direction="row"
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <Typography level="title-lg">{name}</Typography>
-                  <Button
-                    size="sm"
-                    sx={{ width: "fit-content", p: 0 }}
-                    variant="plain"
-                    onClick={handleShowModal}
+            <>
+              <List sx={{ gap: 4 }}>
+                <ListItem>
+                  <Stack
+                    width="100%"
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
                   >
-                    <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
-                  </Button>
-                </Stack>
-              </ListItem>
-              <ListDivider inset="gutter" />
-              <ListItem>
-                <ListItemButton>
-                  <ListItemDecorator>
-                    <FaRegUser />
-                  </ListItemDecorator>
-                  <Link
-                    style={{ all: "unset" }}
-                    to="/custom-ingredients"
-                    viewTransition
-                    onClick={() => setOpen(false)}
-                  >
-                    Saját alapanyagok
-                  </Link>
-                </ListItemButton>
-              </ListItem>
-              <ListItem>
-                <ListItemButton>
-                  <ListItemDecorator>
-                    <GiForkKnifeSpoon />
-                  </ListItemDecorator>
-                  <Link style={{ all: "unset" }} to="/my-meals" viewTransition>
-                    Mentett étrendjeim
-                  </Link>
-                </ListItemButton>
-              </ListItem>
-            </List>
+                    <Typography level="title-lg">{name}</Typography>
+                    <Button
+                      size="sm"
+                      sx={{ width: "fit-content", p: 0 }}
+                      variant="plain"
+                      onClick={handleShowModal}
+                    >
+                      <Avatar size="sm" src={AVATARS[avatar]}></Avatar>
+                    </Button>
+                  </Stack>
+                </ListItem>
+                <ListDivider inset="gutter" />
+                <ListItem>
+                  <ListItemButton>
+                    <ListItemDecorator>
+                      <FaRegUser />
+                    </ListItemDecorator>
+                    <Link
+                      style={{ all: "unset" }}
+                      to="/custom-ingredients"
+                      viewTransition
+                      onClick={() => setOpen(false)}
+                    >
+                      Saját alapanyagok
+                    </Link>
+                  </ListItemButton>
+                </ListItem>
+                <ListItem>
+                  <ListItemButton>
+                    <ListItemDecorator>
+                      <GiForkKnifeSpoon />
+                    </ListItemDecorator>
+                    <Link
+                      style={{ all: "unset" }}
+                      to="/my-meals"
+                      viewTransition
+                    >
+                      Mentett étrendjeim
+                    </Link>
+                  </ListItemButton>
+                </ListItem>
+              </List>
+              <Button>Kijelentkezés</Button>
+            </>
           ) : (
-            <AuthForm onSetIsLoggedIn={() => setIsLoggedIn(true)} />
+            <AuthForm onSignIn={() => dispatch(setIsLoggedIn(true))} />
           )}
         </DialogContent>
       </Drawer>

@@ -23,7 +23,7 @@ import AvatarBoy from "../../icons/avatar_boy.png";
 import AvatarLady from "../../icons/avatar_lady.png";
 import AvatarGirl from "../../icons/avatar_girl.png";
 import { doc, setDoc } from "firebase/firestore";
-import db from "../../firebase/firestore_config";
+import { db } from "../../firebase/firestore_config";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { CiEdit } from "react-icons/ci";

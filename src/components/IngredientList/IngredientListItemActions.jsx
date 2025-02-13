@@ -1,4 +1,4 @@
-import db from "../../firebase/firestore_config";
+import { db } from "../../firebase/firestore_config";
 import { doc, setDoc, deleteDoc } from "firebase/firestore";
 
 import { Button, Dropdown, MenuButton, Menu, MenuItem, Stack } from "@mui/joy";

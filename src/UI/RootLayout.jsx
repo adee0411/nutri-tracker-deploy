@@ -1,54 +1,32 @@
-import db from "../firebase/firestore_config";
+import { db } from "../firebase/firestore_config";
 import { collection, getDocs, getDoc, doc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLoaderData } from "react-router";
-import { useEffect, useState } from "react";
-
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect } from "react";
 
 import { Outlet } from "react-router";
 
 import Header from "../components/Header/Header";
 import ModalWrapper from "../UI/ModalWrapper";
-import BottomNavigation from "./BottomNavigation";
-import Welcome from "../routes/Welcome";
+import GuestPage from "../components/GuestPage";
 
 import {
   setAddedIngredients,
   setIngredientList,
 } from "../store/ingredientSlice";
+import { setIsLoggedIn } from "../store/authSlice";
 import { setProfile } from "../store/profileSlice";
-import { useColorScheme } from "@mui/joy";
 import FeedbackWrapper from "./FeedbackWrapper";
 
-import Image1 from "../img/undraw_fitness-tracker_y5q5 (3).svg";
-import Image2 from "../img/undraw_note-list_47ij (1).svg";
-import Image3 from "../img/undraw_healthy-lifestyle_8zpg.svg";
-
-const AppInfo = [
-  {
-    image: Image1,
-    text: "Text1",
-  },
-  {
-    image: Image2,
-    text: "Text1",
-  },
-  {
-    image: Image3,
-    text: "Text1",
-  },
-];
-
 const RootLayout = () => {
-  const { mode, systemMode } = useColorScheme();
-
   const dispatch = useDispatch();
 
-  const { addedIngredients, favoriteIngredients, profile } = useLoaderData();
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
-  const [showWelcome, setShowWelcome] = useState(true);
+  const { addedIngredients, favoriteIngredients, profile, currentUser } =
+    useLoaderData();
 
   useEffect(() => {
     dispatch(setAddedIngredients(addedIngredients));
@@ -59,16 +37,28 @@ const RootLayout = () => {
       })
     );
     dispatch(setProfile(profile));
+
+    if (currentUser) {
+      dispatch(setIsLoggedIn(true));
+    }
   }, []);
 
   return (
     <>
       <Header />
+
       <main>
-        <FeedbackWrapper>
-          <Outlet />
-        </FeedbackWrapper>
-        <ModalWrapper />
+        {!isLoggedIn ? (
+          <GuestPage />
+        ) : (
+          <>
+            {" "}
+            <FeedbackWrapper>
+              <Outlet />
+            </FeedbackWrapper>
+            <ModalWrapper />
+          </>
+        )}
       </main>
     </>
   );
@@ -76,12 +66,24 @@ const RootLayout = () => {
 
 export default RootLayout;
 
+const authUser = () => {
+  try {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    return user;
+  } catch (e) {
+    console.log(e.message);
+  }
+};
+
 export const rootDataLoader = async () => {
   try {
     const initialData = {
       addedIngredients: {},
       favoriteIngredients: [],
       profile: {},
+      currentUser: null,
     };
 
     const addedIngredientsSnapshot = await getDocs(
@@ -98,6 +100,10 @@ export const rootDataLoader = async () => {
       initialData.favoriteIngredients.push(ingredient.data());
     });
     initialData.profile = (await getDoc(doc(db, "profile", "data"))).data();
+
+    const user = authUser();
+
+    initialData.currentUser = user;
 
     return initialData;
   } catch (e) {
