@@ -48,7 +48,7 @@ const MealDetails = () => {
   }, []);
 
   return (
-    <ContentWrapper>
+    <>
       <MealNutritionSummary />
       <Stack>
         {mealIngredients.length === 0 || mealIngredients === null ? (
@@ -62,7 +62,7 @@ const MealDetails = () => {
           <AddedIngredients mealName={mealTitle} />
         )}
       </Stack>
-    </ContentWrapper>
+    </>
   );
 };
 

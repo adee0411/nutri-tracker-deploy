@@ -37,43 +37,41 @@ const CustomIngredientsRoute = () => {
   }, []);
 
   return (
-    <ContentWrapper>
-      <Stack gap={3}>
-        <Stack alignItems="center" justifyContent="center">
-          <img
-            src={PlaceholderImg}
-            alt="add-custom-ing-placeholder"
-            width="50%"
-          />
-        </Stack>
-        <AddCustomIngredient />
-
-        {customIngredients.length === 0 ? (
-          <EmptyListPlaceholder text="Még nincsnek saját alapanyagok." />
-        ) : (
-          <>
-            <IngredientListHeader
-              listTitle="Saját alapanyagok"
-              listName="customIngredients"
-              listActions={["empty"]}
-            />
-            <IngredientList
-              listName="customIngredients"
-              actions={["update", "remove"]}
-              ingredientList={customIngredients}
-            />
-            {isEditCustomIngredientModalOpen ? (
-              <EditCustomIngredientModal
-                isModalOpen={isEditCustomIngredientModalOpen}
-                ingredient={editableIngredient}
-              />
-            ) : (
-              ""
-            )}
-          </>
-        )}
+    <Stack gap={3}>
+      <Stack alignItems="center" justifyContent="center">
+        <img
+          src={PlaceholderImg}
+          alt="add-custom-ing-placeholder"
+          width="50%"
+        />
       </Stack>
-    </ContentWrapper>
+      <AddCustomIngredient />
+
+      {customIngredients.length === 0 ? (
+        <EmptyListPlaceholder text="Még nincsnek saját alapanyagok." />
+      ) : (
+        <>
+          <IngredientListHeader
+            listTitle="Saját alapanyagok"
+            listName="customIngredients"
+            listActions={["empty"]}
+          />
+          <IngredientList
+            listName="customIngredients"
+            actions={["update", "remove"]}
+            ingredientList={customIngredients}
+          />
+          {isEditCustomIngredientModalOpen ? (
+            <EditCustomIngredientModal
+              isModalOpen={isEditCustomIngredientModalOpen}
+              ingredient={editableIngredient}
+            />
+          ) : (
+            ""
+          )}
+        </>
+      )}
+    </Stack>
   );
 };
 

@@ -9,11 +9,13 @@ import { Provider } from "react-redux";
 import store from "./store/store";
 /** Import MUI Joy Components */
 
+import AuthProvider from "./AuthProvider";
+import PrivateRoute from "./routes/PrivateRoute";
+
 import RootLayout from "./UI/RootLayout";
 
 /** Import Routes */
-import Welcome from "./routes/Welcome";
-import DailyOverview from "./routes/DailyOverview";
+import Home from "./routes/Home";
 import MealDetails, { mealDataLoader } from "./routes/MealDetails";
 import AddFood from "./routes/AddFood";
 import CustomIngredientsRoute, {
@@ -35,19 +37,20 @@ const router = createBrowserRouter(
       children: [
         {
           path: "/",
-          element: <DailyOverview />,
+          element: <Home />,
         },
         {
           path: ":mealTitle",
           element: <MealDetails />,
         },
         {
-          path: ":mealTitle/add-food",
+          path: "/:mealTitle/add-food",
           element: <AddFood />,
           loader: ingredientLoader,
         },
+
         {
-          path: "/custom-ingredients",
+          path: "custom-ingredients",
           element: <CustomIngredientsRoute />,
           loader: customIngredientsListLoader,
         },
@@ -69,11 +72,13 @@ const theme = extendTheme({
 
 function App() {
   return (
-    <CssVarsProvider theme={theme}>
-      <Provider store={store}>
-        <RouterProvider router={router}></RouterProvider>
-      </Provider>
-    </CssVarsProvider>
+    <AuthProvider>
+      <CssVarsProvider theme={theme}>
+        <Provider store={store}>
+          <RouterProvider router={router}></RouterProvider>
+        </Provider>
+      </CssVarsProvider>
+    </AuthProvider>
   );
 }
 

@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const AppInfo = ({ infos }) => {
   return (
-    <Stack gap={8}>
+    <Stack gap={8} sx={{ overflow: "hidden" }}>
       {infos.map((info, index) => {
         return (
           <Stack

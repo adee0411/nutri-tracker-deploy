@@ -4,12 +4,12 @@ const profileSlice = createSlice({
   name: "profile",
   initialState: {
     profileData: {
-      name: "Ádám",
-      calorieGoal: 2200,
-      avatar: "man",
+      name: null,
+      calorieGoal: null,
+      avatar: null,
     },
     dietData: {
-      currentCalorie: 2000,
+      currentCalorie: null,
     },
     UI: {
       isProfileModalOpen: false,

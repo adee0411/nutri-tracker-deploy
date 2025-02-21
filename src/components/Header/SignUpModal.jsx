@@ -8,35 +8,44 @@ import {
   Input,
   Button,
   Typography,
+  FormHelperText,
+  Alert,
 } from "@mui/joy";
-import { useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { AuthContext } from "../../AuthProvider";
+import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { setIsMenuOpen } from "../../store/appSlice";
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+const SignUpModal = ({ isOpen, onCloseModal }) => {
+  const dispatch = useDispatch();
+  const authContext = useContext(AuthContext);
+  const { createUser, signUpError, setSignUpError, user } = authContext;
 
-const SignUpModal = ({ isOpen, onCloseModal, onSignIn }) => {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("nutri@tracker.hu");
+
   const emailRef = useRef();
   const passwordRef = useRef();
 
+  const handleEmailChange = (e) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    if (signUpError) {
+      setSignUpError(false);
+    }
+  };
+
   const submitForm = (e) => {
     e.preventDefault();
-    const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    const auth = getAuth();
 
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed up
-        const user = userCredential.user;
-        console.log(user);
-        onSignIn();
-        onCloseModal();
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // ..
-      });
+    createUser(email, password).then((credentials) => {
+      if (credentials && credentials.user) {
+        dispatch(setIsMenuOpen(false));
+      }
+    });
   };
   return (
     <Modal open={isOpen} onClose={onCloseModal}>
@@ -51,9 +60,10 @@ const SignUpModal = ({ isOpen, onCloseModal, onSignIn }) => {
                 type="email"
                 name="email"
                 id="email"
+                value={email}
                 required
-                defaultValue="teszt@teszt.hu"
                 slotProps={{ input: { ref: emailRef } }}
+                onChange={handleEmailChange}
               />
             </FormControl>
             <FormControl>
@@ -67,6 +77,11 @@ const SignUpModal = ({ isOpen, onCloseModal, onSignIn }) => {
                 slotProps={{ input: { ref: passwordRef } }}
               />
             </FormControl>
+            {signUpError ? (
+              <Alert color="danger">Létező e-mail cím vagy hibás jelszó!</Alert>
+            ) : (
+              ""
+            )}
             <Button type="submit">Regisztrál</Button>
           </Stack>
         </form>

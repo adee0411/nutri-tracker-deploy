@@ -1,38 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { AnimatePresence, motion } from "framer-motion";
+
 import ContentWrapper from "../UI/ContentWrapper";
 import DailyNutritionDetails from "../components/DailyNutritionOverview/DailyNutritionDetails";
-import Welcome from "./Welcome";
-import { useEffect, useState } from "react";
+
+import { useEffect } from "react";
 import { setIsEditIngredientModalOpen } from "../store/ingredientSlice";
-
-import MealImg from "../img/undraw_breakfast_rgx5 (1).svg";
-import TrackerImg from "../img/undraw_fitness-tracker_y5q5 (3).svg";
-import NoteListImg from "../img/undraw_note-list_47ij (1).svg";
-
-const AppInfo = [
-  {
-    text: "Tervezd meg napi tápanyag-beviteled!",
-    image: MealImg,
-  },
-  {
-    text: "Naplózd az étkezéseid vagy ments el saját mintaétrendeket!",
-    image: TrackerImg,
-  },
-  {
-    text: "Tölts fel saját alapanyagokat és tápanyag-táblázatokat!",
-    image: NoteListImg,
-  },
-];
 
 const DailyOverview = () => {
   const dispatch = useDispatch();
   const { addedIngredients } = useSelector((state) => state.ingredient);
-  const [isVisited, setIsVisited] = useState(false);
-
-  const handleSetVisited = () => {
-    setIsVisited(true);
-  };
 
   useEffect(() => {
     dispatch(setIsEditIngredientModalOpen(false));
@@ -95,27 +71,7 @@ const DailyOverview = () => {
     mealTotalNutritionCollection
   );
 
-  return (
-    <>
-      {isVisited ? (
-        <AnimatePresence mode="wait">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, transition: { duration: 2 } }}
-            exit={{ opacity: 0, transition: { duration: 5 } }}
-            key="firstVisit"
-            layout
-          >
-            <Welcome appInfo={AppInfo} onCloseWelcome={handleSetVisited} />
-          </motion.div>
-        </AnimatePresence>
-      ) : (
-        <ContentWrapper>
-          <DailyNutritionDetails totalNutritionData={totalNutritionData} />
-        </ContentWrapper>
-      )}
-    </>
-  );
+  return <DailyNutritionDetails totalNutritionData={totalNutritionData} />;
 };
 
 export default DailyOverview;

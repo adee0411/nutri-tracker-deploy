@@ -3,7 +3,7 @@ import { collection, getDocs, getDoc, doc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 import { useDispatch, useSelector } from "react-redux";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate, useRevalidator } from "react-router";
 import { useEffect } from "react";
 
 import { Outlet } from "react-router";
@@ -16,17 +16,14 @@ import {
   setAddedIngredients,
   setIngredientList,
 } from "../store/ingredientSlice";
-import { setIsLoggedIn } from "../store/authSlice";
 import { setProfile } from "../store/profileSlice";
 import FeedbackWrapper from "./FeedbackWrapper";
+import ContentWrapper from "./ContentWrapper";
 
 const RootLayout = () => {
   const dispatch = useDispatch();
 
-  const { isLoggedIn } = useSelector((state) => state.auth);
-
-  const { addedIngredients, favoriteIngredients, profile, currentUser } =
-    useLoaderData();
+  const { addedIngredients, favoriteIngredients, profile } = useLoaderData();
 
   useEffect(() => {
     dispatch(setAddedIngredients(addedIngredients));
@@ -37,10 +34,6 @@ const RootLayout = () => {
       })
     );
     dispatch(setProfile(profile));
-
-    if (currentUser) {
-      dispatch(setIsLoggedIn(true));
-    }
   }, []);
 
   return (
@@ -48,17 +41,12 @@ const RootLayout = () => {
       <Header />
 
       <main>
-        {!isLoggedIn ? (
-          <GuestPage />
-        ) : (
-          <>
-            {" "}
-            <FeedbackWrapper>
-              <Outlet />
-            </FeedbackWrapper>
-            <ModalWrapper />
-          </>
-        )}
+        <ContentWrapper>
+          <FeedbackWrapper>
+            <Outlet />
+          </FeedbackWrapper>
+          <ModalWrapper />
+        </ContentWrapper>
       </main>
     </>
   );
@@ -83,7 +71,6 @@ export const rootDataLoader = async () => {
       addedIngredients: {},
       favoriteIngredients: [],
       profile: {},
-      currentUser: null,
     };
 
     const addedIngredientsSnapshot = await getDocs(
@@ -100,10 +87,6 @@ export const rootDataLoader = async () => {
       initialData.favoriteIngredients.push(ingredient.data());
     });
     initialData.profile = (await getDoc(doc(db, "profile", "data"))).data();
-
-    const user = authUser();
-
-    initialData.currentUser = user;
 
     return initialData;
   } catch (e) {

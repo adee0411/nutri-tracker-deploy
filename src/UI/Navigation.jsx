@@ -17,8 +17,7 @@ import {
 } from "@mui/joy";
 import { switchClasses } from "@mui/joy/Switch";
 import { Link } from "react-router";
-import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
+import { useContext, useEffect, useState } from "react";
 
 import { TbMenuDeep } from "react-icons/tb";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +25,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AuthForm from "../components/Header/AuthForm";
 
 import { toggleProfileModal } from "../store/profileSlice";
+import { setIsMenuOpen } from "../store/appSlice";
 
 import AvatarMan from "../icons/avatar_man.png";
 import AvatarBoy from "../icons/avatar_boy.png";
@@ -37,7 +37,7 @@ import { GiForkKnifeSpoon } from "react-icons/gi";
 
 import { IoSunnyOutline } from "react-icons/io5";
 import { GoMoon } from "react-icons/go";
-import { setIsLoggedIn } from "../store/authSlice";
+import { AuthContext } from "../AuthProvider";
 
 const AVATARS = {
   man: AvatarMan,
@@ -48,16 +48,31 @@ const AVATARS = {
 
 const Navigation = () => {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false);
+  const authContext = useContext(AuthContext);
+  const { user, signOutUser } = authContext;
+
+  const { isMenuOpen } = useSelector((state) => state.app.UI);
+
   const { name, avatar } = useSelector((state) => state.profile.profileData);
   const { mode, setMode } = useColorScheme();
   const defaultMode = mode === "dark";
   const [isDark, setIsDark] = useState(defaultMode);
 
-  const { isLoggedIn } = useSelector((state) => state.auth);
-
   const handleShowModal = () => {
     dispatch(toggleProfileModal());
+  };
+
+  const handleSignOut = () => {
+    signOutUser().then(() => {});
+    dispatch(setIsMenuOpen(false));
+  };
+
+  const handleOpenMenu = () => {
+    dispatch(setIsMenuOpen(true));
+  };
+
+  const handleCloseMenu = () => {
+    dispatch(setIsMenuOpen(false));
   };
 
   useEffect(() => {
@@ -67,10 +82,10 @@ const Navigation = () => {
 
   return (
     <>
-      <IconButton onClick={() => setOpen(true)} size="lg">
+      <IconButton onClick={handleOpenMenu} size="lg">
         <TbMenuDeep fontSize={24} />
       </IconButton>
-      <Drawer open={open} onClose={() => setOpen(false)} anchor="right">
+      <Drawer open={isMenuOpen} onClose={handleCloseMenu} anchor="right">
         <DialogContent sx={{ p: 2 }}>
           <Stack
             direction="row"
@@ -110,7 +125,7 @@ const Navigation = () => {
             </Stack>
           </Stack>
 
-          {isLoggedIn ? (
+          {user ? (
             <>
               <List sx={{ gap: 4 }}>
                 <ListItem>
@@ -141,7 +156,7 @@ const Navigation = () => {
                       style={{ all: "unset" }}
                       to="/custom-ingredients"
                       viewTransition
-                      onClick={() => setOpen(false)}
+                      onClick={handleCloseMenu}
                     >
                       Saját alapanyagok
                     </Link>
@@ -162,10 +177,10 @@ const Navigation = () => {
                   </ListItemButton>
                 </ListItem>
               </List>
-              <Button>Kijelentkezés</Button>
+              <Button onClick={handleSignOut}>Kijelentkezés</Button>
             </>
           ) : (
-            <AuthForm onSignIn={() => dispatch(setIsLoggedIn(true))} />
+            <AuthForm />
           )}
         </DialogContent>
       </Drawer>
