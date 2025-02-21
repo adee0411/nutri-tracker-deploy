@@ -19,7 +19,7 @@ const IngredientListItem = ({ ingredient, listName, mealName, actions }) => {
         alignItems="center"
         justifyContent="space-between"
         flex={1}
-        gap={2}
+        gap={4}
       >
         <IngredientListItemContent
           ingredientName={ingredientName}

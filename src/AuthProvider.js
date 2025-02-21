@@ -12,7 +12,7 @@ export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
   const [signInError, setSignInError] = useState(false);
 
@@ -36,6 +36,8 @@ const AuthProvider = ({ children }) => {
       }
     } catch (e) {
       setSignUpError(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -48,15 +50,18 @@ const AuthProvider = ({ children }) => {
       } else {
         const user = response.user;
         setUser(user);
+
         return response;
       }
     } catch (e) {
       setSignInError(true);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const signOutUser = () => {
-    setIsLoading(true);
+    setIsLoading(false);
     setUser(null);
     return signOut(auth);
   };

@@ -77,33 +77,23 @@ const AddFood = () => {
   const { selectedIngredient } = useSelector((state) => state.ingredient);
 
   return (
-    <>
-      <ContentWrapper>
-        <Stack gap={3}>
-          {/********** Meal Nutritions ***********/}
-          <MealNutritionSummary isSimple />
-          {/********** Ingredient Search ***********/}
-          <Stack>
-            <SearchForm />
+    <Stack gap={3}>
+      {/********** Meal Nutritions ***********/}
+      <MealNutritionSummary isSimple />
+      {/********** Ingredient Search ***********/}
+      <Stack>
+        <SearchForm />
 
-            {/** Render ingredient details conditionally */}
-            {!selectedIngredient ? (
-              ""
-            ) : (
-              <SelectedIngredient selectedIngredient={selectedIngredient} />
-            )}
-          </Stack>
-
-          <QuickIngredientTab />
-        </Stack>
-
-        {isConfirmEmptyListModalOpen ? (
-          <ConfirmEmptyListModal listName={emptyListName} />
-        ) : (
+        {/** Render ingredient details conditionally */}
+        {!selectedIngredient ? (
           ""
+        ) : (
+          <SelectedIngredient selectedIngredient={selectedIngredient} />
         )}
-      </ContentWrapper>
-    </>
+      </Stack>
+
+      <QuickIngredientTab />
+    </Stack>
   );
 };
 
@@ -117,17 +107,17 @@ export const ingredientLoader = async () => {
   };
 
   const querySnapshot = await getDocs(collection(db, "ingredients"));
-  const favoriteIngredientsSnapshot = await getDocs(
-    collection(db, "favoriteIngredients")
+  const favoriteIngredientsSnapshot = await getDoc(
+    doc(db, "favoriteIngredients", "data")
   );
   const recentIngredientsSnapshot = await getDoc(
     doc(db, "recentIngredients", "data")
   );
-  const frequentIngredientsSnapshot = await getDocs(
-    collection(db, "frequentIngredients")
+  const frequentIngredientsSnapshot = await getDoc(
+    doc(db, "frequentIngredients", "data")
   );
-  const customIngredientsSnapshot = await getDocs(
-    collection(db, "customIngredients")
+  const customIngredientsSnapshot = await getDoc(
+    doc(db, "customIngredients", "data")
   );
 
   querySnapshot.forEach((ingredient) => {
@@ -135,20 +125,17 @@ export const ingredientLoader = async () => {
     listMap.queryList.push(ingredientData);
   });
 
-  favoriteIngredientsSnapshot.forEach((ingredient) => {
-    const ingredientData = { id: ingredient.id, ...ingredient.data() };
-    listMap.favoriteIngredients.push(ingredientData);
-  });
   recentIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
     listMap.recentIngredients.push(ingredient);
   });
-  frequentIngredientsSnapshot.forEach((ingredient) => {
-    const ingredientData = { id: ingredient.id, ...ingredient.data() };
-    listMap.frequentIngredients.push(ingredientData);
+  favoriteIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
+    listMap.favoriteIngredients.push(ingredient);
   });
-  customIngredientsSnapshot.forEach((ingredient) => {
-    const ingredientData = { id: ingredient.id, ...ingredient.data() };
-    listMap.customIngredients.push(ingredientData);
+  frequentIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
+    listMap.frequentIngredients.push(ingredient);
+  });
+  customIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
+    listMap.customIngredients.push(ingredient);
   });
 
   return listMap;

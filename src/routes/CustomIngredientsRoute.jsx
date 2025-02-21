@@ -1,7 +1,7 @@
 import { db } from "../firebase/firestore_config";
-import { getDocs, collection } from "firebase/firestore";
+import { getDoc, doc } from "firebase/firestore";
 
-import { Stack, Sheet } from "@mui/joy";
+import { Stack, Sheet, Typography } from "@mui/joy";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useLoaderData } from "react-router";
@@ -15,7 +15,7 @@ import AddCustomIngredient from "../components/CustomIngredients/AddCustomIngred
 import EditCustomIngredientModal from "../components/CustomIngredients/EditCustomIngredientModal";
 import EmptyListPlaceholder from "../components/IngredientList/EmptyListPlaceholder";
 
-import PlaceholderImg from "../img/undraw_add-information_06qr.svg";
+import { CiEdit } from "react-icons/ci";
 
 const CustomIngredientsRoute = () => {
   const dispatch = useDispatch();
@@ -38,13 +38,17 @@ const CustomIngredientsRoute = () => {
 
   return (
     <Stack gap={3}>
-      <Stack alignItems="center" justifyContent="center">
-        <img
-          src={PlaceholderImg}
-          alt="add-custom-ing-placeholder"
-          width="50%"
-        />
+      <Stack gap={1}>
+        <Typography level="h4">
+          <CiEdit style={{ marginRight: 10 }} />
+          Saját alapanyagok hozzáadása és szerkesztése
+        </Typography>
+        <Typography level="body-sm">
+          Ha nem találod a keresett alapanyagot, rögzíts sajátokat és szerkeszd
+          őket tetszés szerint
+        </Typography>
       </Stack>
+
       <AddCustomIngredient />
 
       {customIngredients.length === 0 ? (
@@ -79,9 +83,9 @@ export default CustomIngredientsRoute;
 
 export const customIngredientsListLoader = async () => {
   const customIngredients = [];
-  const snapshot = await getDocs(collection(db, "customIngredients"));
-  snapshot.forEach((ingredient) => {
-    customIngredients.push(ingredient.data());
+  const snapshot = await getDoc(doc(db, "customIngredients", "data"));
+  snapshot.data().ingredients.forEach((ingredient) => {
+    customIngredients.push(ingredient);
   });
 
   return customIngredients;

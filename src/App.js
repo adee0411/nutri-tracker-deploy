@@ -38,20 +38,42 @@ const router = createBrowserRouter(
         {
           path: "/",
           element: <Home />,
+          errorElement: <ErrorPage />,
         },
         {
           path: ":mealTitle",
-          element: <MealDetails />,
+          element: (
+            <PrivateRoute>
+              <MealDetails />
+            </PrivateRoute>
+          ),
         },
         {
           path: "/:mealTitle/add-food",
-          element: <AddFood />,
+          element: (
+            <PrivateRoute>
+              <AddFood />
+            </PrivateRoute>
+          ),
           loader: ingredientLoader,
         },
 
         {
           path: "custom-ingredients",
-          element: <CustomIngredientsRoute />,
+          element: (
+            <PrivateRoute>
+              <CustomIngredientsRoute />
+            </PrivateRoute>
+          ),
+          loader: customIngredientsListLoader,
+        },
+        {
+          path: "my-meals",
+          element: (
+            <PrivateRoute>
+              <CustomIngredientsRoute />
+            </PrivateRoute>
+          ),
           loader: customIngredientsListLoader,
         },
       ],

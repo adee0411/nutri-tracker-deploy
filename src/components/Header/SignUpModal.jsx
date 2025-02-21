@@ -20,9 +20,7 @@ import { setIsMenuOpen } from "../../store/appSlice";
 const SignUpModal = ({ isOpen, onCloseModal }) => {
   const dispatch = useDispatch();
   const authContext = useContext(AuthContext);
-  const { createUser, signUpError, setSignUpError, user } = authContext;
-
-  const navigate = useNavigate();
+  const { createUser, signUpError, setSignUpError, isLoading } = authContext;
 
   const [email, setEmail] = useState("nutri@tracker.hu");
 
@@ -82,7 +80,9 @@ const SignUpModal = ({ isOpen, onCloseModal }) => {
             ) : (
               ""
             )}
-            <Button type="submit">Regisztrál</Button>
+            <Button type="submit" loading={isLoading}>
+              Regisztrál
+            </Button>
           </Stack>
         </form>
       </ModalDialog>

@@ -84,7 +84,9 @@ const AuthForm = () => {
               required
             />
           </FormControl>
-          <Button type="submit">Belépés</Button>
+          <Button type="submit" loading={isLoading}>
+            Belépés
+          </Button>
           <Button variant="outlined" onClick={() => setIsOpen(true)}>
             Regisztráció
           </Button>

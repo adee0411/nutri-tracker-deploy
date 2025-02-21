@@ -148,15 +148,6 @@ const IngredientListItemActions = ({
       })();
     }
 
-    /*
-    dispatch(
-      removeIngredient({
-        ingredient: ingredient,
-        mealName: mealName,
-        listName: listName,
-      })
-    );*/
-
     const removedIngredient = {
       listName,
       ingredient,
@@ -189,7 +180,7 @@ const IngredientListItemActions = ({
   };
 
   return (
-    <Stack direction="row">
+    <Stack direction="row" width="20%" justifyContent="space-between">
       {!(listName === "custom-ingredients") ? (
         <QuickAddBtn mealName={mealName} ingredient={ingredient} />
       ) : (
