@@ -45,6 +45,7 @@ const Header = () => {
             <Typography level="h2" textAlign="center" flex={1} flexGrow={1}>
               NutriTracker
             </Typography>
+            {}
             <Stack direction="row">
               <Navigation />
             </Stack>

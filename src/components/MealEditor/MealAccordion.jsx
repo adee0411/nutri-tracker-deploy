@@ -39,7 +39,7 @@ const MealAccordion = ({ mealName, mealIngredientData, ingredientList }) => {
       size="sm"
       variant="soft"
       color="neutral"
-      sx={(theme) => ({
+      sx={() => ({
         borderRadius: "md",
         boxShadow: "md",
 
@@ -55,11 +55,18 @@ const MealAccordion = ({ mealName, mealIngredientData, ingredientList }) => {
         },
         [`& .${accordionSummaryClasses.indicator}`]: {
           transition: "0.2s",
+          position: "relative",
+          top: "-6px",
         },
       })}
     >
       <Accordion>
-        <Stack direction="row" justifyContent="space-between" gap={4}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          gap={4}
+          sx={{ position: "relative", top: "6px" }}
+        >
           <Link
             to={mealName}
             style={{
@@ -67,6 +74,7 @@ const MealAccordion = ({ mealName, mealIngredientData, ingredientList }) => {
               display: "inline-block",
               width: "100%",
               cursor: "pointer",
+              marginBottom: "10px",
               WebkitTapHighlightColor: "transparent",
             }}
             viewTransition
@@ -103,7 +111,7 @@ const MealAccordion = ({ mealName, mealIngredientData, ingredientList }) => {
                 </Typography>
 
                 <Typography>{formattedMealTitle}</Typography>
-                <Typography color="primary" fontWeight={300} fontSize={12}>
+                <Typography color="primary" fontWeight={600} fontSize={12}>
                   {mealIngredientData.energy} kcal
                 </Typography>
               </Typography>

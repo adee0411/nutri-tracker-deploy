@@ -9,7 +9,7 @@ import MealList from "../MealEditor/MealList";
 const DailyNutritionDetails = ({ totalNutritionData }) => {
   const { calorieGoal } = useSelector((state) => state.profile.profileData);
   return (
-    <Stack gap={4}>
+    <Stack gap={2}>
       <CalorieGoalDetails
         current={totalNutritionData.energy}
         goal={calorieGoal}

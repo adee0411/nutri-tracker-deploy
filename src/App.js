@@ -32,7 +32,6 @@ const router = createBrowserRouter(
       element: <RootLayout />,
       path: "/",
       loader: rootDataLoader,
-      errorElement: <ErrorPage />,
 
       children: [
         {
@@ -49,7 +48,7 @@ const router = createBrowserRouter(
           ),
         },
         {
-          path: "/:mealTitle/add-food",
+          path: ":mealTitle/add-food",
           element: (
             <PrivateRoute>
               <AddFood />

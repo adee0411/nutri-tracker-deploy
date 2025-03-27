@@ -41,8 +41,8 @@ const IngredientListItemActions = ({
   );
 
   // POST data to firebase
-  const addFavoriteToFirebase = async (ingredient) => {
-    await setDoc(doc(db, "favoriteIngredients", ingredient.id), ingredient);
+  const addFavoriteToFirebase = async (updatedList) => {
+    await setDoc(doc(db, "favoriteIngredients", "data"), updatedList);
   };
 
   // Log ingredient to list
@@ -94,14 +94,17 @@ const IngredientListItemActions = ({
       );
     } else {
       // Add ingredient to Firebase
-      addFavoriteToFirebase(ingredient);
-      let updatedFavoriteIngredients = [...favoriteIngredients];
-      updatedFavoriteIngredients.push(ingredient);
+      let favoriteIngredientsCopy = [...favoriteIngredients];
+      favoriteIngredientsCopy.push(ingredient);
+      const updatedFavoriteIngredients = {
+        ingredients: [...favoriteIngredientsCopy],
+      };
+      addFavoriteToFirebase(updatedFavoriteIngredients);
 
       dispatch(
         setIngredientList({
           listName: "favoriteIngredients",
-          ingredientList: updatedFavoriteIngredients,
+          ingredientList: favoriteIngredientsCopy,
         })
       );
       dispatch(

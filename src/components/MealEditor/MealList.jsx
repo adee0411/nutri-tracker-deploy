@@ -1,4 +1,4 @@
-import { Stack } from "@mui/joy";
+import { Stack, Typography } from "@mui/joy";
 
 import { useSelector } from "react-redux";
 
@@ -10,33 +10,41 @@ const MealList = () => {
 
   const mealOrder = ["breakfast", "meal2", "meal3", "meal4", "snack"];
   return (
-    <Stack gap={2}>
-      {mealOrder.map((meal) => {
-        // Initialize total nutrition object
-        let totalNutritionData = {
-          carb: 0,
-          protein: 0,
-          fat: 0,
-          energy: 0,
-        };
+    <>
+      <Stack>
+        <Typography level="title-md">Napi étkezéseim</Typography>
+      </Stack>
 
-        // Reduce all ingredient's nutrition data
-        addedIngredients[meal].forEach((ingredient) => {
-          for (const [key, value] of Object.entries(ingredient.nutritionData)) {
-            totalNutritionData[key] += value;
-          }
-        });
+      <Stack gap={2}>
+        {mealOrder.map((meal) => {
+          // Initialize total nutrition object
+          let totalNutritionData = {
+            carb: 0,
+            protein: 0,
+            fat: 0,
+            energy: 0,
+          };
 
-        return (
-          <MealAccordion
-            mealName={meal}
-            mealIngredientData={totalNutritionData}
-            ingredientList={addedIngredients[meal]}
-            key={meal}
-          />
-        );
-      })}
-    </Stack>
+          // Reduce all ingredient's nutrition data
+          addedIngredients[meal].forEach((ingredient) => {
+            for (const [key, value] of Object.entries(
+              ingredient.nutritionData
+            )) {
+              totalNutritionData[key] += value;
+            }
+          });
+
+          return (
+            <MealAccordion
+              mealName={meal}
+              mealIngredientData={totalNutritionData}
+              ingredientList={addedIngredients[meal]}
+              key={meal}
+            />
+          );
+        })}
+      </Stack>
+    </>
   );
 };
 

@@ -6,12 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { useLoaderData } from "react-router";
 import { useEffect } from "react";
 
-import ContentWrapper from "../UI/ContentWrapper";
 import MealNutritionSummary from "../components/MealNutritionSummary";
 import SearchForm from "../components/AddFood/SearchForm";
 import SelectedIngredient from "../components/AddFood/SelectedIngredient";
 import QuickIngredientTab from "../components/AddFood/QuickIngredientTab";
-import ConfirmEmptyListModal from "../components/IngredientList/ConfirmEmptyListModal";
 
 import {
   setQueryList,
@@ -31,9 +29,7 @@ const AddFood = () => {
     customIngredients,
   } = useLoaderData();
 
-  const { isConfirmEmptyListModalOpen, emptyListName } = useSelector(
-    (state) => state.ingredient.UI
-  );
+  console.log(favoriteIngredients);
 
   const mergedQueryList = queryList.concat(customIngredients);
 
@@ -46,12 +42,6 @@ const AddFood = () => {
   // Avoid parallel component rendering
   useEffect(() => {
     dispatch(setQueryList(mergedQueryList));
-    dispatch(
-      setIngredientList({
-        listName: "favoriteIngredients",
-        ingredientList: favoriteIngredients,
-      })
-    );
     dispatch(
       setIngredientList({
         listName: "frequentIngredients",
@@ -100,16 +90,15 @@ const AddFood = () => {
 export const ingredientLoader = async () => {
   const listMap = {
     queryList: [],
-    favoriteIngredients: [],
     recentIngredients: [],
     frequentIngredients: [],
     customIngredients: [],
   };
 
   const querySnapshot = await getDocs(collection(db, "ingredients"));
-  const favoriteIngredientsSnapshot = await getDoc(
+  /*const favoriteIngredientsSnapshot = await getDoc(
     doc(db, "favoriteIngredients", "data")
-  );
+  );*/
   const recentIngredientsSnapshot = await getDoc(
     doc(db, "recentIngredients", "data")
   );
@@ -128,12 +117,15 @@ export const ingredientLoader = async () => {
   recentIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
     listMap.recentIngredients.push(ingredient);
   });
-  favoriteIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
+
+  /*favoriteIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
     listMap.favoriteIngredients.push(ingredient);
-  });
+  });*/
+
   frequentIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
     listMap.frequentIngredients.push(ingredient);
   });
+
   customIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
     listMap.customIngredients.push(ingredient);
   });

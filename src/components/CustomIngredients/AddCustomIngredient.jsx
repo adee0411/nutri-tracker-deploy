@@ -89,10 +89,14 @@ const AddCustomIngredient = () => {
 
     customIngredientsCopy.push(newCustomIngredient);
 
+    const updatedCustomIngredients = {
+      ingredients: [...customIngredientsCopy],
+    };
+
     (async function () {
       await setDoc(
-        doc(db, "customIngredients", newCustomIngredient.id),
-        newCustomIngredient
+        doc(db, "customIngredients", "data"),
+        updatedCustomIngredients
       );
       dispatch(
         setIngredientList({

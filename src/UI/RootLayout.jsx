@@ -1,17 +1,14 @@
 import { db } from "../firebase/firestore_config";
 import { collection, getDocs, getDoc, doc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 
-import { useDispatch, useSelector } from "react-redux";
-import { useLoaderData, useNavigate, useRevalidator } from "react-router";
+import { useDispatch } from "react-redux";
+import { useLoaderData } from "react-router";
 import { useEffect } from "react";
 
 import { Outlet } from "react-router";
 
 import Header from "../components/Header/Header";
 import ModalWrapper from "../UI/ModalWrapper";
-import GuestPage from "../components/GuestPage";
-
 import {
   setAddedIngredients,
   setIngredientList,
@@ -24,6 +21,9 @@ const RootLayout = () => {
   const dispatch = useDispatch();
 
   const { addedIngredients, favoriteIngredients, profile } = useLoaderData();
+
+  const windowWidth = window.innerWidth;
+  const isDesktop = windowWidth > 720;
 
   useEffect(() => {
     dispatch(setAddedIngredients(addedIngredients));
@@ -38,7 +38,7 @@ const RootLayout = () => {
 
   return (
     <>
-      <Header />
+      {!isDesktop ? <Header /> : ""}
 
       <main>
         <ContentWrapper>
@@ -53,17 +53,6 @@ const RootLayout = () => {
 };
 
 export default RootLayout;
-
-const authUser = () => {
-  try {
-    const auth = getAuth();
-    const user = auth.currentUser;
-
-    return user;
-  } catch (e) {
-    console.log(e.message);
-  }
-};
 
 export const rootDataLoader = async () => {
   try {
@@ -80,11 +69,11 @@ export const rootDataLoader = async () => {
       initialData.addedIngredients[meal.id] = meal.data().ingredients;
     });
 
-    const favoriteIngredientsSnapshot = await getDocs(
-      collection(db, "favoriteIngredients")
+    const favoriteIngredientsSnapshot = await getDoc(
+      doc(db, "favoriteIngredients", "data")
     );
-    favoriteIngredientsSnapshot.forEach((ingredient) => {
-      initialData.favoriteIngredients.push(ingredient.data());
+    favoriteIngredientsSnapshot.data().ingredients.forEach((ingredient) => {
+      initialData.favoriteIngredients.push(ingredient);
     });
     initialData.profile = (await getDoc(doc(db, "profile", "data"))).data();
 
