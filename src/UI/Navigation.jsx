@@ -27,17 +27,17 @@ import AuthForm from "../components/Header/AuthForm";
 import { toggleProfileModal } from "../store/profileSlice";
 import { setIsMenuOpen } from "../store/appSlice";
 
-import AvatarMan from "../icons/avatar_man.png";
-import AvatarBoy from "../icons/avatar_boy.png";
-import AvatarLady from "../icons/avatar_lady.png";
-import AvatarGirl from "../icons/avatar_girl.png";
-
 import { FaRegUser } from "react-icons/fa";
 import { GiForkKnifeSpoon } from "react-icons/gi";
 
 import { IoSunnyOutline } from "react-icons/io5";
 import { GoMoon } from "react-icons/go";
 import { AuthContext } from "../AuthProvider";
+
+import AvatarMan from "../icons/avatar_man.png";
+import AvatarBoy from "../icons/avatar_boy.png";
+import AvatarLady from "../icons/avatar_lady.png";
+import AvatarGirl from "../icons/avatar_girl.png";
 
 const AVATARS = {
   man: AvatarMan,
@@ -85,7 +85,13 @@ const Navigation = () => {
       <IconButton onClick={handleOpenMenu} size="lg">
         <TbMenuDeep fontSize={24} />
       </IconButton>
-      <Drawer open={isMenuOpen} onClose={handleCloseMenu} anchor="right">
+      <Drawer
+        open={isMenuOpen}
+        onClose={handleCloseMenu}
+        anchor="right"
+        container={document.getElementById("root")}
+        disablePortal={false}
+      >
         <DialogContent sx={{ p: 2 }}>
           <Stack
             direction="row"

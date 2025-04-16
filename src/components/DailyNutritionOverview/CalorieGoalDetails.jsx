@@ -30,15 +30,18 @@ const CalorieGoalDetails = ({ current, goal }) => {
         </Stack>
 
         <Stack flex={1}>
-          <Typography level="title-sm" color="primary">
-            Maradt
+          <Typography
+            level="title-sm"
+            color={calorieDifference > 0 ? "danger" : "primary"}
+          >
+            {calorieDifference > 0 ? "Túllépve" : "Maradt"}
           </Typography>
           <Typography
             level="body-lg"
             fontWeight={800}
             color={calorieDifference > 0 ? "danger" : "primary"}
           >
-            {-calorieDifference} kcal
+            {calorieDifference} kcal
           </Typography>
         </Stack>
         <Stack flex={1} sx={{ position: "relative", top: -30 }}>

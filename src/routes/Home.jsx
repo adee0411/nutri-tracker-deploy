@@ -3,10 +3,8 @@ import GuestPage from "../components/GuestPage";
 import DailyOverview from "./DailyOverview";
 
 import { AuthContext } from "../AuthProvider";
-import { Typography, Stack } from "@mui/joy";
 
-import QRCodeImg from "../img/URL QR Code.png";
-
+/*
 const DesktopHomePage = () => {
   return (
     <Stack
@@ -26,22 +24,16 @@ const DesktopHomePage = () => {
     </Stack>
   );
 };
+*/
 
 const Home = () => {
   const authContext = useContext(AuthContext);
   const { user } = authContext;
 
-  const windowWidth = window.innerWidth;
-  const isDesktop = windowWidth > 720;
-
-  if (isDesktop) {
-    return <DesktopHomePage />;
+  if (!user) {
+    return <GuestPage />;
   } else {
-    if (!user) {
-      return <GuestPage />;
-    } else {
-      return <DailyOverview />;
-    }
+    return <DailyOverview />;
   }
 };
 

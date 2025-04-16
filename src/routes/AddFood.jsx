@@ -23,13 +23,10 @@ const AddFood = () => {
   const dispatch = useDispatch();
   const {
     queryList,
-    favoriteIngredients,
     recentIngredients,
     frequentIngredients,
     customIngredients,
   } = useLoaderData();
-
-  console.log(favoriteIngredients);
 
   const mergedQueryList = queryList.concat(customIngredients);
 

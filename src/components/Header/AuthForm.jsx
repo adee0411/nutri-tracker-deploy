@@ -54,30 +54,31 @@ const AuthForm = () => {
   return (
     <>
       <form onSubmit={handleLoginUser}>
-        <Stack gap={2}>
+        <Stack gap={2} sx={{ "& > *": { flex: 1 } }}>
           <FormControl>
-            <FormLabel>E-mail</FormLabel>
             <Input
               type="email"
               name="email"
               id="email"
               required
               slotProps={{
-                input: { ref: emailRef },
+                input: { ref: emailRef, style: { width: "100%" } },
               }}
               defaultValue="nutri@tracker.hu"
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Jelszó</FormLabel>
             <Input
               type={isPasswordVisible ? "text" : "password"}
               name="password"
               id="password"
               endDecorator={isPasswordVisible ? <IoIosEye /> : <IoIosEyeOff />}
               slotProps={{
-                endDecorator: { onClick: togglePasswordType },
-                input: { ref: passwordRef },
+                endDecorator: {
+                  onClick: togglePasswordType,
+                  style: { cursor: "pointer" },
+                },
+                input: { ref: passwordRef, style: { width: "100%" } },
               }}
               value={password}
               onChange={handlePasswordChange}
@@ -92,7 +93,7 @@ const AuthForm = () => {
           </Button>
         </Stack>
       </form>
-      <SignUpModal isOpen={isOpen} onCloseModal={() => setIsOpen(false)} />
+      {/*<SignUpModal isOpen={isOpen} onCloseModal={() => setIsOpen(false)} />*/}
     </>
   );
 };

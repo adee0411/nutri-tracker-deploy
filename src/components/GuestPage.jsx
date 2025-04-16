@@ -35,12 +35,12 @@ const GuestPage = () => {
   return (
     <ContentWrapper>
       <Sheet sx={{ boxSizing: "border-box", px: 4 }}>
-        <Stack height="calc(100svh - 116px)" justifyContent="center" gap={8}>
+        <Stack justifyContent="center" gap={16} mb={20}>
           <Typography level="h1" textAlign="center" mb={4} fontSize={32}>
             Tartsd kézben a kalóriáid - érd el a céljaid könnyedén!
           </Typography>
           <Stack justifyContent="center" alignItems="center">
-            <img src={HeroImg} width="60%" style={{ margin: "0 auto" }} />
+            <img src={HeroImg} width="100%" style={{ margin: "0 auto" }} />
           </Stack>
         </Stack>
 

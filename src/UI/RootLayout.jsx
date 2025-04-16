@@ -38,7 +38,7 @@ const RootLayout = () => {
 
   return (
     <>
-      {!isDesktop ? <Header /> : ""}
+      <Header />
 
       <main>
         <ContentWrapper>

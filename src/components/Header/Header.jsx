@@ -8,25 +8,50 @@ import { Link } from "react-router";
 import EditProfileModal from "./EditProfileModal";
 
 import Navigation from "../../UI/Navigation";
+import { useEffect, useState } from "react";
+import MainNavigation from "./MainNavigation";
 
 const Header = () => {
   const { isProfileModalOpen } = useSelector((state) => state.profile.UI);
   const { profileData } = useSelector((state) => state.profile);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      if (window.innerWidth <= 650) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        if (window.innerWidth <= 650) {
+          setIsMobile(true);
+        } else {
+          setIsMobile(false);
+        }
+      });
+    };
+  });
 
   return (
     <>
-      <header>
-        <Sheet
-          color="primary"
-          sx={{
-            p: "16px",
-            height: "inherit",
-            display: "flex",
-            alignItems: "center",
-            boxSizing: "border-box",
-          }}
-        >
-          <Stack
+      <header
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+          background: "transparent",
+          padding: "0 16px",
+          display: "flex",
+          alignItems: "center",
+          backdropFilter: "blur(10px)",
+        }}
+      >
+        <MainNavigation />
+        {/**
+           *           <Stack
             direction="row"
             justifyContent="space-between"
             alignItems="center"
@@ -45,12 +70,9 @@ const Header = () => {
             <Typography level="h2" textAlign="center" flex={1} flexGrow={1}>
               NutriTracker
             </Typography>
-            {}
-            <Stack direction="row">
-              <Navigation />
-            </Stack>
+            {isMobile ? <Navigation /> : ""}
           </Stack>
-        </Sheet>
+           */}
       </header>
       {isProfileModalOpen ? (
         <EditProfileModal
